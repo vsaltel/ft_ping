@@ -57,7 +57,7 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c Makefile
 
 libft:
 	@$(MAKE) -q -C $(LIBFT) || $(MAKE) -j4 -C $(LIBFT)
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) -L./$(LIBFT) -lft
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) -L./$(LIBFT) -lft -D_GNU_SOURCE
 
 clean:
 	@$(MAKE) -C $(LIBFT) clean

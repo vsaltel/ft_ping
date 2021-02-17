@@ -71,7 +71,7 @@ static int	send_loop(t_ping *ping, int sock)
 		}
 
 		//recv
-		addr_len = sizeof(struct sockaddr);
+		addr_len = sizeof(r_addr);
 		if (recvfrom(sock, &pckt, sizeof(pckt), 0,
 			(struct sockaddr *)&r_addr, &addr_len) <= 0 && ping->msg_count > 1)
 			printf("Packet receive failed\n");

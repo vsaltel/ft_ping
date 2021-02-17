@@ -9,7 +9,6 @@
 # include <sys/types.h>
 # include <sys/socket.h>
 # include <arpa/inet.h>
-//#include <netinet/ip.h>
 # include <netinet/in.h>
 # include <netinet/ip_icmp.h>
 
@@ -20,8 +19,8 @@ typedef struct		s_ping
 	int					h;	
 	int					v;	
 	char				*dest_name;
-	//char				dest_ip[INET6_ADDRSTRLEN];
-	char				*dest_ip;
+	char				dest_ip[INET6_ADDRSTRLEN];
+	//char				*dest_ip;
 	struct sockaddr_in	*ssrc_v4;
 	struct sockaddr_in6	*ssrc_v6;
 	struct sockaddr_in	sdest;

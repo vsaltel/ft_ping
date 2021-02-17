@@ -40,7 +40,7 @@ static int	send_loop(t_ping *ping, int sock)
 {
 	int					flag;
 	int					i;
-	struct socklen_t	addr_len;
+	socklen_t			addr_len;
 	t_ping_pkt			pckt;
 	struct sockaddr		*ping_addr;
 	struct sockaddr_in	r_addr;

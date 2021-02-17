@@ -53,7 +53,7 @@ static int	send_loop(t_ping *ping, int sock)
         pckt.hdr.type = ICMP_ECHO;
         pckt.hdr.un.echo.id = getpid();
 		i = -1;
-		while (++i < sizeof(pckt.msg) - 1) 
+		while (++i < (int)sizeof(pckt.msg) - 1) 
             pckt.msg[i] = i + '0';
         pckt.msg[i] = 0;
         pckt.hdr.un.echo.sequence = ping->msg_count++;
@@ -61,9 +61,9 @@ static int	send_loop(t_ping *ping, int sock)
 
 		//send
 		if (ping->sdest_v4)
-			ping_addr = &(ping->sdest_v4->sin4_addr);
+			ping_addr = (struct sockaddr*)ping->sdest_v4;
 		else
-			ping_addr = &(ping->sdest_v6->sin6_addr);
+			ping_addr = (struct sockaddr*)ping->sdest_v6;
 		if (sendto(sock, &pckt, sizeof(pckt), 0, ping_addr, sizeof(*ping_addr)) <= 0) 
 		{ 
 			ft_printf("Packet sending failed\n"); 
@@ -71,7 +71,7 @@ static int	send_loop(t_ping *ping, int sock)
 		}
 
 		//recv
-		addr_len = sizeof(r_addr);
+		addr_len = (size_t)sizeof(r_addr);
 		if (recvfrom(sock, &pckt, sizeof(pckt), 0,
 			(struct sockaddr*)&r_addr, &addr_len) <= 0 && ping->msg_count > 1)
 			printf("Packet receive failed\n");

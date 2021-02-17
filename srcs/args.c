@@ -69,7 +69,7 @@ void			init_ping(t_ping *ping)
 {
 	ping->v = 0;
 	ping->h = 0;
-	ping->dest->name = NULL;
+	ping->dest_name = NULL;
 	ping->ssrc_v4 = NULL;
 	ping->ssrc_v6 = NULL;
 }

@@ -39,6 +39,8 @@ static void set_inetaddr(t_ping *ping, struct addrinfo *ai)
 static int	send_loop(t_ping *ping, int sock)
 {
 	int					flag;
+	int					i;
+	int					addr_len;
 	t_ping_pkt			pckt;
 	struct sockaddr		*ping_addr;
 	struct sockaddr_in	r_addr;
@@ -51,17 +53,17 @@ static int	send_loop(t_ping *ping, int sock)
         pckt.hdr.type = ICMP_ECHO;
         pckt.hdr.un.echo.id = getpid();
 		i = -1;
-		while (++i < sizeof(pckt.msg) -1) 
-            pckt.msg[i] = i+'0';
+		while (++i < sizeof(pckt.msg) - 1) 
+            pckt.msg[i] = i + '0';
         pckt.msg[i] = 0;
         pckt.hdr.un.echo.sequence = ping->msg_count++;
         pckt.hdr.checksum = checksum(&pckt, sizeof(pckt));
 
 		//send
 		if (ping->sdest_v4)
-			ping_addr = &(ping->ssrc_v4->sin4_addr);
+			ping_addr = &(ping->sdest_v4->sin4_addr);
 		else
-			ping_addr = &(ping->ssrc_v6->sin6_addr);
+			ping_addr = &(ping->sdest_v6->sin6_addr);
 		if (sendto(sock, &pckt, sizeof(pckt), 0, ping_addr, sizeof(*ping_addr)) <= 0) 
 		{ 
 			ft_printf("Packet sending failed\n"); 
@@ -69,8 +71,8 @@ static int	send_loop(t_ping *ping, int sock)
 		}
 
 		//recv
-		addr_len=sizeof(r_addr);
-		if (recvfrom(ping_sockfd, &pckt, sizeof(pckt), 0,
+		addr_len = sizeof(r_addr);
+		if (recvfrom(sock, &pckt, sizeof(pckt), 0,
 			(struct sockaddr*)&r_addr, &addr_len) <= 0 && ping->msg_count > 1)
 			printf("Packet receive failed\n");
 		else if (flag) 
@@ -85,17 +87,15 @@ static int	send_loop(t_ping *ping, int sock)
   				ping->msg_recv_count++; 
   			} 
   		} 
-		printf("\n===%s ping statistics===\n", ping_ip);
-		printf("\n%d packets sent, %d packets received, %f percent
-			 packet loss. Total time: %d ms.\n\n",
+		printf("===%s ping statistics===\n", ping->dest_name);
+		printf("%d packets sent, %d packets received, %f percent packet loss. Total time: %d ms.\n",
 			 ping->msg_count, ping->msg_recv_count,
-			 ((ping->msg_count - ping->msg_recv_count)/ping->msg_count) * 100,
-			0);
+			 ((ping->msg_count - ping->msg_recv_count)/ping->msg_count) * 100.0, 0);
 	}
 	return (0);
 }
 
-static int	set_socket(t_ping *ping)
+static int	set_socket(void)
 {
 	int				sock;
 	int				ttl;
@@ -139,7 +139,7 @@ int			ping(t_ping *ping)
 	set_inetaddr(ping, res);
 	freeaddrinfo(res);
 	ft_printf("IP: %s\n", ping->dest_ip);
-	if ((sock = set_socket(ping)) < 0)
+	if ((sock = set_socket()) < 0)
 		return (2);
 	send_loop(ping, sock);
 	return (0);

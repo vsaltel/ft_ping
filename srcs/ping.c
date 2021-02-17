@@ -39,12 +39,13 @@ static void set_inetaddr(t_ping *ping, struct addrinfo *ai)
 static int	send_loop(t_ping *ping, int sock)
 {
 	int					flag;
-	int					i;
+	//int					i;
 	socklen_t			addr_len;
 	t_ping_pkt			pckt;
 	struct sockaddr		*ping_addr;
 	struct sockaddr_in	r_addr;
 
+	ft_printf("FT_PING %s (%s)\n", ping->dest_name, ping->dest_ip);
 	flag = 1;
 	signal(2, &catch_sigint);
 	while (g_state)
@@ -54,10 +55,12 @@ static int	send_loop(t_ping *ping, int sock)
 		bzero(&pckt, sizeof(pckt));
         pckt.hdr.type = ICMP_ECHO;
         pckt.hdr.un.echo.id = getpid();
+		/*
 		i = -1;
 		while (++i < (int)sizeof(pckt.msg) - 1) 
             pckt.msg[i] = i + '0';
         pckt.msg[i] = 0;
+		*/
         pckt.hdr.un.echo.sequence = ping->msg_count++;
         pckt.hdr.checksum = checksum(&pckt, sizeof(pckt));
 

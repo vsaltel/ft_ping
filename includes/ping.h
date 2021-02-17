@@ -35,7 +35,7 @@ typedef struct		s_ping
 typedef struct		s_ping_pkt
 {
 	struct			icmphdr hdr;
-	char			msg[PING_PKT_S-sizeof(struct icmphdr)];
+	//char			msg[PING_PKT_S-sizeof(struct icmphdr)];
 }					t_ping_pkt;
 
 int				ping(t_ping *ping);

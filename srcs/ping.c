@@ -142,7 +142,6 @@ int			ping(t_ping *ping)
 		ft_dprintf(2, "ft_ping: cannot resolve %s: Unknown host\n", ping->dest_name);
 		return (1);
 	}
-	ft_printf("na:%s---\n", res->ai_fqdn);
 	set_inetaddr(ping, res);
 	freeaddrinfo(res);
 	ft_printf("IP: %s\n", ping->dest_ip);

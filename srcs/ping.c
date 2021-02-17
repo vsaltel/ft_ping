@@ -67,7 +67,6 @@ static int	send_loop(t_ping *ping, int sock)
 			ping_addr = (struct sockaddr*)ping->sdest_v4;
 		else
 			ping_addr = (struct sockaddr*)ping->sdest_v6;
-		ft_printf("size=%d\n", sizeof(ping_addr) + sizeof(pckt));
 		if (sendto(sock, &pckt, sizeof(pckt), 0, ping_addr, sizeof(*ping_addr)) <= 0) 
 		{ 
 			ft_printf("Packet sending failed\n"); 

@@ -72,8 +72,8 @@ void			init_ping(t_ping *ping)
 	ping->msg_count = 0;
 	ping->msg_recv_count = 0;
 	ping->dest_name = NULL;
-	ping->ssrc_v4 = NULL;
-	ping->ssrc_v6 = NULL;
+	ping->sdest_v4 = NULL;
+	ping->sdest_v6 = NULL;
 }
 
 void			print_usage(void)

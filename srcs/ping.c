@@ -34,7 +34,7 @@ static void set_inetaddr(t_ping *ping, struct addrinfo *ai)
 		}
 		//ping->dest_ip = ft_strnew(INET6_ADDRSTRLEN);
 		if (!inet_ntop(ai->ai_family, addr, ping->dest_ip, sizeof(ping->dest_ip)))
-			ping->dest_ip = "CONVERTION_FAIL";
+			ft_strcpy(ping->dest_ip, "CONVERTION_FAIL");
 		ai = ai->ai_next;
 	}
 }

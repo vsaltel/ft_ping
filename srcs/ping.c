@@ -41,7 +41,7 @@ static int	send_loop(t_ping *ping, int sock)
 	t_ping_pkt		pckt;
 
 	g_state = 1;	
-	signal(2, catch_sigint());
+	signal(2, &catch_sigint);
 	ft_printf("1\n");
 	while (g_state)
 	{
@@ -67,27 +67,28 @@ static int	set_socket(t_ping *ping)
 	struct timeval	tv_out;
 
 	if ((sock = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP)) < 0)
-		return (1);
+		return (-1);
 	ttl = 64;
-	if (setsockopt(fd, SOL_IP, IP_TTL, &ttl_val, sizeof(ttl_val)) != 0)
+	if (setsockopt(fd, SOL_IP, IP_TTL, &ttl, sizeof(ttl)) != 0)
 	{
 		ft_dprintf(2, "ft_ping: fail to set ttl\n");
-		return (2);
+		return (-2);
 	}
 	tv_out.tv_sec = RECV_TIMEOUT;
     tv_out.tv_usec = 0;
 	if (setsockopt(fd, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv_out, sizeof tv_out) != 0)
 	{
 		ft_dprintf(2, "ft_ping: fail to set timeout\n");
-		return (3);
+		return (-3);
 	}
-	return (0);
+	return (sock);
 }
 
 int			ping(t_ping *ping)
 {
 	struct addrinfo	*res;
 	struct addrinfo	hints;
+	int				sock;
 
 	ft_memset(&hints, 0, sizeof hints);
 	hints.ai_family = AF_UNSPEC; // IPv4 ou IPv6
@@ -100,6 +101,8 @@ int			ping(t_ping *ping)
 	set_inetaddr(ping, res);
 	freeaddrinfo(res);
 	ft_printf("IP: %s\n", ping->dest_ip);
-	set_socket(ping);
+	if ((sock = set_socket(ping)) < 0)
+		return (2);
+	send_loop(ping, sock);
 	return (0);
 }

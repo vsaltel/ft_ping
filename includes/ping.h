@@ -3,8 +3,10 @@
 
 # define OPTIONS "hv"
 # define PING_PKT_S 64
+# define RECV_TIMEOUT 1
 
 # include <stdio.h>
+# include <signal.h>
 # include <netdb.h>
 # include <sys/types.h>
 # include <sys/socket.h>

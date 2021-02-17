@@ -1,4 +1,3 @@
-#include <signal.h>
 #include "ping.h"
 
 void	catch_sigint(int signal)

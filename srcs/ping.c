@@ -45,7 +45,7 @@ static int	send_loop(t_ping *ping, int sock)
 	struct sockaddr		*ping_addr;
 	struct sockaddr_in	r_addr;
 
-	ft_printf("FT_PING %s (%s) %d bytes of data.\n", ping->dest_name, ping->dest_ip, sizeof(t_ping_pkt));
+	ft_printf("FT_PING %s (%s) %d bytes of data.\n", ping->dest_name, ping->dest_ip, sizeof(struct	icmphdr hdr));
 	flag = 1;
 	signal(2, &catch_sigint);
 	while (g_state)

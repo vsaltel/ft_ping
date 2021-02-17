@@ -77,21 +77,23 @@ static int	send_loop(t_ping *ping, int sock)
 			printf("Packet receive failed\n");
 		else if (flag) 
 		{ 
+		/*
 			if (!(pckt.hdr.type == 69 && pckt.hdr.code == 0))  
 				printf("Error..Packet received with ICMP type %d code %d\n",  
 					pckt.hdr.type, pckt.hdr.code); 
   			else
   			{ 
+		*/
   				printf("%d bytes from %s (%s): msg_seq=%d ttl=%d rtt = %d ms.\n",  
   					PING_PKT_S, ping->dest_name, ping->dest_ip, ping->msg_count, PING_TTL, 0); 
   				ping->msg_recv_count++; 
-  			} 
+  			//} 
   		} 
 	}
 	printf("===%s ping statistics===\n", ping->dest_name);
-	printf("%d packets sent, %d packets received, %f percent packet loss. Total time: %d ms.\n",
+	printf("%d packets sent, %d packets received, %d%% packet loss, time: %d ms\n",
 		ping->msg_count, ping->msg_recv_count,
-		((ping->msg_count - ping->msg_recv_count)/ping->msg_count) * 100.0, 0);
+		((ping->msg_count - ping->msg_recv_count)/ping->msg_count) * 100, 0);
 	return (0);
 }
 

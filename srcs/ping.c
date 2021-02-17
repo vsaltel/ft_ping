@@ -49,6 +49,8 @@ static int	send_loop(t_ping *ping, int sock)
 	signal(2, &catch_sigint);
 	while (g_state)
 	{
+		if (ping->msg_count)
+			sleep(1);
 		bzero(&pckt, sizeof(pckt));
         pckt.hdr.type = ICMP_ECHO;
         pckt.hdr.un.echo.id = getpid();
@@ -88,7 +90,7 @@ static int	send_loop(t_ping *ping, int sock)
   					PING_PKT_S, ping->dest_name, ping->dest_ip, ping->msg_count, PING_TTL, 0); 
   				ping->msg_recv_count++; 
   			//} 
-  		} 
+  		}
 	}
 	printf("===%s ping statistics===\n", ping->dest_name);
 	printf("%d packets sent, %d packets received, %d%% packet loss, time: %d ms\n",

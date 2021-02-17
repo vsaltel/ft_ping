@@ -76,7 +76,7 @@ static int	send_loop(t_ping *ping, int sock)
 		addr_len = sizeof(r_addr);
 		if (recvfrom(sock, &pckt, sizeof(pckt), 0,
 			(struct sockaddr *)&r_addr, &addr_len) <= 0 && ping->msg_count > 1)
-			printf("Packet receive failed\n");
+			ft_printf("Packet receive failed\n");
 		else if (flag) 
 		{ 
 		/*
@@ -86,14 +86,14 @@ static int	send_loop(t_ping *ping, int sock)
   			else
   			{ 
 		*/
-  				printf("%d bytes from %s (%s): msg_seq=%d ttl=%d rtt = %d ms.\n",  
+  				ft_printf("%d bytes from %s (%s): icmp_seq=%d ttl=%d time=%d ms\n",  
   					PING_PKT_S, ping->dest_name, ping->dest_ip, ping->msg_count, PING_TTL, 0); 
   				ping->msg_recv_count++; 
   			//} 
   		}
 	}
-	printf("===%s ping statistics===\n", ping->dest_name);
-	printf("%d packets sent, %d packets received, %d%% packet loss, time: %d ms\n",
+	ft_printf("===%s ping statistics===\n", ping->dest_name);
+	ft_printf("%d packets sent, %d packets received, %d%% packet loss, time: %d ms\n",
 		ping->msg_count, ping->msg_recv_count,
 		((ping->msg_count - ping->msg_recv_count)/ping->msg_count) * 100, 0);
 	return (0);
@@ -140,6 +140,7 @@ int			ping(t_ping *ping)
 		ft_dprintf(2, "ft_ping: cannot resolve %s: Unknown host\n", ping->dest_name);
 		return (1);
 	}
+	ft_printf("na:%s---\n", res->ai_canonname);
 	set_inetaddr(ping, res);
 	freeaddrinfo(res);
 	ft_printf("IP: %s\n", ping->dest_ip);

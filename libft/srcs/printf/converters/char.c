@@ -94,7 +94,7 @@ void	handle_str(t_arg *arg)
 	if (arg->precision > -1 && len > (size_t)arg->precision)
 		len = arg->precision;
 	i = 0;
-	if ((new = ft_strnew(((size_t)arg->width > len) ? arg->width : len)))
+	if ((new = ft_strnew(((size_t)arg->width > len) ? (size_t)arg->width : len)))
 	{
 		while (!arg->left && i + len < (size_t)arg->width)
 			new[i++] = arg->zero ? '0' : ' ';

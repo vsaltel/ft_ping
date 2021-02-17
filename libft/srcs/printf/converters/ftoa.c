@@ -58,7 +58,7 @@ size_t			malloc_str(t_arg *arg, size_t *i, char *buf, int neg)
 {
 	size_t	len;
 
-	len = (size_t)arg->width > *i ? arg->width : *i;
+	len = (size_t)arg->width > *i ? (size_t)arg->width : *i;
 	if (len == *i)
 		len += (arg->positive || arg->space || neg) +
 								(arg->prefix && arg->precision == 0);

@@ -14,7 +14,6 @@
 
 int				handle_exceptions(t_arg *arg)
 {
-	int		sign;
 	size_t	i;
 	size_t	len;
 
@@ -23,7 +22,6 @@ int				handle_exceptions(t_arg *arg)
 	else if (is_nan(arg))
 	{
 		len = (arg->width > 3) ? arg->width : 3;
-		sign = is_float_neg(arg);
 		if (!(arg->str = (char *)malloc(sizeof(char) * (len + 1))))
 			return ((arg->str = ft_strdup("")) != NULL);
 		ft_memcpy(arg->str, arg->type == 'f' ? "nan" : "NAN", 4);

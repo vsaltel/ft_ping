@@ -19,7 +19,6 @@ int		main(int argc, char **argv)
 	}
 	init_ping(&sping);
 	get_args(&sping, argc, argv);
-	print_args(sping);	
 	ping(&sping);
 	free_args(&sping);
 	return (0);

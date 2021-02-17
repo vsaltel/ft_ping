@@ -40,7 +40,7 @@ static int	send_loop(t_ping *ping, int sock)
 {
 	int					flag;
 	int					i;
-	struct socklen_t	addr_len;
+	struct socklen_t	*addr_len;
 	t_ping_pkt			pckt;
 	struct sockaddr		*ping_addr;
 	struct sockaddr_in	r_addr;
@@ -71,9 +71,9 @@ static int	send_loop(t_ping *ping, int sock)
 		}
 
 		//recv
-		addr_len = (struct socklen_t)sizeof(r_addr);
+		addr_len = malloc(sizeof(r_addr));
 		if (recvfrom(sock, &pckt, sizeof(pckt), 0,
-			(struct sockaddr*)&r_addr, &addr_len) <= 0 && ping->msg_count > 1)
+			(struct sockaddr*)&r_addr, addr_len) <= 0 && ping->msg_count > 1)
 			printf("Packet receive failed\n");
 		else if (flag) 
 		{ 
@@ -87,11 +87,12 @@ static int	send_loop(t_ping *ping, int sock)
   				ping->msg_recv_count++; 
   			} 
   		} 
-		printf("===%s ping statistics===\n", ping->dest_name);
-		printf("%d packets sent, %d packets received, %f percent packet loss. Total time: %d ms.\n",
-			 ping->msg_count, ping->msg_recv_count,
-			 ((ping->msg_count - ping->msg_recv_count)/ping->msg_count) * 100.0, 0);
+		free(addr_len);
 	}
+	printf("===%s ping statistics===\n", ping->dest_name);
+	printf("%d packets sent, %d packets received, %f percent packet loss. Total time: %d ms.\n",
+		ping->msg_count, ping->msg_recv_count,
+		((ping->msg_count - ping->msg_recv_count)/ping->msg_count) * 100.0, 0);
 	return (0);
 }
 

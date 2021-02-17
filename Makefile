@@ -17,6 +17,8 @@ OBJDIR	=	objs
 
 FILES	=	main.c				\
 			ping.c				\
+			utils.c				\
+			signal.c				\
 			args.c
 
 SRCS	=	$(addprefix $(SRCDIR)/, $(FILES))

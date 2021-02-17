@@ -14,7 +14,7 @@ int		main(int argc, char **argv)
 	}
 	if (getuid() != 0)
 	{
-		ft_printf("ft_ping: need root privilege\n")
+		ft_printf("ft_ping: need root privilege\n");
 		return (2);
 	}
 	init_ping(&sping);

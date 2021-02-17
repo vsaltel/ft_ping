@@ -3,6 +3,7 @@
 
 # define OPTIONS "hv"
 # define PING_PKT_S 64
+# define PING_TTL 64
 # define RECV_TIMEOUT 1
 
 # include <stdio.h>
@@ -22,10 +23,12 @@ typedef struct		s_ping
 {
 	int					h;	
 	int					v;	
+	int					msg_count;
+	int					msg_recv_count;
 	char				*dest_name;
 	char				dest_ip[INET6_ADDRSTRLEN];
-	struct sockaddr_in	*ssrc_v4;
-	struct sockaddr_in6	*ssrc_v6;
+	struct sockaddr_in	*sdest_v4;
+	struct sockaddr_in6	*sdest_v6;
 	struct sockaddr_in	sdest;
 }					t_ping;
 

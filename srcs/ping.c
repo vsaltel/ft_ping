@@ -22,13 +22,13 @@ static void set_inetaddr(t_ping *ping, struct addrinfo *ai)
 	{
 		if (ai->ai_family == AF_INET) // IPv4
 		{
-			ping->ssrc_v4 = (struct sockaddr_in *)ai->ai_addr;
-			addr = &(ping->ssrc_v4->sin_addr);
+			ping->sdest_v4 = (struct sockaddr_in *)ai->ai_addr;
+			addr = &(ping->sdest_v4->sin_addr);
 		}
 		else // IPv6
 		{ 
-			ping->ssrc_v6 = (struct sockaddr_in6 *)ai->ai_addr;
-			addr = &(ping->ssrc_v6->sin6_addr);
+			ping->sdest_v6 = (struct sockaddr_in6 *)ai->ai_addr;
+			addr = &(ping->sdest_v6->sin6_addr);
 		}
 		if (!inet_ntop(ai->ai_family, addr, ping->dest_ip, sizeof(ping->dest_ip)))
 			ft_strcpy(ping->dest_ip, "CONVERTION_FAIL");
@@ -38,24 +38,60 @@ static void set_inetaddr(t_ping *ping, struct addrinfo *ai)
 
 static int	send_loop(t_ping *ping, int sock)
 {
-	t_ping_pkt		pckt;
+	int					flag;
+	t_ping_pkt			pckt;
+	struct sockaddr		*ping_addr;
+	struct sockaddr_in	r_addr;
 
+	flag = 1;
 	signal(2, &catch_sigint);
-	ft_printf("1\n");
 	while (g_state)
 	{
-	/*
 		bzero(&pckt, sizeof(pckt));
         pckt.hdr.type = ICMP_ECHO;
         pckt.hdr.un.echo.id = getpid();
-        for ( i = 0; i < sizeof(pckt.msg)-1; i++ )
+		i = -1;
+		while (++i < sizeof(pckt.msg) -1) 
             pckt.msg[i] = i+'0';
         pckt.msg[i] = 0;
-        pckt.hdr.un.echo.sequence = msg_count++;
+        pckt.hdr.un.echo.sequence = ping->msg_count++;
         pckt.hdr.checksum = checksum(&pckt, sizeof(pckt));
-	*/
+
+		//send
+		if (ping->sdest_v4)
+			ping_addr = &(ping->ssrc_v4->sin4_addr);
+		else
+			ping_addr = &(ping->ssrc_v6->sin6_addr);
+		if (sendto(sock, &pckt, sizeof(pckt), 0, ping_addr, sizeof(*ping_addr)) <= 0) 
+		{ 
+			ft_printf("Packet sending failed\n"); 
+			flag = 0;
+		}
+
+		//recv
+		addr_len=sizeof(r_addr);
+		if (recvfrom(ping_sockfd, &pckt, sizeof(pckt), 0,
+			(struct sockaddr*)&r_addr, &addr_len) <= 0 && ping->msg_count > 1)
+			printf("Packet receive failed\n");
+		else if (flag) 
+		{ 
+			if (!(pckt.hdr.type == 69 && pckt.hdr.code == 0))  
+				printf("Error..Packet received with ICMP type %d code %d\n",  
+					pckt.hdr.type, pckt.hdr.code); 
+  			else
+  			{ 
+  				printf("%d bytes from %s (%s): msg_seq=%d ttl=%d rtt = %d ms.\n",  
+  					PING_PKT_S, ping->dest_name, ping->dest_ip, ping->msg_count, PING_TTL, 0); 
+  				ping->msg_recv_count++; 
+  			} 
+  		} 
+		printf("\n===%s ping statistics===\n", ping_ip);
+		printf("\n%d packets sent, %d packets received, %f percent
+			 packet loss. Total time: %d ms.\n\n",
+			 ping->msg_count, ping->msg_recv_count,
+			 ((ping->msg_count - ping->msg_recv_count)/ping->msg_count) * 100,
+			0);
 	}
-	ft_printf("2\n");
 	return (0);
 }
 
@@ -70,7 +106,7 @@ static int	set_socket(t_ping *ping)
 		ft_dprintf(2, "ft_ping: fail to create socket\n");
 		return (-1);
 	}
-	ttl = 64;
+	ttl = PING_TTL;
 	if (setsockopt(sock, SOL_IP, IP_TTL, &ttl, sizeof(ttl)) != 0)
 	{
 		ft_dprintf(2, "ft_ping: fail to set ttl\n");

@@ -39,13 +39,13 @@ static void set_inetaddr(t_ping *ping, struct addrinfo *ai)
 static int	send_loop(t_ping *ping, int sock)
 {
 	int					flag;
-	//int					i;
+	int					i;
 	socklen_t			addr_len;
 	t_ping_pkt			pckt;
 	struct sockaddr		*ping_addr;
 	struct sockaddr_in	r_addr;
 
-	ft_printf("FT_PING %s (%s) %d bytes of data.\n", ping->dest_name, ping->dest_ip, sizeof(struct	icmphdr));
+	ft_printf("FT_PING %s (%s) %d bytes of data.\n", ping->dest_name, ping->dest_ip, sizeof(t_ping_pkt));
 	flag = 1;
 	signal(2, &catch_sigint);
 	while (g_state)
@@ -55,12 +55,10 @@ static int	send_loop(t_ping *ping, int sock)
 		bzero(&pckt, sizeof(pckt));
         pckt.hdr.type = ICMP_ECHO;
         pckt.hdr.un.echo.id = getpid();
-		/*
 		i = -1;
 		while (++i < (int)sizeof(pckt.msg) - 1) 
             pckt.msg[i] = i + '0';
         pckt.msg[i] = 0;
-		*/
         pckt.hdr.un.echo.sequence = ping->msg_count++;
         pckt.hdr.checksum = checksum(&pckt, sizeof(pckt));
 
@@ -96,7 +94,7 @@ static int	send_loop(t_ping *ping, int sock)
   			//} 
   		}
 	}
-	ft_printf("===%s ping statistics===\n", ping->dest_name);
+	ft_printf("--- %s ping statistics ---\n", ping->dest_name);
 	ft_printf("%d packets sent, %d packets received, %d%% packet loss, time: %d ms\n",
 		ping->msg_count, ping->msg_recv_count,
 		((ping->msg_count - ping->msg_recv_count)/ping->msg_count) * 100, 0);
@@ -144,7 +142,7 @@ int			ping(t_ping *ping)
 		ft_dprintf(2, "ft_ping: cannot resolve %s: Unknown host\n", ping->dest_name);
 		return (1);
 	}
-	ft_printf("na:%s---\n", res->ai_canonname);
+	ft_printf("na:%s---\n", res->ai_fqdn);
 	set_inetaddr(ping, res);
 	freeaddrinfo(res);
 	ft_printf("IP: %s\n", ping->dest_ip);

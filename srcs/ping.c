@@ -40,7 +40,6 @@ static int	send_loop(t_ping *ping, int sock)
 {
 	t_ping_pkt		pckt;
 
-	g_state = 1;	
 	signal(2, &catch_sigint);
 	ft_printf("1\n");
 	while (g_state)
@@ -69,14 +68,14 @@ static int	set_socket(t_ping *ping)
 	if ((sock = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP)) < 0)
 		return (-1);
 	ttl = 64;
-	if (setsockopt(fd, SOL_IP, IP_TTL, &ttl, sizeof(ttl)) != 0)
+	if (setsockopt(sock, SOL_IP, IP_TTL, &ttl, sizeof(ttl)) != 0)
 	{
 		ft_dprintf(2, "ft_ping: fail to set ttl\n");
 		return (-2);
 	}
 	tv_out.tv_sec = RECV_TIMEOUT;
     tv_out.tv_usec = 0;
-	if (setsockopt(fd, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv_out, sizeof tv_out) != 0)
+	if (setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv_out, sizeof tv_out) != 0)
 	{
 		ft_dprintf(2, "ft_ping: fail to set timeout\n");
 		return (-3);

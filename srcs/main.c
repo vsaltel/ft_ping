@@ -1,9 +1,12 @@
 #include "ping.h"
 
+int		g_state;
+
 int		main(int argc, char **argv)
 {
 	t_ping	sping;
 
+	g_state = 1;
 	if (check_args(argc, argv))
 		print_usage();
 	else

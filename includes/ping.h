@@ -2,7 +2,7 @@
 # define PING_H
 
 # define OPTIONS "hv"
-# define PING_PKT_S 64
+# define PING_PKT_S 56
 # define PING_TTL 64
 # define RECV_TIMEOUT 1
 

@@ -66,6 +66,7 @@ static int	set_socket(t_ping *ping)
 	struct timeval	tv_out;
 
 	if ((sock = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP)) < 0)
+		ft_dprintf(2, "ft_ping: fail to create socket\n");
 		return (-1);
 	ttl = 64;
 	if (setsockopt(sock, SOL_IP, IP_TTL, &ttl, sizeof(ttl)) != 0)

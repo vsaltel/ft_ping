@@ -102,7 +102,7 @@ static int	send_loop(t_ping *ping, int sock)
 	ft_printf("--- %s ping statistics ---\n", ping->dest_name);
 	ft_printf("%d packets sent, %d packets received, %d%% packet loss, time: %d ms\n",
 		ping->msg_count, ping->msg_recv_count,
-		((ping->msg_count - ping->msg_recv_count)/ping->msg_count) * 100, ping->total_stime);
+		((ping->msg_count - ping->msg_recv_count)/ping->msg_count) * 100, ping->total_stime / 1000);
 	return (0);
 }
 

@@ -144,7 +144,7 @@ int			ping(t_ping *ping)
 	hints.ai_socktype = SOCK_STREAM; // Une seule famille de socket
 	if (getaddrinfo(ping->dest_name, NULL, &hints, &res) != 0)
 	{
-		ft_dprintf(2, "ft_ping: cannot resolve %s: Unknown host\n", ping->dest_name);
+		ft_dprintf(2, "ft_ping: %s: No address associated with hostname\n", ping->dest_name);
 		return (1);
 	}
 	set_inetaddr(ping, res);

@@ -40,6 +40,7 @@ static int	send_loop(t_ping *ping, int sock)
 {
 	int					flag;
 	int					i;
+	ssize_t				recv_bytes;
 	socklen_t			addr_len;
 	t_ping_pkt			pckt;
 	struct sockaddr		*ping_addr;
@@ -78,7 +79,7 @@ static int	send_loop(t_ping *ping, int sock)
 
 		//recv
 		addr_len = sizeof(r_addr);
-		if (recvfrom(sock, &pckt, sizeof(pckt), 0,
+		if (recv_bytes = recvfrom(sock, &pckt, sizeof(pckt), 0,
 			(struct sockaddr *)&r_addr, &addr_len) <= 0 && ping->msg_count > 1)
 			ft_printf("Packet receive failed\n");
 		else if (flag) 
@@ -92,7 +93,7 @@ static int	send_loop(t_ping *ping, int sock)
 		*/
 				gettimeofday(&aft, NULL);
   				ft_printf("%d bytes from %s (%s): icmp_seq=%d ttl=%d time=%.2f ms\n",  
-  					PING_PKT_S, ping->dest_name, ping->dest_ip, ping->msg_count, PING_TTL, (float)(aft.tv_usec - bef.tv_usec) / 1000); 
+  					recv_bytes, ping->dest_name, ping->dest_ip, ping->msg_count, PING_TTL, (float)(aft.tv_usec - bef.tv_usec) / 1000); 
   				ping->msg_recv_count++; 
 				ping->total_stime = (ping->total_stime == -1 ? 0 : ping->total_stime + (aft.tv_usec - bef.tv_usec));
   			//} 

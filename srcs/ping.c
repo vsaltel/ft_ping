@@ -1,19 +1,5 @@
 #include "ping.h"
 
-//getpid.
-//getuid.
-//getaddrinfo.
-//gettimeofday.
-//inet_ntop.
-//inet_pton.
-//exit.
-//signal.
-//alarm.
-//setsockopt.
-//recvmsg.
-//sendto.
-//socket.
-
 static void set_inetaddr(t_ping *ping, struct addrinfo *ai)
 {
 	void *addr;
@@ -34,33 +20,6 @@ static void set_inetaddr(t_ping *ping, struct addrinfo *ai)
 			ft_strcpy(ping->dest_ip, "CONVERTION_FAIL");
 		ai = ai->ai_next;
 	}
-}
-
-static void set_src_ip(t_ping *ping)
-{
-	struct addrinfo	*res;
-	struct addrinfo	hints;
-	void *addr;
-
-	ft_memset(&hints, 0, sizeof hints);
-	hints.ai_family = AF_UNSPEC; // IPv4 ou IPv6
-	if (getaddrinfo("localhost", NULL, &hints, &res) != 0)
-	{
-		ft_dprintf(2, "ft_ping: %s: No address associated with hostname\n", "127.0.0.1");
-		return ;
-	}
-	while (res != NULL)
-	{
-		if (res->ai_family == AF_INET) // IPv4
-			addr = &(ping->sdest_v4->sin_addr);
-		else // IPv6
-			addr = &(ping->sdest_v6->sin6_addr);
-		struct sockaddr_in* saddr = (struct sockaddr_in*)res->ai_addr;
-		printf("hostname: %s\n", inet_ntoa(saddr->sin_addr));
-		if (!inet_ntop(res->ai_family, addr, ping->src_ip, sizeof(ping->src_ip)))
-		res = res->ai_next;
-	}
-		ft_printf("my ip : %s\n", ping->src_ip);
 }
 
 static int	send_loop(t_ping *ping, int sock)
@@ -166,9 +125,7 @@ int			ping(t_ping *ping)
 	struct addrinfo	hints;
 	int				sock;
 
-//	set_src_ip(ping);
 	ft_memset(&hints, 0, sizeof hints);
-	//hints.ai_family = AF_UNSPEC; // IPv4 ou IPv6
 	hints.ai_family = AF_INET6; // IPv4 ou IPv6
 	hints.ai_socktype = SOCK_STREAM; // Une seule famille de socket
 	hints.ai_flags = AI_CANONNAME & AI_CANONIDN;
@@ -177,7 +134,6 @@ int			ping(t_ping *ping)
 		ft_dprintf(2, "ft_ping: %s: No address associated with hostname\n", ping->dest_name);
 		return (1);
 	}
-	printf("cannoname : %s\n", res->ai_canonname);
 	set_inetaddr(ping, res);
 	freeaddrinfo(res);
 	if ((sock = set_socket()) < 0)

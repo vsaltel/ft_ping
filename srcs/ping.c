@@ -46,12 +46,10 @@ static int	send_loop(t_ping *ping, int sock)
 	struct sockaddr_in	r_addr;
 	struct timeval		bef;
 	struct timeval		aft;
-	float				t_moy;
 
 	ft_printf("FT_PING %s (%s) %d(%d) bytes of data.\n", ping->dest_name, ping->dest_ip, sizeof(t_ping_pkt), sizeof(t_ping_pkt) + 28);
 	flag = 1;
 	signal(2, &catch_sigint);
-	t_moy = 0;
 	while (g_state)
 	{
 		if (ping->msg_count)

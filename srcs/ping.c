@@ -44,8 +44,7 @@ static void set_src_ip(t_ping *ping)
 
 	ft_memset(&hints, 0, sizeof hints);
 	hints.ai_family = AF_UNSPEC; // IPv4 ou IPv6
-	hints.ai_socktype = SOCK_STREAM; // Une seule famille de socket
-	if (getaddrinfo("localhost", NULL, NULL, &res) != 0)
+	if (getaddrinfo("localhost", NULL, &hints, &res) != 0)
 	{
 		ft_dprintf(2, "ft_ping: %s: No address associated with hostname\n", "127.0.0.1");
 		return ;
@@ -167,15 +166,17 @@ int			ping(t_ping *ping)
 	struct addrinfo	hints;
 	int				sock;
 
-	set_src_ip(ping);
+//	set_src_ip(ping);
 	ft_memset(&hints, 0, sizeof hints);
 	hints.ai_family = AF_UNSPEC; // IPv4 ou IPv6
 	hints.ai_socktype = SOCK_STREAM; // Une seule famille de socket
+	hints.ai_flags |= AI_CANONNAME;
 	if (getaddrinfo(ping->dest_name, NULL, &hints, &res) != 0)
 	{
 		ft_dprintf(2, "ft_ping: %s: No address associated with hostname\n", ping->dest_name);
 		return (1);
 	}
+	printf("cannoname : %s\n", res->ai_canonname);
 	set_inetaddr(ping, res);
 	freeaddrinfo(res);
 	if ((sock = set_socket()) < 0)

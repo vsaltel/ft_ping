@@ -92,7 +92,7 @@ static int	send_loop(t_ping *ping, int sock)
 		*/
 				gettimeofday(&aft, NULL);
   				ft_printf("%d bytes from %s (%s): icmp_seq=%d ttl=%d time=%d ms\n",  
-  					PING_PKT_S, ping->dest_name, ping->dest_ip, ping->msg_count, PING_TTL, bef.tv_usec - aft.tv_usec); 
+  					PING_PKT_S, ping->dest_name, ping->dest_ip, ping->msg_count, PING_TTL, aft.tv_usec - bef.tv_usec); 
   				ping->msg_recv_count++; 
   			//} 
   		}

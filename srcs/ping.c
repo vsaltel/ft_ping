@@ -56,6 +56,7 @@ static void set_src_ip(t_ping *ping)
 			addr = &(ping->sdest_v4->sin_addr);
 		else // IPv6
 			addr = &(ping->sdest_v6->sin6_addr);
+		printf("%d\n", (int)addr);
 		if (!inet_ntop(res->ai_family, addr, ping->src_ip, sizeof(ping->src_ip)))
 		res = res->ai_next;
 	}

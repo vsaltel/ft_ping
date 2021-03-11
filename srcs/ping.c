@@ -168,7 +168,8 @@ int			ping(t_ping *ping)
 
 //	set_src_ip(ping);
 	ft_memset(&hints, 0, sizeof hints);
-	hints.ai_family = AF_UNSPEC; // IPv4 ou IPv6
+	//hints.ai_family = AF_UNSPEC; // IPv4 ou IPv6
+	hints.ai_family = AF_INET6; // IPv4 ou IPv6
 	hints.ai_socktype = SOCK_STREAM; // Une seule famille de socket
 	hints.ai_flags |= AI_CANONNAME;
 	if (getaddrinfo(ping->dest_name, NULL, &hints, &res) != 0)

@@ -171,7 +171,7 @@ int			ping(t_ping *ping)
 	//hints.ai_family = AF_UNSPEC; // IPv4 ou IPv6
 	hints.ai_family = AF_INET6; // IPv4 ou IPv6
 	hints.ai_socktype = SOCK_STREAM; // Une seule famille de socket
-	hints.ai_flags = AI_CANONNAME | I_CANONIDN;
+	hints.ai_flags = AI_CANONNAME | AI_CANONIDN;
 	if (getaddrinfo(ping->dest_name, NULL, &hints, &res) != 0)
 	{
 		ft_dprintf(2, "ft_ping: %s: No address associated with hostname\n", ping->dest_name);

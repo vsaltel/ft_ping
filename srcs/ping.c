@@ -48,7 +48,7 @@ static int	send_loop(t_ping *ping, int sock)
 	struct timeval		bef;
 	struct timeval		aft;
 
-	ft_printf("FT_PING %s (%s) %d data bytes\n", ping->dest_name, ping->dest_ip, sizeof(t_ping_pkt));
+	ft_printf("PING %s (%s) %d data bytes\n", ping->dest_name, ping->dest_ip, sizeof(t_ping_pkt));
 	flag = 1;
 	signal(2, &catch_sigint);
 	while (g_state)
@@ -78,7 +78,8 @@ static int	send_loop(t_ping *ping, int sock)
 		}
 
 		//recv
-		addr_len = sizeof(r_addr);
+		//addr_len = sizeof(r_addr);
+		addr_len = sizeof(struct sockaddr_in);
 		if ((recv_bytes = recvfrom(sock, &pckt, sizeof(pckt), 0,
 			(struct sockaddr *)&r_addr, &addr_len) <= 0) && ping->msg_count > 1)
 			ft_printf("Packet receive failed\n");

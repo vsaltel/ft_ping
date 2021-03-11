@@ -56,7 +56,8 @@ static void set_src_ip(t_ping *ping)
 			addr = &(ping->sdest_v4->sin_addr);
 		else // IPv6
 			addr = &(ping->sdest_v6->sin6_addr);
-		printf("hostname: %s\n", inet_ntoa(addr->sin_addr));
+		struct sockaddr_in* saddr = (struct sockaddr_in*)res->ai_addr;
+		printf("hostname: %s\n", inet_ntoa(saddr->sin_addr));
 		if (!inet_ntop(res->ai_family, addr, ping->src_ip, sizeof(ping->src_ip)))
 		res = res->ai_next;
 	}

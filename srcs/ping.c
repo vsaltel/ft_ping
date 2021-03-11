@@ -47,7 +47,7 @@ static int	send_loop(t_ping *ping, int sock)
 	struct timeval		bef;
 	struct timeval		aft;
 
-	ft_printf("FT_PING %s (%s) %d(%d) bytes of data.\n", ping->dest_name, ping->dest_ip, sizeof(t_ping_pkt), sizeof(t_ping_pkt) + 28);
+	ft_printf("FT_PING %s (%s) %d data bytes\n", ping->dest_name, ping->dest_ip, sizeof(t_ping_pkt));
 	flag = 1;
 	signal(2, &catch_sigint);
 	while (g_state)

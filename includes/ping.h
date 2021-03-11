@@ -14,6 +14,7 @@
 # include <arpa/inet.h>
 # include <netinet/in.h>
 # include <netinet/ip_icmp.h>
+# include <sys/time.h>
 
 # include "libft.h"
 

@@ -44,6 +44,8 @@ static int	send_loop(t_ping *ping, int sock)
 	t_ping_pkt			pckt;
 	struct sockaddr		*ping_addr;
 	struct sockaddr_in	r_addr;
+	struct timeval		bef;
+	struct timeval		aft;
 
 	ft_printf("FT_PING %s (%s) %d(%d) bytes of data.\n", ping->dest_name, ping->dest_ip, sizeof(t_ping_pkt), sizeof(t_ping_pkt) + 28);
 	flag = 1;
@@ -67,6 +69,7 @@ static int	send_loop(t_ping *ping, int sock)
 			ping_addr = (struct sockaddr*)ping->sdest_v4;
 		else
 			ping_addr = (struct sockaddr*)ping->sdest_v6;
+		gettimeofday(&bef, NULL);
 		if (sendto(sock, &pckt, sizeof(pckt), 0, ping_addr, sizeof(*ping_addr)) <= 0) 
 		{ 
 			ft_printf("Packet sending failed\n"); 
@@ -87,8 +90,9 @@ static int	send_loop(t_ping *ping, int sock)
   			else
   			{ 
 		*/
+				gettimeofday(&aft, NULL);
   				ft_printf("%d bytes from %s (%s): icmp_seq=%d ttl=%d time=%d ms\n",  
-  					PING_PKT_S, ping->dest_name, ping->dest_ip, ping->msg_count, PING_TTL, 0); 
+  					PING_PKT_S, ping->dest_name, ping->dest_ip, ping->msg_count, PING_TTL, bef.tv_usec - aft.tv_usec); 
   				ping->msg_recv_count++; 
   			//} 
   		}
@@ -143,7 +147,6 @@ int			ping(t_ping *ping)
 	}
 	set_inetaddr(ping, res);
 	freeaddrinfo(res);
-	ft_printf("IP: %s\n", ping->dest_ip);
 	if ((sock = set_socket()) < 0)
 		return (2);
 	send_loop(ping, sock);

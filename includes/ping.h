@@ -26,6 +26,7 @@ typedef struct		s_ping
 	int					v;	
 	int					msg_count;
 	int					msg_recv_count;
+	int					total_stime;
 	char				*dest_name;
 	char				dest_ip[INET6_ADDRSTRLEN];
 	struct sockaddr_in	*sdest_v4;

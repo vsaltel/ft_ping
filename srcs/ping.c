@@ -46,10 +46,12 @@ static int	send_loop(t_ping *ping, int sock)
 	struct sockaddr_in	r_addr;
 	struct timeval		bef;
 	struct timeval		aft;
+	float				t_moy;
 
 	ft_printf("FT_PING %s (%s) %d(%d) bytes of data.\n", ping->dest_name, ping->dest_ip, sizeof(t_ping_pkt), sizeof(t_ping_pkt) + 28);
 	flag = 1;
 	signal(2, &catch_sigint);
+	t_moy = 0;
 	while (g_state)
 	{
 		if (ping->msg_count)
@@ -91,16 +93,17 @@ static int	send_loop(t_ping *ping, int sock)
   			{ 
 		*/
 				gettimeofday(&aft, NULL);
-  				ft_printf("%d bytes from %s (%s): icmp_seq=%d ttl=%d time=%d ms\n",  
-  					PING_PKT_S, ping->dest_name, ping->dest_ip, ping->msg_count, PING_TTL, aft.tv_usec - bef.tv_usec); 
+  				ft_printf("%d bytes from %s (%s): icmp_seq=%d ttl=%d time=%.2f ms\n",  
+  					PING_PKT_S, ping->dest_name, ping->dest_ip, ping->msg_count, PING_TTL, (float)((aft.tv_usec - bef.tv_usec) / 1000)); 
   				ping->msg_recv_count++; 
+				ping->total_stime += (aft.tv_sec - bef.tv_sec);
   			//} 
   		}
 	}
 	ft_printf("--- %s ping statistics ---\n", ping->dest_name);
 	ft_printf("%d packets sent, %d packets received, %d%% packet loss, time: %d ms\n",
 		ping->msg_count, ping->msg_recv_count,
-		((ping->msg_count - ping->msg_recv_count)/ping->msg_count) * 100, 0);
+		((ping->msg_count - ping->msg_recv_count)/ping->msg_count) * 100, ping->total_stime);
 	return (0);
 }
 

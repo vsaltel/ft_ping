@@ -95,6 +95,7 @@ static int	send_loop(t_ping *ping, int sock)
   					PING_PKT_S, ping->dest_name, ping->dest_ip, ping->msg_count, PING_TTL, (float)((aft.tv_usec - bef.tv_usec) / 1000)); 
   				ping->msg_recv_count++; 
 				ping->total_stime += (aft.tv_sec - bef.tv_sec);
+				ft_printf("%d total\n", ping->total_stime);
   			//} 
   		}
 	}

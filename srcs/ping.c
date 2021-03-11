@@ -36,6 +36,32 @@ static void set_inetaddr(t_ping *ping, struct addrinfo *ai)
 	}
 }
 
+static void set_src_ip(t_ping *ping)
+{
+	struct addrinfo	*res;
+	struct addrinfo	hints;
+	void *addr;
+
+	ft_memset(&hints, 0, sizeof hints);
+	hints.ai_family = AF_UNSPEC; // IPv4 ou IPv6
+	hints.ai_socktype = SOCK_STREAM; // Une seule famille de socket
+	if (getaddrinfo("127.0.0.1", NULL, &hints, &res) != 0)
+	{
+		ft_dprintf(2, "ft_ping: %s: No address associated with hostname\n", "127.0.0.1");
+		return ;
+	}
+	while (res != NULL)
+	{
+		if (res->ai_family == AF_INET) // IPv4
+			addr = &(ping->sdest_v4->sin_addr);
+		else // IPv6
+			addr = &(ping->sdest_v6->sin6_addr);
+		if (!inet_ntop(res->ai_family, addr, ping->src_ip, sizeof(ping->dest_ip)))
+		ai = ai->ai_next;
+	}
+		ft_printf("my ip : %s\n", ping->src_ip);
+}
+
 static int	send_loop(t_ping *ping, int sock)
 {
 	int					flag;
@@ -81,8 +107,10 @@ static int	send_loop(t_ping *ping, int sock)
 		addr_len = sizeof(r_addr);
 		if ((recv_bytes = recvfrom(sock, &pckt, sizeof(pckt), 0,
 			(struct sockaddr *)&r_addr, &addr_len)) <= 0)
-			ft_printf("Packet receive failed\n");
-		else if (flag) 
+			ft_printf("From %s icmp_seq=%d Destination Host Unreachable\n", ping->src_ip, ping->msg_count);
+		gettimeofday(&aft, NULL);
+		ping->total_stime = (ping->total_stime == -1 ? 0 : ping->total_stime + (aft.tv_usec - bef.tv_usec));
+		if (recv_bytes > 0 && flag) 
 		{ 
 		/*
 			if (!(pckt.hdr.type == 69 && pckt.hdr.code == 0))  
@@ -91,11 +119,9 @@ static int	send_loop(t_ping *ping, int sock)
   			else
   			{ 
 		*/
-				gettimeofday(&aft, NULL);
-  				printf("%d bytes from %s (%s): icmp_seq=%d ttl=%d time=%.2f ms\n",  
+  				ft_printf("%d bytes from %s (%s): icmp_seq=%d ttl=%d time=%.2f ms\n",  
   					(int)recv_bytes, ping->dest_name, ping->dest_ip, ping->msg_count, PING_TTL, (float)(aft.tv_usec - bef.tv_usec) / 1000); 
   				ping->msg_recv_count++; 
-				ping->total_stime = (ping->total_stime == -1 ? 0 : ping->total_stime + (aft.tv_usec - bef.tv_usec));
   			//} 
   		}
 	}
@@ -139,6 +165,7 @@ int			ping(t_ping *ping)
 	struct addrinfo	hints;
 	int				sock;
 
+	set_src_ip(ping);
 	ft_memset(&hints, 0, sizeof hints);
 	hints.ai_family = AF_UNSPEC; // IPv4 ou IPv6
 	hints.ai_socktype = SOCK_STREAM; // Une seule famille de socket

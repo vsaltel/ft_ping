@@ -29,6 +29,7 @@ typedef struct		s_ping
 	int					total_stime;
 	char				*dest_name;
 	char				dest_ip[INET6_ADDRSTRLEN];
+	char				src_ip[INET6_ADDRSTRLEN];
 	struct sockaddr_in	*sdest_v4;
 	struct sockaddr_in6	*sdest_v6;
 	struct sockaddr_in	sdest;

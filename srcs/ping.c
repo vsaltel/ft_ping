@@ -57,7 +57,7 @@ static void set_src_ip(t_ping *ping)
 		else // IPv6
 			addr = &(ping->sdest_v6->sin6_addr);
 		if (!inet_ntop(res->ai_family, addr, ping->src_ip, sizeof(ping->dest_ip)))
-		ai = ai->ai_next;
+		res = res->ai_next;
 	}
 		ft_printf("my ip : %s\n", ping->src_ip);
 }

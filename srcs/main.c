@@ -13,7 +13,7 @@ int		main(int argc, char **argv)
 		return (1);
 	}
 	get_args(&sping, argc, argv);
-	if (ping.h)
+	if (sping.h)
 		print_usage();
 	else
 	{

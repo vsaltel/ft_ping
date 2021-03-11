@@ -71,7 +71,7 @@ void			init_ping(t_ping *ping)
 	ping->h = 0;
 	ping->msg_count = 0;
 	ping->msg_recv_count = 0;
-	ping->total_stime = 0;
+	ping->total_stime = -1;
 	ping->dest_name = NULL;
 	ping->sdest_v4 = NULL;
 	ping->sdest_v6 = NULL;

@@ -32,7 +32,7 @@ typedef struct		s_ping
 	char				src_ip[INET6_ADDRSTRLEN];
 	struct sockaddr_in	*sdest_v4;
 	struct sockaddr_in6	*sdest_v6;
-	struct sockaddr_in	sdest;
+	//struct sockaddr_in	sdest;
 }					t_ping;
 
 typedef struct		s_ping_pkt

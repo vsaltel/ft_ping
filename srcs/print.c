@@ -1,3 +1,5 @@
+#include "ping.h"
+
 int	send_loop(t_ping *ping, int sock)
 {
 	int					flag;

@@ -12,6 +12,7 @@ static void set_inetaddr(t_ping *ping, struct addrinfo *ai)
 			ft_strcpy(ping->dest_ip, "CONVERTION_FAIL");
 		ai = ai->ai_next;
 	}
+	ft_printf("dest : %s\n", ping->dest_ip);
 }
 
 static int	set_socket(void)

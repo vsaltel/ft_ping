@@ -53,7 +53,7 @@ static int	set_socket_v6(void)
 {
 	int				sock;
 
-	if ((sock = socket(AF_INET6, SOCK_RAW, IPPROTO_ICMP)) < 0)
+	if ((sock = socket(PF_INET6, SOCK_RAW, IPPROTO_ICMP)) < 0)
 	{
 		ft_dprintf(2, "ft_ping: fail to create socket\n");
 		return (-1);

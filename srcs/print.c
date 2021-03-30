@@ -51,7 +51,7 @@ int	send_loop(t_ping *ping, int sock)
 		if (recv_bytes > 0 && flag) 
 		{ 
 			if (!(pckt.hdr.type == 69 && pckt.hdr.code == 0))  
-				printf("Error..Packet received with ICMP type %d code %d\n",  
+				ft_printf("From %s icmp_seq=%d Destination Host Unreachable\n", ping->src_ip, ping->msg_count);
 					pckt.hdr.type, pckt.hdr.code); 
   			else
   			{ 

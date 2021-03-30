@@ -14,7 +14,7 @@ static void set_inetaddr(t_ping *ping, struct addrinfo *ai)
 		else // IPv6
 		{ 
 			ping->sdest_v6 = (struct sockaddr_in6 *)ai->ai_addr;
-			ping->sdest_v6.sin6_port = 0;
+			ping->sdest_v6->sin6_port = 0;
 			addr = &(ping->sdest_v6->sin6_addr);
 		}
 		if (!inet_ntop(ai->ai_family, addr, ping->dest_ip, sizeof(ping->dest_ip)))

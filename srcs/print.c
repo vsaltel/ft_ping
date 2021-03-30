@@ -1,5 +1,18 @@
 #include "ping.h"
 
+void	set_pckt(t_ping_pkt &pckt)
+{
+	bzero(pckt, sizeof(*pckt));
+	pckt->hdr.type = ICMP_ECHO;
+    pckt->hdr.un.echo.id = getpid();
+	i = -1;
+	while (++i < (int)sizeof(pckt->msg) - 1) 
+        pckt->msg[i] = i + '0';
+    pckt->msg[i] = 0;
+    pckt->hdr.un.echo.sequence = ping->msg_count++;
+    pckt->hdr.checksum = checksum(pckt, sizeof(*pckt));
+}
+
 int	send_loop(t_ping *ping, int sock)
 {
 	int					flag;
@@ -19,15 +32,7 @@ int	send_loop(t_ping *ping, int sock)
 	{
 		if (ping->msg_count)
 			sleep(1);
-		bzero(&pckt, sizeof(pckt));
-        pckt.hdr.type = ICMP_ECHO;
-        pckt.hdr.un.echo.id = getpid();
-		i = -1;
-		while (++i < (int)sizeof(pckt.msg) - 1) 
-            pckt.msg[i] = i + '0';
-        pckt.msg[i] = 0;
-        pckt.hdr.un.echo.sequence = ping->msg_count++;
-        pckt.hdr.checksum = checksum(&pckt, sizeof(pckt));
+ 		set_pckt(&pckt); 
 		ping_addr = (struct sockaddr*)ping->sdest_v4;
 		gettimeofday(&bef, NULL);
 		if (sendto(sock, &pckt, sizeof(pckt), 0, ping_addr, sizeof(*ping_addr)) <= 0) 
@@ -44,17 +49,14 @@ int	send_loop(t_ping *ping, int sock)
 		ping->total_stime = (ping->total_stime == -1 ? 0 : ping->total_stime + (aft.tv_usec - bef.tv_usec));
 		if (recv_bytes > 0 && flag) 
 		{ 
-		/*
 			if (!(pckt.hdr.type == 69 && pckt.hdr.code == 0))  
 				printf("Error..Packet received with ICMP type %d code %d\n",  
 					pckt.hdr.type, pckt.hdr.code); 
   			else
   			{ 
-		*/
   				ft_printf("%d bytes from %s (%s): icmp_seq=%d ttl=%d time=%.2f ms\n",  
   					(int)recv_bytes, ping->dest_name, ping->dest_ip, ping->msg_count, PING_TTL, (float)(aft.tv_usec - bef.tv_usec) / 1000); 
   				ping->msg_recv_count++; 
-  			//} 
   		}
 	}
 	ft_printf("--- %s ping statistics ---\n", ping->dest_name);

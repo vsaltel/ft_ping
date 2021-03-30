@@ -28,7 +28,7 @@ static int	set_socket(void)
 	int				ttl;
 	struct timeval	tv_out;
 
-	if ((sock = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP)) < 0)
+	if ((sock = socket(AF_INET6, SOCK_RAW, IPPROTO_ICMP)) < 0)
 	{
 		ft_dprintf(2, "ft_ping: fail to create socket\n");
 		return (-1);

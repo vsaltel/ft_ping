@@ -76,7 +76,7 @@ int			ping(t_ping *ping)
 		return (1);
 	}
 	set_inetaddr(ping, res);
-	if (ai->ai_family == AF_INET) // IPv4
+	if (res->ai_family == AF_INET) // IPv4
 	{
 		if ((sock = set_socket_v4()) < 0)
 			return (2);

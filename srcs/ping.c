@@ -14,6 +14,7 @@ static void set_inetaddr(t_ping *ping, struct addrinfo *ai)
 		else // IPv6
 		{ 
 			ping->sdest_v6 = (struct sockaddr_in6 *)ai->ai_addr;
+			ping->sdest_v6.sin6_port = 0;
 			addr = &(ping->sdest_v6->sin6_addr);
 		}
 		if (!inet_ntop(ai->ai_family, addr, ping->dest_ip, sizeof(ping->dest_ip)))
@@ -53,7 +54,7 @@ static int	set_socket_v6(void)
 {
 	int				sock;
 
-	if ((sock = socket(PF_INET6, SOCK_RAW, IPPROTO_ICMP)) < 0)
+	if ((sock = socket(AF_INET6, SOCK_RAW, IPPROTO_ICMP)) < 0)
 	{
 		ft_dprintf(2, "ft_ping: fail to create socket\n");
 		return (-1);
@@ -76,7 +77,8 @@ int			ping(t_ping *ping)
 		return (1);
 	}
 	set_inetaddr(ping, res);
-	if (res->ai_family == AF_INET) // IPv4
+	freeaddrinfo(res);
+	if (ping->sdest_v4)
 	{
 		if ((sock = set_socket_v4()) < 0)
 			return (2);
@@ -86,7 +88,6 @@ int			ping(t_ping *ping)
 		if ((sock = set_socket_v6()) < 0)
 			return (2);
 	}
-	freeaddrinfo(res);
 	send_loop(ping, sock);
 	return (0);
 }

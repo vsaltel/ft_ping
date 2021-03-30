@@ -8,7 +8,6 @@ static void set_inetaddr(t_ping *ping, struct addrinfo *ai)
 	{
 		if (ai->ai_family == AF_INET) // IPv4
 		{
-			ft_printf("ipv4\n");
 			ping->sdest_v4 = (struct sockaddr_in *)ai->ai_addr;
 			addr = &(ping->sdest_v4->sin_addr);
 		}

@@ -31,7 +31,10 @@ int	send_loop(t_ping *ping, int sock)
 
 		//send
 		if (ping->sdest_v4)
+		{
+			ft_printf("ipv4\n");
 			ping_addr = (struct sockaddr*)ping->sdest_v4;
+		}
 		else
 			ping_addr = (struct sockaddr*)ping->sdest_v6;
 		gettimeofday(&bef, NULL);

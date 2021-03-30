@@ -28,9 +28,9 @@ int	send_msg(t_ping *ping, int sock, t_ping_pkt *pckt)
 	if (sendto(sock, pckt, sizeof(pckt), 0, (struct sockaddr *)ping->sdest_v4, sizeof(*(ping->sdest_v4))) <= 0) 
 	{ 
 		ft_printf("Packet sending failed\n"); 
-		return (1);
+		return (0);
 	}
-	return (0);
+	return (1);
 }
 
 int	send_loop(t_ping *ping, int sock)

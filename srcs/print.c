@@ -15,7 +15,7 @@ void	set_pckt(t_ping *ping, t_ping_pkt *pckt)
     pckt->hdr.checksum = checksum(pckt, sizeof(*pckt));
 }
 
-void	print_stats(t_ping *ping)
+void	print_final_stats(t_ping *ping)
 {
 	ft_printf("--- %s ping statistics ---\n", ping->dest_name);
 	ft_printf("%d packets transmitted, %d received, %d%% packet loss, time: %d ms\n",
@@ -33,14 +33,34 @@ int	send_msg(t_ping *ping, int sock, t_ping_pkt *pckt)
 	return (1);
 }
 
-int	send_loop(t_ping *ping, int sock)
+void	recv_msg(t_ping *ping, int sock, t_ping_pkt *pckt)
 {
 	ssize_t				recv_bytes;
-	socklen_t			addr_len;
-	t_ping_pkt			pckt;
 	struct sockaddr_in	r_addr;
-	struct timeval		bef;
-	struct timeval		aft;
+	socklen_t			addr_len;
+
+	addr_len = sizeof(r_addr);
+	recv_bytes = recvfrom(sock, &pckt, sizeof(pckt),
+		0, (struct sockaddr *)&r_addr, &addr_len);
+	gettimeofday(&ping->aft, NULL);
+	if (ping->total_stime == -1)
+		ping->total_stime = 0;
+	else
+		ping->total_stime = (ping->total_stime + (ping->aft.tv_usec - ping->bef.tv_usec));
+	if (recv_bytes <= 0)
+		ft_printf("From %s icmp_seq=%d Destination Host Unreachable\n", ping->src_ip, ping->msg_count);
+	else
+	{
+		ft_printf("%d bytes from %s (%s): icmp_seq=%d ttl=%d time=%.2f ms\n",  
+			(int)recv_bytes, ping->dest_name, ping->dest_ip, ping->msg_count,
+			PING_TTL, (float)(ping->aft.tv_usec - ping->bef.tv_usec) / 1000); 
+		ping->msg_recv_count++;
+	}
+}
+
+int	send_loop(t_ping *ping, int sock)
+{
+	t_ping_pkt			pckt;
 
 	ft_printf("PING %s (%s) %d data bytes\n", ping->dest_name, ping->dest_ip, sizeof(t_ping_pkt));
 	signal(2, &catch_sigint);
@@ -49,23 +69,12 @@ int	send_loop(t_ping *ping, int sock)
 		if (ping->msg_count)
 			sleep(1);
  		set_pckt(ping, &pckt); 
-		gettimeofday(&bef, NULL);
+		gettimeofday(&ping->bef, NULL);
 		if (send_msg(ping, sock, &pckt))
 		{
-			addr_len = sizeof(r_addr);
-			if ((recv_bytes = recvfrom(sock, &pckt, sizeof(pckt), 0,
-				(struct sockaddr *)&r_addr, &addr_len)) <= 0)
-				ft_printf("From %s icmp_seq=%d Destination Host Unreachable\n", ping->src_ip, ping->msg_count);
-			gettimeofday(&aft, NULL);
-			ping->total_stime = (ping->total_stime == -1 ? 0 : ping->total_stime + (aft.tv_usec - bef.tv_usec));
-			if (recv_bytes > 0) 
-			{ 
-  				ft_printf("%d bytes from %s (%s): icmp_seq=%d ttl=%d time=%.2f ms\n",  
-  					(int)recv_bytes, ping->dest_name, ping->dest_ip, ping->msg_count, PING_TTL, (float)(aft.tv_usec - bef.tv_usec) / 1000); 
-  				ping->msg_recv_count++; 
-			}
+			recv_msg(ping, sock, &pckt);
 		}
 	}
-	print_stats(ping);
+	print_final_stats(ping);
 	return (0);
 }

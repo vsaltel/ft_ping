@@ -24,6 +24,8 @@ typedef struct		s_ping
 {
 	int					h;	
 	int					v;	
+	struct timeval		bef;
+	struct timeval		aft;
 	int					msg_count;
 	int					msg_recv_count;
 	int					total_stime;

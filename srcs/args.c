@@ -74,7 +74,6 @@ void			init_ping(t_ping *ping)
 	ping->total_stime = -1;
 	ping->dest_name = NULL;
 	ping->sdest_v4 = NULL;
-	ping->sdest_v6 = NULL;
 }
 
 void			print_usage(void)

@@ -1,7 +1,9 @@
 #include "ping.h"
 
-void	set_pckt(t_ping_pkt &pckt)
+void	set_pckt(t_ping_pkt *pckt)
 {
+	int					i;
+
 	bzero(pckt, sizeof(*pckt));
 	pckt->hdr.type = ICMP_ECHO;
     pckt->hdr.un.echo.id = getpid();
@@ -16,7 +18,6 @@ void	set_pckt(t_ping_pkt &pckt)
 int	send_loop(t_ping *ping, int sock)
 {
 	int					flag;
-	int					i;
 	ssize_t				recv_bytes;
 	socklen_t			addr_len;
 	t_ping_pkt			pckt;

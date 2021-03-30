@@ -52,7 +52,6 @@ int	send_loop(t_ping *ping, int sock)
 		{ 
 			if (!(pckt.hdr.type == 69 && pckt.hdr.code == 0))  
 				ft_printf("From %s icmp_seq=%d Destination Host Unreachable\n", ping->src_ip, ping->msg_count);
-					pckt.hdr.type, pckt.hdr.code); 
   			else
   			{ 
   				ft_printf("%d bytes from %s (%s): icmp_seq=%d ttl=%d time=%.2f ms\n",  

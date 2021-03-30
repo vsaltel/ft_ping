@@ -42,6 +42,7 @@ typedef struct		s_ping_pkt
 }					t_ping_pkt;
 
 int				ping(t_ping *ping);
+int				send_loop(t_ping *ping, int sock);
 
 void			init_ping(t_ping *ping);
 void			get_args(t_ping *ping, int ac, char **av);

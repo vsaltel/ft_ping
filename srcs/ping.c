@@ -52,8 +52,6 @@ static int	set_socket_v4(void)
 static int	set_socket_v6(void)
 {
 	int				sock;
-	int				ttl;
-	struct timeval	tv_out;
 
 	if ((sock = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP)) < 0)
 	{

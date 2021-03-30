@@ -2,7 +2,7 @@
 
 void	set_pckt(t_ping *ping, t_ping_pkt *pckt)
 {
-	int					i;
+	int	i;
 
 	bzero(pckt, sizeof(*pckt));
 	pckt->hdr.type = ICMP_ECHO;
@@ -25,7 +25,11 @@ void	print_final_stats(t_ping *ping)
 
 int	send_msg(t_ping *ping, int sock, t_ping_pkt *pckt)
 {
-	if (sendto(sock, pckt, sizeof(pckt), 0, (struct sockaddr *)ping->sdest_v4, sizeof(*(ping->sdest_v4))) <= 0) 
+	struct sockaddr		*ping_addr;
+
+	ping_addr = (struct sockaddr*)ping->sdest_v4;
+	gettimeofday(&ping->bef, NULL);
+	if (sendto(sock, pckt, sizeof(pckt), 0, ping_addr, sizeof(*ping_addr)) <= 0) 
 	{ 
 		ft_printf("Packet sending failed\n"); 
 		return (0);
@@ -69,11 +73,8 @@ int	send_loop(t_ping *ping, int sock)
 		if (ping->msg_count)
 			sleep(1);
  		set_pckt(ping, &pckt); 
-		gettimeofday(&ping->bef, NULL);
 		if (send_msg(ping, sock, &pckt))
-		{
 			recv_msg(ping, sock, &pckt);
-		}
 	}
 	print_final_stats(ping);
 	return (0);

@@ -22,13 +22,13 @@ static void set_inetaddr(t_ping *ping, struct addrinfo *ai)
 	}
 }
 
-static int	set_socket(void)
+static int	set_socket_v4(void)
 {
 	int				sock;
 	int				ttl;
 	struct timeval	tv_out;
 
-	if ((sock = socket(AF_INET6, SOCK_RAW, IPPROTO_ICMP)) < 0)
+	if ((sock = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP)) < 0)
 	{
 		ft_dprintf(2, "ft_ping: fail to create socket\n");
 		return (-1);
@@ -49,6 +49,19 @@ static int	set_socket(void)
 	return (sock);
 }
 
+static int	set_socket_v6(void)
+{
+	int				sock;
+	int				ttl;
+	struct timeval	tv_out;
+
+	if ((sock = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP)) < 0)
+	{
+		ft_dprintf(2, "ft_ping: fail to create socket\n");
+		return (-1);
+	}
+	return (sock);
+}
 int			ping(t_ping *ping)
 {
 	struct addrinfo	*res;
@@ -65,9 +78,17 @@ int			ping(t_ping *ping)
 		return (1);
 	}
 	set_inetaddr(ping, res);
+	if (ai->ai_family == AF_INET) // IPv4
+	{
+		if ((sock = set_socket_v4()) < 0)
+			return (2);
+	}
+	else
+	{
+		if ((sock = set_socket_v6()) < 0)
+			return (2);
+	}
 	freeaddrinfo(res);
-	if ((sock = set_socket()) < 0)
-		return (2);
 	send_loop(ping, sock);
 	return (0);
 }

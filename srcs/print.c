@@ -1,6 +1,6 @@
 #include "ping.h"
 
-void	set_pckt(t_ping_pkt *pckt)
+void	set_pckt(t_ping *ping, t_ping_pkt *pckt)
 {
 	int					i;
 
@@ -33,7 +33,7 @@ int	send_loop(t_ping *ping, int sock)
 	{
 		if (ping->msg_count)
 			sleep(1);
- 		set_pckt(&pckt); 
+ 		set_pckt(ping, &pckt); 
 		ping_addr = (struct sockaddr*)ping->sdest_v4;
 		gettimeofday(&bef, NULL);
 		if (sendto(sock, &pckt, sizeof(pckt), 0, ping_addr, sizeof(*ping_addr)) <= 0) 

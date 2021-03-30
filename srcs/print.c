@@ -28,19 +28,13 @@ int	send_loop(t_ping *ping, int sock)
         pckt.msg[i] = 0;
         pckt.hdr.un.echo.sequence = ping->msg_count++;
         pckt.hdr.checksum = checksum(&pckt, sizeof(pckt));
-
-		//send
-		if (ping->sdest_v4)
-			ping_addr = (struct sockaddr*)ping->sdest_v4;
-		else
-			ping_addr = (struct sockaddr*)ping->sdest_v6;
+		ping_addr = (struct sockaddr*)ping->sdest_v4;
 		gettimeofday(&bef, NULL);
 		if (sendto(sock, &pckt, sizeof(pckt), 0, ping_addr, sizeof(*ping_addr)) <= 0) 
 		{ 
 			ft_printf("Packet sending failed\n"); 
 			flag = 0;
 		}
-
 		//recv
 		addr_len = sizeof(r_addr);
 		if ((recv_bytes = recvfrom(sock, &pckt, sizeof(pckt), 0,

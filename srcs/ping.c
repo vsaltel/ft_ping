@@ -6,20 +6,8 @@ static void set_inetaddr(t_ping *ping, struct addrinfo *ai)
 
 	while (ai != NULL)
 	{
-		/*
-		if (ai->ai_family == AF_INET) // IPv4
-		{
-		*/
-			ping->sdest_v4 = (struct sockaddr_in *)ai->ai_addr;
-			addr = &(ping->sdest_v4->sin_addr);
-		/*
-		}
-		else // IPv6
-		{ 
-			ping->sdest_v6 = (struct sockaddr_in6 *)ai->ai_addr;
-			addr = &(ping->sdest_v6->sin6_addr);
-		}
-		*/
+		ping->sdest_v4 = (struct sockaddr_in *)ai->ai_addr;
+		addr = &(ping->sdest_v4->sin_addr);
 		if (!inet_ntop(ai->ai_family, addr, ping->dest_ip, sizeof(ping->dest_ip)))
 			ft_strcpy(ping->dest_ip, "CONVERTION_FAIL");
 		ai = ai->ai_next;

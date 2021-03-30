@@ -23,12 +23,12 @@ void	print_stats(t_ping *ping)
 		((ping->msg_count - ping->msg_recv_count)/ping->msg_count) * 100, ping->total_stime / 1000);
 }
 
-void	send_msg(t_ping *ping, int sock, t_ping_pkt *pckt)
+void	send_msg(t_ping *ping, int sock, t_ping_pkt *pckt, int *flag)
 {
 	if (sendto(sock, pckt, sizeof(pckt), 0, (struct sockaddr *)ping->sdest_v4, sizeof(*(ping->sdest_v4))) <= 0) 
 	{ 
 		ft_printf("Packet sending failed\n"); 
-		flag = 0;
+		*flag = 0;
 	}
 }
 
@@ -51,7 +51,7 @@ int	send_loop(t_ping *ping, int sock)
 			sleep(1);
  		set_pckt(ping, &pckt); 
 		gettimeofday(&bef, NULL);
-		send_msg(ping, sock, &pckt);	
+		send_msg(ping, sock, &pckt, &flag);	
 		//recv
 		addr_len = sizeof(r_addr);
 		if ((recv_bytes = recvfrom(sock, &pckt, sizeof(pckt), 0,

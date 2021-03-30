@@ -15,13 +15,29 @@ void	set_pckt(t_ping *ping, t_ping_pkt *pckt)
     pckt->hdr.checksum = checksum(pckt, sizeof(*pckt));
 }
 
+void	print_stats(t_ping *ping)
+{
+	ft_printf("--- %s ping statistics ---\n", ping->dest_name);
+	ft_printf("%d packets transmitted, %d received, %d%% packet loss, time: %d ms\n",
+		ping->msg_count, ping->msg_recv_count,
+		((ping->msg_count - ping->msg_recv_count)/ping->msg_count) * 100, ping->total_stime / 1000);
+}
+
+void	send_msg(t_ping *ping, int sock, t_ping_pkt *pckt)
+{
+	if (sendto(sock, pckt, sizeof(pckt), 0, (struct sockaddr *)ping->sdest_v4, sizeof(*(ping->sdest_v4))) <= 0) 
+	{ 
+		ft_printf("Packet sending failed\n"); 
+		flag = 0;
+	}
+}
+
 int	send_loop(t_ping *ping, int sock)
 {
 	int					flag;
 	ssize_t				recv_bytes;
 	socklen_t			addr_len;
 	t_ping_pkt			pckt;
-	struct sockaddr		*ping_addr;
 	struct sockaddr_in	r_addr;
 	struct timeval		bef;
 	struct timeval		aft;
@@ -34,13 +50,8 @@ int	send_loop(t_ping *ping, int sock)
 		if (ping->msg_count)
 			sleep(1);
  		set_pckt(ping, &pckt); 
-		ping_addr = (struct sockaddr*)ping->sdest_v4;
 		gettimeofday(&bef, NULL);
-		if (sendto(sock, &pckt, sizeof(pckt), 0, ping_addr, sizeof(*ping_addr)) <= 0) 
-		{ 
-			ft_printf("Packet sending failed\n"); 
-			flag = 0;
-		}
+		send_msg(ping, sock, &pckt);	
 		//recv
 		addr_len = sizeof(r_addr);
 		if ((recv_bytes = recvfrom(sock, &pckt, sizeof(pckt), 0,
@@ -60,9 +71,6 @@ int	send_loop(t_ping *ping, int sock)
   			}
 		}
 	}
-	ft_printf("--- %s ping statistics ---\n", ping->dest_name);
-	ft_printf("%d packets transmitted, %d received, %d%% packet loss, time: %d ms\n",
-		ping->msg_count, ping->msg_recv_count,
-		((ping->msg_count - ping->msg_recv_count)/ping->msg_count) * 100, ping->total_stime / 1000);
+	print_stats(ping);
 	return (0);
 }

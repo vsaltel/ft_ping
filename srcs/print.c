@@ -29,11 +29,13 @@ int	send_msg(t_ping *ping, int sock, t_ping_pkt *pckt)
 
 	ping_addr = (struct sockaddr*)ping->sdest_v4;
 	gettimeofday(&ping->bef, NULL);
-	if (sendto(sock, pckt, sizeof(pckt), 0, ping_addr, sizeof(*ping_addr)) <= 0) 
+	ret = sendto(sock, pckt, sizeof(pckt), 0, ping_addr, sizeof(*ping_addr));
+	if (ret <= 0) 
 	{ 
 		ft_printf("Packet sending failed\n"); 
 		return (0);
 	}
+	ft_printf("n writed %d\n", ret);
 	return (1);
 }
 

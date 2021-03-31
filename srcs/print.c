@@ -26,7 +26,7 @@ void	print_final_stats(t_ping *ping)
 int	send_msg(t_ping *ping, int sock, t_ping_pkt *pckt)
 {
 	struct sockaddr		*ping_addr;
-	int	ret;
+	int					ret;
 
 	ping_addr = (struct sockaddr*)ping->sdest_v4;
 	gettimeofday(&ping->bef, NULL);
@@ -36,7 +36,6 @@ int	send_msg(t_ping *ping, int sock, t_ping_pkt *pckt)
 		ft_printf("Packet sending failed\n"); 
 		return (0);
 	}
-	ft_printf("n writed %d\n", ret);
 	return (1);
 }
 

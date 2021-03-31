@@ -32,8 +32,8 @@ int	send_msg(t_ping *ping, int sock, t_ping_pkt *pckt)
 	gettimeofday(&ping->bef, NULL);
 	ret = sendto(sock, pckt, sizeof(*pckt), 0, ping_addr, sizeof(*ping_addr));
 		char str[INET6_ADDRSTRLEN];
-		inet_ntop(AF_INET, &ping_addr.sin_addr, str, INET6_ADDRSTRLEN);
-		ft_printf("addr -> %s %d\n", str, ping_addr.sin_addr);
+		inet_ntop(AF_INET, &ping_addr->sin_addr, str, INET6_ADDRSTRLEN);
+		ft_printf("addr -> %s %d\n", str, ping_addr->sin_addr);
 	if (ret <= 0) 
 	{ 
 		ft_printf("Packet sending failed\n"); 

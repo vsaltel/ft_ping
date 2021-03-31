@@ -57,8 +57,10 @@ void	recv_msg(t_ping *ping, int sock, t_ping_pkt *pckt)
 		ft_printf("From %s icmp_seq=%d Destination Host Unreachable\n", ping->src_ip, ping->msg_count);
 	else
 	{
+		char str[INET6_ADDRSTRLEN];
+		inet_ntop(AF_INET, &r_addr.sin_addr, str, INET6_ADDRSTRLEN);
 		ft_printf("pckt -> %d %d\n", pckt->hdr.type, pckt->hdr.code);
-		ft_printf("addr -> %d\n", r_addr.sin_addr);
+		ft_printf("addr -> %s %d\n", str, r_addr.sin_addr);
 		ft_printf("%d bytes from %s (%s): icmp_seq=%d ttl=%d time=%.2f ms\n",  
 			(int)recv_bytes, ping->dest_name, ping->dest_ip, ping->msg_count,
 			PING_TTL, (float)(ping->aft.tv_usec - ping->bef.tv_usec) / 1000); 

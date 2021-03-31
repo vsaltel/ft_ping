@@ -33,7 +33,7 @@ int	send_msg(t_ping *ping, int sock, t_ping_pkt *pckt)
 	ret = sendto(sock, pckt, sizeof(*pckt), 0, ping_addr, sizeof(*ping_addr));
 		char str[INET6_ADDRSTRLEN];
 		struct sockaddr_in	r_addr;
-		r_addr = (struct sockaddr_in)*ping_addr;
+		r_addr = *ping_addr;
 		inet_ntop(AF_INET, &r_addr.sin_addr, str, INET6_ADDRSTRLEN);
 		ft_printf("addr -> %s %d\n", str, r_addr.sin_addr);
 	if (ret <= 0) 

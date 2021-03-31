@@ -30,7 +30,7 @@ int	send_msg(t_ping *ping, int sock, t_ping_pkt *pckt)
 
 	ping_addr = (struct sockaddr*)ping->sdest_v4;
 	gettimeofday(&ping->bef, NULL);
-	ret = sendto(sock, *pckt, sizeof(*pckt), 0, ping_addr, sizeof(*ping_addr));
+	ret = sendto(sock, pckt, sizeof(*pckt), 0, ping_addr, sizeof(*ping_addr));
 	if (ret <= 0) 
 	{ 
 		ft_printf("Packet sending failed\n"); 

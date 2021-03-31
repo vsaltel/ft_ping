@@ -46,7 +46,7 @@ void	recv_msg(t_ping *ping, int sock, t_ping_pkt *pckt)
 	socklen_t			addr_len;
 
 	addr_len = sizeof(r_addr);
-	recv_bytes = recvfrom(sock, &pckt, sizeof(*pckt),
+	recv_bytes = recvfrom(sock, pckt, sizeof(*pckt),
 		0, (struct sockaddr *)&r_addr, &addr_len);
 	gettimeofday(&ping->aft, NULL);
 	if (ping->total_stime == -1)

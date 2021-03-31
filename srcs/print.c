@@ -53,7 +53,6 @@ void	recv_msg(t_ping *ping, int sock, t_ping_pkt *pckt)
 		ping->total_stime = 0;
 	else
 		ping->total_stime = (ping->total_stime + (ping->aft.tv_usec - ping->bef.tv_usec));
-	ft_printf("revb_bytes : %d\n", recv_bytes);
 	if (recv_bytes <= 0)
 		ft_printf("From %s icmp_seq=%d Destination Host Unreachable\n", ping->src_ip, ping->msg_count);
 	else

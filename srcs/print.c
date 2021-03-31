@@ -58,6 +58,7 @@ void	recv_msg(t_ping *ping, int sock, t_ping_pkt *pckt)
 	else
 	{
 		ft_printf("pckt -> %d %d\n", pckt->hdr.type, pckt->hdr.code);
+		ft_printf("gateway -> %d\n", pckt->hdr.gateway);
 		ft_printf("%d bytes from %s (%s): icmp_seq=%d ttl=%d time=%.2f ms\n",  
 			(int)recv_bytes, ping->dest_name, ping->dest_ip, ping->msg_count,
 			PING_TTL, (float)(ping->aft.tv_usec - ping->bef.tv_usec) / 1000); 

@@ -26,6 +26,7 @@ void	print_final_stats(t_ping *ping)
 int	send_msg(t_ping *ping, int sock, t_ping_pkt *pckt)
 {
 	struct sockaddr		*ping_addr;
+	int	ret;
 
 	ping_addr = (struct sockaddr*)ping->sdest_v4;
 	gettimeofday(&ping->bef, NULL);

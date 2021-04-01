@@ -52,7 +52,7 @@ void		get_source_ip(t_ping *ping, int sock, struct sockaddr_in r_addr)
 void	recv_msg(t_ping *ping, int sock, t_ping_pkt *pckt)
 {
 	ssize_t				recv_bytes;
-	
+	struct sockaddr_in	r_addr;
 	socklen_t			addr_len;
 
 	addr_len = sizeof(r_addr);
@@ -65,7 +65,7 @@ void	recv_msg(t_ping *ping, int sock, t_ping_pkt *pckt)
 		ping->total_stime = (ping->total_stime + (ping->aft.tv_usec - ping->bef.tv_usec));
 	if (recv_bytes <= 0 || pckt->hdr.code != 0)
 	{
-		//get_source_ip(ping, sock);
+		get_source_ip(ping, sock, r_addr);
 		ft_printf("From %s icmp_seq=%d Destination Host Unreachable\n", ping->src_ip, ping->msg_count);
 	}
 	else

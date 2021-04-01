@@ -44,13 +44,14 @@ static int	set_socket(void)
 void		get_source_ip(t_ping *ping)
 {
 	struct ifaddrs		*id;
-	struct sockaddr_in	*addr;
+	void				*addr;
 	int					val;
 
 	val = getifaddrs(&id);
 	if (!val)
 	{
 		addr = (struct sockaddr_in *)id->ifa_addr;
+		addr = &(addr->sin_addr);
 		if (!inet_ntop(addr->sin_family, addr, ping->src_ip, INET6_ADDRSTRLEN))
 			ft_strcpy(ping->src_ip, "CONVERTION_FAIL");
 	}

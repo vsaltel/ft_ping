@@ -37,7 +37,6 @@ int	send_msg(t_ping *ping, int sock, t_ping_pkt *pckt)
 	ping_addr = (struct sockaddr*)ping->sdest_v4;
 	gettimeofday(&ping->bef, NULL);
 	ret = sendto(sock, pckt, sizeof(*pckt), 0, ping_addr, sizeof(*ping_addr));
-	get_source_ip(ping, (struct sockaddr_in *)ping_addr);
 	if (ret <= 0) 
 	{ 
 		ft_printf("Packet sending failed\n"); 
@@ -55,6 +54,7 @@ void	recv_msg(t_ping *ping, int sock, t_ping_pkt *pckt)
 	addr_len = sizeof(r_addr);
 	recv_bytes = recvfrom(sock, pckt, sizeof(*pckt),
 		0, (struct sockaddr *)&r_addr, &addr_len);
+	get_source_ip(ping, &r_addr);
 	gettimeofday(&ping->aft, NULL);
 	if (ping->total_stime == -1)
 		ping->total_stime = 0;

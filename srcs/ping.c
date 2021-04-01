@@ -19,6 +19,7 @@ static int	set_socket(void)
 	int				sock;
 	int				ttl;
 	int				on;
+	int				size;
 	struct timeval	tv_out;
 
 	if ((sock = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP)) < 0)
@@ -26,19 +27,22 @@ static int	set_socket(void)
 		ft_dprintf(2, "ft_ping: fail to create socket\n");
 		return (-1);
 	}
+	/*
 	on = 1;
 	if (setsockopt(sock, IPPROTO_IP, IP_HDRINCL, &on, sizeof(on)) < 0)
 	{
 		ft_dprintf(2, "ft_ping: fail to set socket options\n");
 		return (-4);
 	}
-	/*
 	ttl = PING_TTL;
 	if (setsockopt(sock, SOL_IP, IP_TTL, &ttl, sizeof(ttl)) != 0)
 	{
 		ft_dprintf(2, "ft_ping: fail to set ttl\n");
 		return (-2);
 	}
+	*/
+	size = 60 * 1024;
+	setsockopt (sock, SOL_SOCKET, SO_RCVBUF, &size, sizeof(size));
 	tv_out.tv_sec = RECV_TIMEOUT;
     tv_out.tv_usec = 0;
 	if (setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv_out, sizeof tv_out) != 0)
@@ -46,7 +50,6 @@ static int	set_socket(void)
 		ft_dprintf(2, "ft_ping: fail to set timeout\n");
 		return (-3);
 	}
-	*/
 	return (sock);
 }
 

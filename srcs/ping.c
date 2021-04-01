@@ -32,6 +32,7 @@ static int	set_socket(void)
 		ft_dprintf(2, "ft_ping: fail to set socket options\n");
 		return (-4);
 	}
+	/*
 	ttl = PING_TTL;
 	if (setsockopt(sock, SOL_IP, IP_TTL, &ttl, sizeof(ttl)) != 0)
 	{
@@ -45,6 +46,7 @@ static int	set_socket(void)
 		ft_dprintf(2, "ft_ping: fail to set timeout\n");
 		return (-3);
 	}
+	*/
 	return (sock);
 }
 

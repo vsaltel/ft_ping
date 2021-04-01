@@ -64,7 +64,7 @@ for (ifa = ifaddr; ifa != NULL; ifa = ifa->ifa_next)
 					addr = &(inaddr->sin_addr.s_addr);
 					if (!inet_ntop(inaddr->sin_family, addr, ping->src_ip, INET6_ADDRSTRLEN))
 						ft_strcpy(ping->src_ip, "CONVERTION_FAIL");
-					ft_printf("%s -> %s\n", ifa->name, ping->src_ip);
+					ft_printf("%s -> %s\n", ifa->ifa_name, ping->src_ip);
                 }
     }
 }

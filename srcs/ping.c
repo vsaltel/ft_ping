@@ -55,8 +55,6 @@ for (ifa = ifaddr; ifa != NULL; ifa = ifa->ifa_next)
 {
     if (ifa->ifa_addr)
     {
-        if (AF_INET == ifa->ifa_addr->sa_family)
-        {
             struct sockaddr_in* inaddr = (struct sockaddr_in*)ifa->ifa_addr;
 
             if (inaddr->sin_addr.s_addr == addr.sin_addr.s_addr)
@@ -66,8 +64,8 @@ for (ifa = ifaddr; ifa != NULL; ifa = ifa->ifa_next)
 					addr = &(inaddr->sin_addr.s_addr);
 					if (!inet_ntop(inaddr->sin_family, addr, ping->src_ip, INET6_ADDRSTRLEN))
 						ft_strcpy(ping->src_ip, "CONVERTION_FAIL");
+					ft_print("%s -> %s\n", ifa->name, ping->src_ip);
                 }
-        }
     }
 }
 freeifaddrs(ifaddr);

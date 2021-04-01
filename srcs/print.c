@@ -43,40 +43,16 @@ int	send_msg(t_ping *ping, int sock, t_ping_pkt *pckt)
 	return (1);
 }
 
-void		get_source_ip(t_ping *ping, int sock)
+void		get_source_ip(t_ping *ping, int sock, struct sockaddr_in r_addr)
 {
-struct sockaddr_in addr;
-struct ifaddrs* ifaddr;
-struct ifaddrs* ifa;
-socklen_t addr_len;
-
-addr_len = sizeof (addr);
-getsockname(sock, (struct sockaddr*)&addr, &addr_len);
-getifaddrs(&ifaddr);
-for (ifa = ifaddr; ifa != NULL; ifa = ifa->ifa_next)
-{
-    if (ifa->ifa_addr)
-    {
-            struct sockaddr_in* inaddr = (struct sockaddr_in*)ifa->ifa_addr;
-
-            if (inaddr->sin_addr.s_addr == addr.sin_addr.s_addr)
-                if (ifa->ifa_name)
-                {
-					void	*addr;
-					addr = &(inaddr->sin_addr.s_addr);
-					if (!inet_ntop(AF_INET, addr, ping->src_ip, INET6_ADDRSTRLEN))
-						ft_strcpy(ping->src_ip, "CONVERTION_FAIL");
-					ft_printf("%s -> %s\n", ifa->ifa_name, ping->src_ip);
-        		}
-    }
-}
-freeifaddrs(ifaddr);
+	if (!inet_ntop(AF_INET, &r_addr, ping->src_ip, INET6_ADDRSTRLEN))
+		ft_strcpy(ping->src_ip, "CONVERTION_FAIL");
 }
 
 void	recv_msg(t_ping *ping, int sock, t_ping_pkt *pckt)
 {
 	ssize_t				recv_bytes;
-	struct sockaddr_in	r_addr;
+	
 	socklen_t			addr_len;
 
 	addr_len = sizeof(r_addr);

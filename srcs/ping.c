@@ -49,7 +49,7 @@ struct ifaddrs* ifa;
 socklen_t addr_len;
 
 addr_len = sizeof (addr);
-getsockname(sock_fd, (struct sockaddr*)&addr, &addr_len);
+getsockname(sock, (struct sockaddr*)&addr, &addr_len);
 getifaddrs(&ifaddr);
 for (ifa = ifaddr; ifa != NULL; ifa = ifa->ifa_next)
 {
@@ -64,7 +64,7 @@ for (ifa = ifaddr; ifa != NULL; ifa = ifa->ifa_next)
                 {
 					void	*addr;
 					addr = &(inaddr->sin_addr.s_addr);
-					if (!inet_ntop(inaddr->ai_family, addr, ping->src_ip, INET6_ADDRSTRLEN))
+					if (!inet_ntop(inaddr->sin_family, addr, ping->src_ip, INET6_ADDRSTRLEN))
 						ft_strcpy(ping->src_ip, "CONVERTION_FAIL");
                 }
         }

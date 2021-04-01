@@ -44,7 +44,7 @@ static int	set_socket(void)
 void		get_source_ip(t_ping *ping)
 {
 	struct ifaddrs		*id;
-	struct sockaddr_in	addr;
+	struct sockaddr_in	*addr;
 	int					val;
 
 	val = getifaddrs(&id);

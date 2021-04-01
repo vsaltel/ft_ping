@@ -51,7 +51,7 @@ void		get_source_ip(t_ping *ping)
 	if (!val)
 	{
 		addr = (struct sockaddr_in *)id->ifa_addr;
-		ft_strcpy(ping->src_ip, addr->ai_addr);
+		ft_strcpy(ping->src_ip, addr->sin_addr);
 	}
 	printf("Network Interface Name :- %s\n",id->ifa_name);
 	printf("Network Address of %s :- %d\n",id->ifa_name,id->ifa_addr);

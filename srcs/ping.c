@@ -41,8 +41,6 @@ static int	set_socket(void)
 	return (sock);
 }
 
-
-
 int			ping(t_ping *ping)
 {
 	struct addrinfo	*res;

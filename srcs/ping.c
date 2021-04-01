@@ -41,25 +41,36 @@ static int	set_socket(void)
 	return (sock);
 }
 
-void		get_source_ip(t_ping *ping)
+void		get_source_ip(t_ping *ping, int sock)
 {
-	struct ifaddrs		*id;
-	struct sockaddr_in	*addr;
-	int					val;
+struct sockaddr_in addr;
+struct ifaddrs* ifaddr;
+struct ifaddrs* ifa;
+socklen_t addr_len;
 
-	val = getifaddrs(&id);
-	if (!val)
-	{
-		addr = (struct sockaddr_in *)id->ifa_addr;
-		if (!inet_ntop(AF_INET, id->ifa_addr, ping->src_ip, INET6_ADDRSTRLEN))
-			ft_strcpy(ping->src_ip, "CONVERTION_FAIL");
-	}
-	printf("Network Interface Name :- %s\n",id->ifa_name);
-	printf("Network Address of %s :- %d\n",id->ifa_name,id->ifa_addr);
-	printf("Network Data :- %d \n",id->ifa_data);
-	printf("Socket Data : -%c\n",id->ifa_addr->sa_data);
-	freeifaddrs(id);
-	return 0;
+addr_len = sizeof (addr);
+getsockname(sock_fd, (struct sockaddr*)&addr, &addr_len);
+getifaddrs(&ifaddr);
+for (ifa = ifaddr; ifa != NULL; ifa = ifa->ifa_next)
+{
+    if (ifa->ifa_addr)
+    {
+        if (AF_INET == ifa->ifa_addr->sa_family)
+        {
+            struct sockaddr_in* inaddr = (struct sockaddr_in*)ifa->ifa_addr;
+
+            if (inaddr->sin_addr.s_addr == addr.sin_addr.s_addr)
+                if (ifa->ifa_name)
+                {
+					void	*addr;
+					addr = &(inaddr->sin_addr.s_addr);
+					if (!inet_ntop(inaddr->ai_family, addr, ping->src_ip, INET6_ADDRSTRLEN))
+						ft_strcpy(ping->src_ip, "CONVERTION_FAIL");
+                }
+        }
+    }
+}
+freeifaddrs(ifaddr);
 }
 
 int			ping(t_ping *ping)
@@ -80,7 +91,7 @@ int			ping(t_ping *ping)
 	freeaddrinfo(res);
 	if ((sock = set_socket()) < 0)
 		return (2);
-	get_source_ip(ping);
+	get_source_ip(ping, sock);
 	send_loop(ping, sock);
 	return (0);
 }

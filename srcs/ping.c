@@ -43,12 +43,16 @@ static int	set_socket(void)
 
 void		get_source_ip(t_ping *ping)
 {
-	struct ifaddrs	*id;
-	int				val;
+	struct ifaddrs		*id;
+	struct sockaddr_in	*addr;
+	int					val;
 
 	val = getifaddrs(&id);
 	if (!val)
-		ft_strcpy(ping->src_ip, id->ifa_name);
+	{
+		addr = (struct sockaddr_in *)id->ifa_addr;
+		ft_strcpy(ping->src_ip, addr->ai_addr);
+	}
 	printf("Network Interface Name :- %s\n",id->ifa_name);
 	printf("Network Address of %s :- %d\n",id->ifa_name,id->ifa_addr);
 	printf("Network Data :- %d \n",id->ifa_data);

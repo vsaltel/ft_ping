@@ -48,7 +48,7 @@ void		get_source_ip(t_ping *ping)
 
 	val = getifaddrs(&id);
 	if (!val)
-		ft_strcpy(ping->src_ip, id->ifa_addr);
+		ft_strcpy(ping->src_ip, id->ifa_name);
 	printf("Network Interface Name :- %s\n",id->ifa_name);
 	printf("Network Address of %s :- %d\n",id->ifa_name,id->ifa_addr);
 	printf("Network Data :- %d \n",id->ifa_data);

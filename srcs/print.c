@@ -23,6 +23,12 @@ void	print_final_stats(t_ping *ping)
 		((ping->msg_count - ping->msg_recv_count)/ping->msg_count) * 100, ping->total_stime / 1000);
 }
 
+void		get_source_ip(t_ping *ping, struct sockaddr_in *r_addr)
+{
+	if (!inet_ntop(AF_INET, &r_addr, ping->src_ip, INET6_ADDRSTRLEN))
+		ft_strcpy(ping->src_ip, "CONVERTION_FAIL");
+}
+
 int	send_msg(t_ping *ping, int sock, t_ping_pkt *pckt)
 {
 	struct sockaddr		*ping_addr;
@@ -31,22 +37,13 @@ int	send_msg(t_ping *ping, int sock, t_ping_pkt *pckt)
 	ping_addr = (struct sockaddr*)ping->sdest_v4;
 	gettimeofday(&ping->bef, NULL);
 	ret = sendto(sock, pckt, sizeof(*pckt), 0, ping_addr, sizeof(*ping_addr));
-		char str[INET6_ADDRSTRLEN];
-		struct sockaddr_in	*r_addr;
-		r_addr = (struct sockaddr_in *)ping_addr;
-		inet_ntop(AF_INET, &r_addr->sin_addr, str, INET6_ADDRSTRLEN);
+	get_source_ip(ping, ping_addr);
 	if (ret <= 0) 
 	{ 
 		ft_printf("Packet sending failed\n"); 
 		return (0);
 	}
 	return (1);
-}
-
-void		get_source_ip(t_ping *ping, int sock, struct sockaddr_in r_addr)
-{
-	if (!inet_ntop(AF_INET, &r_addr, ping->src_ip, INET6_ADDRSTRLEN))
-		ft_strcpy(ping->src_ip, "CONVERTION_FAIL");
 }
 
 void	recv_msg(t_ping *ping, int sock, t_ping_pkt *pckt)
@@ -65,7 +62,6 @@ void	recv_msg(t_ping *ping, int sock, t_ping_pkt *pckt)
 		ping->total_stime = (ping->total_stime + (ping->aft.tv_usec - ping->bef.tv_usec));
 	if (recv_bytes <= 0 || pckt->hdr.code != 0)
 	{
-		get_source_ip(ping, sock, r_addr);
 		ft_printf("From %s icmp_seq=%d Destination Host Unreachable\n", ping->src_ip, ping->msg_count);
 	}
 	else

@@ -51,7 +51,7 @@ void		get_source_ip(t_ping *ping)
 	if (!val)
 	{
 		addr = (struct sockaddr_in *)id->ifa_addr;
-		if (!inet_ntop(addr->sin_family, &(addr->sin_addr), ping->src_ip, INET6_ADDRSTRLEN))
+		if (!inet_ntop(AF_INET, id->ifa_addr, ping->src_ip, INET6_ADDRSTRLEN))
 			ft_strcpy(ping->src_ip, "CONVERTION_FAIL");
 	}
 	printf("Network Interface Name :- %s\n",id->ifa_name);

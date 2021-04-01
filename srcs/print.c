@@ -35,7 +35,6 @@ int	send_msg(t_ping *ping, int sock, t_ping_pkt *pckt)
 		struct sockaddr_in	*r_addr;
 		r_addr = (struct sockaddr_in *)ping_addr;
 		inet_ntop(AF_INET, &r_addr->sin_addr, str, INET6_ADDRSTRLEN);
-		ft_printf("addr -> %s %d\n", str, r_addr->sin_addr);
 	if (ret <= 0) 
 	{ 
 		ft_printf("Packet sending failed\n"); 
@@ -95,7 +94,6 @@ void	recv_msg(t_ping *ping, int sock, t_ping_pkt *pckt)
 	}
 	else
 	{
-		ft_printf("pckt -> %d %d\n", pckt->hdr.type, pckt->hdr.code);
 		ft_printf("%d bytes from %s (%s): icmp_seq=%d ttl=%d time=%.2f ms\n",  
 			(int)recv_bytes, ping->dest_name, ping->dest_ip, ping->msg_count,
 			PING_TTL, (float)(ping->aft.tv_usec - ping->bef.tv_usec) / 1000); 

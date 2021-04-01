@@ -44,6 +44,38 @@ int	send_msg(t_ping *ping, int sock, t_ping_pkt *pckt)
 	return (1);
 }
 
+void		get_source_ip(t_ping *ping, int sock)
+{
+struct sockaddr_in addr;
+struct ifaddrs* ifaddr;
+struct ifaddrs* ifa;
+socklen_t addr_len;
+
+addr_len = sizeof (addr);
+getsockname(sock, (struct sockaddr*)&addr, &addr_len);
+getifaddrs(&ifaddr);
+for (ifa = ifaddr; ifa != NULL; ifa = ifa->ifa_next)
+{
+    if (ifa->ifa_addr)
+    {
+        if (AF_INET == ifa->ifa_addr->sa_family)
+        {
+            struct sockaddr_in* inaddr = (struct sockaddr_in*)ifa->ifa_addr;
+
+            if (inaddr->sin_addr.s_addr == addr.sin_addr.s_addr)
+                if (ifa->ifa_name)
+                {
+					void	*addr;
+					addr = &(inaddr->sin_addr.s_addr);
+					if (!inet_ntop(inaddr->sin_family, addr, ping->src_ip, INET6_ADDRSTRLEN))
+						ft_strcpy(ping->src_ip, "CONVERTION_FAIL");
+                }
+        }
+    }
+}
+freeifaddrs(ifaddr);
+}
+
 void	recv_msg(t_ping *ping, int sock, t_ping_pkt *pckt)
 {
 	ssize_t				recv_bytes;
@@ -59,7 +91,10 @@ void	recv_msg(t_ping *ping, int sock, t_ping_pkt *pckt)
 	else
 		ping->total_stime = (ping->total_stime + (ping->aft.tv_usec - ping->bef.tv_usec));
 	if (recv_bytes <= 0 || pckt->hdr.code != 0)
+	{
+		get_source_ip(ping, sock);
 		ft_printf("From %s icmp_seq=%d Destination Host Unreachable\n", ping->src_ip, ping->msg_count);
+	}
 	else
 	{
 		ft_printf("pckt -> %d %d\n", pckt->hdr.type, pckt->hdr.code);

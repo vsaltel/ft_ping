@@ -41,35 +41,7 @@ static int	set_socket(void)
 	return (sock);
 }
 
-void		get_source_ip(t_ping *ping, int sock)
-{
-struct sockaddr_in addr;
-struct ifaddrs* ifaddr;
-struct ifaddrs* ifa;
-socklen_t addr_len;
 
-addr_len = sizeof (addr);
-getsockname(sock, (struct sockaddr*)&addr, &addr_len);
-getifaddrs(&ifaddr);
-for (ifa = ifaddr; ifa != NULL; ifa = ifa->ifa_next)
-{
-    if (ifa->ifa_addr)
-    {
-            struct sockaddr_in* inaddr = (struct sockaddr_in*)ifa->ifa_addr;
-
-            if (inaddr->sin_addr.s_addr == addr.sin_addr.s_addr)
-                if (ifa->ifa_name)
-                {
-					void	*address;
-					address = &(inaddr->sin_addr.s_addr);
-					if (!inet_ntop(inaddr->sin_family, address, ping->src_ip, INET6_ADDRSTRLEN))
-						ft_strcpy(ping->src_ip, "CONVERTION_FAIL");
-					ft_printf("%s -> %s\n", ifa->ifa_name, ping->src_ip);
-                }
-    }
-}
-freeifaddrs(ifaddr);
-}
 
 int			ping(t_ping *ping)
 {
@@ -89,7 +61,6 @@ int			ping(t_ping *ping)
 	freeaddrinfo(res);
 	if ((sock = set_socket()) < 0)
 		return (2);
-	get_source_ip(ping, sock);
 	send_loop(ping, sock);
 	return (0);
 }

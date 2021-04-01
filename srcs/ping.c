@@ -41,6 +41,22 @@ static int	set_socket(void)
 	return (sock);
 }
 
+void		get_source_ip(t_ping *ping)
+{
+	struct ifaddrs	*id;
+	int				val;
+
+	val = getifaddrs(&id);
+	if (!val)
+		ft_strcpy(ping->src_ip, id->ifa_addr);
+	printf("Network Interface Name :- %s\n",id->ifa_name);
+	printf("Network Address of %s :- %d\n",id->ifa_name,id->ifa_addr);
+	printf("Network Data :- %d \n",id->ifa_data);
+	printf("Socket Data : -%c\n",id->ifa_addr->sa_data);
+	freeifaddrs(id);
+	return 0;
+}
+
 int			ping(t_ping *ping)
 {
 	struct addrinfo	*res;
@@ -48,9 +64,8 @@ int			ping(t_ping *ping)
 	int				sock;
 
 	ft_memset(&hints, 0, sizeof hints);
-	hints.ai_family = AF_INET; // IPv4 ou IPv6
-	hints.ai_socktype = SOCK_STREAM; // Une seule famille de socket
-	//hints.ai_flags = AI_CANONNAME;
+	hints.ai_family = AF_INET;
+	hints.ai_socktype = SOCK_STREAM;
 	if (getaddrinfo(ping->dest_name, NULL, &hints, &res) != 0)
 	{
 		ft_dprintf(2, "ft_ping: %s: No address associated with hostname\n", ping->dest_name);
@@ -60,6 +75,7 @@ int			ping(t_ping *ping)
 	freeaddrinfo(res);
 	if ((sock = set_socket()) < 0)
 		return (2);
+	get_source_ip(ping);
 	send_loop(ping, sock);
 	return (0);
 }

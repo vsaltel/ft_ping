@@ -21,17 +21,19 @@ static int	set_socket(void)
 	int				on;
 	struct timeval	tv_out;
 
-	on = 1;
 	if ((sock = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP)) < 0)
 	{
 		ft_dprintf(2, "ft_ping: fail to create socket\n");
 		return (-1);
 	}
+	/*
+	on = 1;
 	if (setsockopt(sock, IPPROTO_IP, IP_HDRINCL, &on, sizeof(on)) < 0)
 	{
 		ft_dprintf(2, "ft_ping: fail to set socket options\n");
 		return (-4);
 	}
+	*/
 	ttl = PING_TTL;
 	if (setsockopt(sock, SOL_IP, IP_TTL, &ttl, sizeof(ttl)) != 0)
 	{

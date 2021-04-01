@@ -90,7 +90,7 @@ void	recv_msg(t_ping *ping, int sock, t_ping_pkt *pckt)
 		ping->total_stime = (ping->total_stime + (ping->aft.tv_usec - ping->bef.tv_usec));
 	if (recv_bytes <= 0 || pckt->hdr.code != 0)
 	{
-		get_source_ip(ping, sock);
+		//get_source_ip(ping, sock);
 		ft_printf("From %s icmp_seq=%d Destination Host Unreachable\n", ping->src_ip, ping->msg_count);
 	}
 	else

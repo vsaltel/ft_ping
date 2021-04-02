@@ -48,12 +48,12 @@ int	ping(t_ping *ping)
 	ft_printf("PING %s (%s) %d data bytes\n", res->ai_canonname ? res->ai_canonname : ping->dest_name, ping->dest_ip, ping->datalen);
 	if (res->ai_family != AF_INET)
 		return (2);
-	if ((sock = set_socket(ping)) < 0)
-		return (3);
 	ping->pr.sasend = res->ai_addr;
 	ping->pr.sacrecv = malloc(res->ai_addrlen);
 	ft_bzero(ping->pr.sacrecv, res->ai_addrlen);
 	ping->pr.salen = res->ai_addrlen;
+	if ((sock = set_socket(ping)) < 0)
+		return (3);
 	ret = read_loop(ping);
 	freeaddrinfo(res);
 	return (ret);

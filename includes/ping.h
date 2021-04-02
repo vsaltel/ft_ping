@@ -55,7 +55,7 @@ typedef struct		s_ping_pkt
 }					t_ping_pkt;
 
 int				ping(t_ping *ping);
-int				set_socket(void);
+int				set_socket(t_ping *ping);
 int				send_loop(t_ping *ping, int sock);
 void			recv_msg(t_ping *ping, t_ping_pkt *pckt);
 void			send_msg(void);

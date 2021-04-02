@@ -1,9 +1,9 @@
 #include "ping.h"
 
-struct ping_pkt	set_pckt(t_ping *ping)
+static t_ping_pkt	set_pckt(t_ping *ping)
 {
-	t_ping_pkt	pckt;
-	int			i;
+	t_ping_pkt			pckt;
+	long unsigned int	i;
 
 	ft_bzero(&pckt, sizeof(pckt));
     pckt.hdr.type = ICMP_ECHO;
@@ -20,14 +20,14 @@ struct ping_pkt	set_pckt(t_ping *ping)
 	return (pckt);
 }
 
-int	read_loop(t_ping *ping, int sock)
+int	read_loop(t_ping *ping)
 {
-	struct ping_pkt	pckt;
+	t_ping_pkt	pckt;
 
 	if (!(ping->sockfd = set_socket(ping)))
 		return (1);
 	catch_sigalrm(SIGALRM);	
-	while (g_state)
+	while (ping->state)
 	{
 		pckt = set_pckt(ping);
 		recv_msg(ping, &pckt);
@@ -36,13 +36,13 @@ int	read_loop(t_ping *ping, int sock)
 	return (0);
 }
 
-int			ping(t_ping *ping)
+int	ping(t_ping *ping)
 {
 	struct addrinfo	*res;
 	int				sock;
 	int				ret;
 
-	if (!(res = reverse_dns_info(ping->dest_name, NULL, AF_INET, 0))
+	if (!(res = reverse_dns_info(ping->dest_name, NULL, AF_INET, 0)))
 		return (1);
 	ping->dest_ip = set_inetaddr(ping, res);
 	ft_printf("PING %s (%s) %d data bytes\n", res->ai_canonname ? host_addrinfo->ai_canonname : ping->dest_name, ping->dest_ip, ping->datalen);

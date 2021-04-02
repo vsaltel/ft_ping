@@ -17,6 +17,11 @@ OBJDIR	=	objs
 
 FILES	=	main.c				\
 			ping.c				\
+			socket.c			\
+			recv_msg.c			\
+			send_msg.c			\
+			rev_dns.c			\
+			conv_addr.c			\
 			utils.c				\
 			print.c				\
 			signal.c			\

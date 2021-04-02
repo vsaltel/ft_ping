@@ -2,7 +2,9 @@
 # define PING_H
 
 # define OPTIONS "hv"
+# define BUFSIZE 1500 
 # define PING_PKT_S 56
+# define IP_STR_SIZE 129
 # define PING_TTL 64
 # define RECV_TIMEOUT 1
 
@@ -14,15 +16,20 @@
 # include <arpa/inet.h>
 # include <netinet/in.h>
 # include <netinet/ip_icmp.h>
-# include <ifaddrs.h>
 # include <sys/time.h>
 
 # include "libft.h"
 
-extern int			g_state;
+typedef struct		s_proto
+{
+	struct sockaddr		*sasend;
+	struct sockaddr		*sacrecv;
+	socklen_t			salen;
+}					t_proto;
 
 typedef struct		s_ping
 {
+	int					state;
 	int					h;	
 	int					v;	
 	struct timeval		bef;
@@ -31,11 +38,15 @@ typedef struct		s_ping
 	int					msg_recv_count;
 	int					total_stime;
 	char				*dest_name;
-	char				dest_ip[INET6_ADDRSTRLEN];
-	char				src_ip[INET6_ADDRSTRLEN];
-	struct sockaddr_in	*sdest_v4;
-	//struct sockaddr_in	sdest;
+	char				*dest_ip;
+	char				sendbuf[BUFSIZE];
+	int					datalen;
+	int					sockfd;
+	t_proto				pr;
+	pid_t				pid;
 }					t_ping;
+
+extern t_ping		g_ping;
 
 typedef struct		s_ping_pkt
 {
@@ -44,18 +55,25 @@ typedef struct		s_ping_pkt
 }					t_ping_pkt;
 
 int				ping(t_ping *ping);
+int				set_socket(void);
 int				send_loop(t_ping *ping, int sock);
+void			recv_msg(t_ping *ping, t_ping_pkt *pckt);
+void			send_msg(void);
 
 void			init_ping(t_ping *ping);
 void			get_args(t_ping *ping, int ac, char **av);
 int				check_args(int ac, char **av);
+void			set_inetaddr(t_ping *ping, struct addrinfo *ai);
 void			free_args(t_ping *ping);
+struct addrinfo	*reverse_dns_info(char *host, char *serv, int family, int socktype);
 
+void			print_final_stats(t_ping *ping);
 void			print_usage(void);
 void			print_args(t_ping ping);
 
 unsigned short	checksum(void *b, int len);
 
 void			catch_sigint(int signal);
+void			catch_sigalrm(int signal);
 
 #endif

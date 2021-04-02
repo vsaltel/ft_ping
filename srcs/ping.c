@@ -1,76 +1,59 @@
 #include "ping.h"
 
-static void set_inetaddr(t_ping *ping, struct addrinfo *ai)
+struct ping_pkt	set_pckt(t_ping *ping)
 {
-	void *addr;
+	t_ping_pkt	pckt;
+	int			i;
 
-	while (ai != NULL)
+	ft_bzero(&pckt, sizeof(pckt));
+    pckt.hdr.type = ICMP_ECHO;
+    pckt.hdr.un.echo.id = ping->pid;
+	i = 0;
+    while (i < sizeof(pckt.msg) - 1)
 	{
-		ping->sdest_v4 = (struct sockaddr_in *)ai->ai_addr;
-		addr = &(ping->sdest_v4->sin_addr);
-		if (!inet_ntop(ai->ai_family, addr, ping->dest_ip, sizeof(ping->dest_ip)))
-			ft_strcpy(ping->dest_ip, "CONVERTION_FAIL");
-		ai = ai->ai_next;
+        pckt.msg[i] = i + '0';
+		i++;
 	}
+    pckt.msg[i] = 0;
+    pckt.hdr.un.echo.sequence = ping->msg_count++;
+    pckt.hdr.checksum = checksum(&pckt, sizeof(pckt));
+	return (pckt);
 }
 
-static int	set_socket(void)
+int	read_loop(t_ping *ping, int sock)
 {
-	int				sock;
-	int				ttl;
-	int				on;
-	int				size;
-	struct timeval	tv_out;
+	struct ping_pkt	pckt;
 
-	if ((sock = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP)) < 0)
+	if (!(ping->sockfd = set_socket(ping)))
+		return (1);
+	catch_sigalrm(SIGALRM);	
+	while (g_state)
 	{
-		ft_dprintf(2, "ft_ping: fail to create socket\n");
-		return (-1);
+		pckt = set_pckt(ping);
+		recv_msg(ping, &pckt);
 	}
-	/*
-	on = 1;
-	if (setsockopt(sock, IPPROTO_IP, IP_HDRINCL, &on, sizeof(on)) < 0)
-	{
-		ft_dprintf(2, "ft_ping: fail to set socket options\n");
-		return (-4);
-	}
-	ttl = PING_TTL;
-	if (setsockopt(sock, SOL_IP, IP_TTL, &ttl, sizeof(ttl)) != 0)
-	{
-		ft_dprintf(2, "ft_ping: fail to set ttl\n");
-		return (-2);
-	}
-	*/
-	size = 60 * 1024;
-	setsockopt (sock, SOL_SOCKET, SO_RCVBUF, &size, sizeof(size));
-	tv_out.tv_sec = RECV_TIMEOUT;
-    tv_out.tv_usec = 0;
-	if (setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv_out, sizeof tv_out) != 0)
-	{
-		ft_dprintf(2, "ft_ping: fail to set timeout\n");
-		return (-3);
-	}
-	return (sock);
+	print_final_stats(ping);
+	return (0);
 }
 
 int			ping(t_ping *ping)
 {
 	struct addrinfo	*res;
-	struct addrinfo	hints;
 	int				sock;
+	int				ret;
 
-	ft_memset(&hints, 0, sizeof hints);
-	hints.ai_family = AF_INET;
-	hints.ai_socktype = SOCK_STREAM;
-	if (getaddrinfo(ping->dest_name, NULL, &hints, &res) != 0)
-	{
-		ft_dprintf(2, "ft_ping: %s: No address associated with hostname\n", ping->dest_name);
+	if (!(res = reverse_dns_info(ping->dest_name, NULL, AF_INET, 0))
 		return (1);
-	}
-	set_inetaddr(ping, res);
-	freeaddrinfo(res);
-	if ((sock = set_socket()) < 0)
+	ping->dest_ip = set_inetaddr(ping, res);
+	ft_printf("PING %s (%s) %d data bytes\n", res->ai_canonname ? host_addrinfo->ai_canonname : ping->dest_name, ping->dest_ip, ping->datalen);
+	if (res->ai_family != AF_INET)
 		return (2);
-	send_loop(ping, sock);
-	return (0);
+	if ((sock = set_socket()) < 0)
+		return (3);
+	ping->pr->sasend = res->ai_addr;
+	ping->pr->sacrecv = ft_calloc(1, res->ai_addrlen);
+	ping->pr->salen = res->ai_addrlen;
+	ret = read_loop(ping, sock);
+	freeaddrinfo(res);
+	return (ret);
 }

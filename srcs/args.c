@@ -74,6 +74,11 @@ void			init_ping(t_ping *ping)
 	ping->total_stime = -1;
 	ping->dest_name = NULL;
 	ping->sdest_v4 = NULL;
+	ping->pid = getpid() & 0xffff;
+	ping->sendbuf[0] = '\0';
+	ping->pr.sasend = NULL;
+	ping->pr.sacrecv = NULL;
+	ping->pr.salen = 0;
 }
 
 void			print_usage(void)

@@ -63,7 +63,7 @@ void			send_msg(void);
 void			init_ping(t_ping *ping);
 void			get_args(t_ping *ping, int ac, char **av);
 int				check_args(int ac, char **av);
-void			set_inetaddr(t_ping *ping, struct addrinfo *ai);
+char			*set_inetaddr(struct sockaddr *sa, socklen_t salen);
 void			free_args(t_ping *ping);
 struct addrinfo	*reverse_dns_info(char *host, char *serv, int family, int socktype);
 

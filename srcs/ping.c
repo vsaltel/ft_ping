@@ -44,7 +44,7 @@ int	ping(t_ping *ping)
 
 	if (!(res = reverse_dns_info(ping->dest_name, NULL, AF_INET, 0)))
 		return (1);
-	ping->dest_ip = set_inetaddr(ping, res);
+	ping->dest_ip = set_inetaddr(res->ai_addr, res->ai_addrlen);
 	ft_printf("PING %s (%s) %d data bytes\n", res->ai_canonname ? res->ai_canonname : ping->dest_name, ping->dest_ip, ping->datalen);
 	if (res->ai_family != AF_INET)
 		return (2);

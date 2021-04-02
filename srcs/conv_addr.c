@@ -1,8 +1,9 @@
 #include "ping.h"
 
-char	*set_inetaddr(struct sockaddr *sa, socklen_t salen)
+char	*set_inetaddr(struct sockaddr *sa)
 {
 	struct sockaddr_in	*sin;
+	char				str[IP_STR_SIZE];
 
 	sin = (struct sockaddr_in *)sa;
 	if (!inet_ntop(AF_INET, &sin->sin_addr, str, sizeof(str)))

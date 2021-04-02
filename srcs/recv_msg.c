@@ -12,7 +12,7 @@ void	recv_msg(t_ping *ping, t_ping_pkt *pckt)
 		ping->total_stime = 0;
 	else
 		ping->total_stime = (ping->total_stime + (ping->aft.tv_usec - ping->bef.tv_usec));
-	recv_ip = set_inetaddr(ping->pr.sacrecv, ping->pr.salen);
+	recv_ip = set_inetaddr(ping->pr.sacrecv);
 	if (recv_bytes <= 0 || pckt->hdr.code != 0)
 		ft_printf("From %s icmp_seq=%d Destination Host Unreachable\n", recv_ip, ping->msg_count);
 	else

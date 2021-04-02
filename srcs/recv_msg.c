@@ -6,7 +6,7 @@ void	recv_msg(t_ping *ping, t_ping_pkt *pckt)
 	char				*recv_ip;
 
 	recv_bytes = recvfrom(ping->sockfd, pckt, sizeof(*pckt),
-		0, ping->pr.sacrecv, ping->pr.salen);
+		0, ping->pr.sacrecv, &ping->pr.salen);
 	gettimeofday(&ping->aft, NULL);
 	if (ping->total_stime == -1)
 		ping->total_stime = 0;

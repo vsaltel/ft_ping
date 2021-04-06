@@ -26,9 +26,9 @@ int		main(int argc, char **argv)
 	free_args(&g_ping);
 	if (ret < 0)
 		return (ret);
-	if (ping->msg_recv_count)
+	if (g_ping.msg_recv_count)
 		return (0);
-	else if (ping->msg_sent)
+	else if (g_ping.msg_sent)
 		return (2);
 	return (1);
 }

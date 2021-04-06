@@ -73,6 +73,7 @@ void			print_usage(void);
 void			print_args(t_ping ping);
 
 unsigned short	checksum(void *b, int len);
+void			tv_subtract(struct timeval *out, struct timeval *in);
 
 void			catch_sigint(int signal);
 void			catch_sigalrm(int signal);

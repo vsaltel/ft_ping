@@ -1,6 +1,6 @@
 #include "ping.h"
 
-static void		set_opt(t_ping *ping, char o, int *x)
+static void		set_opt(t_ping *ping, char o)
 {
 	if (o == 'h')
 		ping->h = 1;
@@ -31,7 +31,7 @@ void			get_args(t_ping *ping, int ac, char **av)
 			}
 			while (av[n][x])
 			{
-				set_opt(ping, av[n][x++], &x);
+				set_opt(ping, av[n][x++]);
 				x++;
 			}
 		}

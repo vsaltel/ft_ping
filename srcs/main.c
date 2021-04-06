@@ -23,6 +23,7 @@ int		main(int argc, char **argv)
 	{
 		signal(SIGINT, &catch_sigint);
 		signal(SIGALRM, &catch_sigalrm);
+		gettimeofday(&g_ping.bef, NULL);
 		ping(&g_ping);
 	}
 	free_args(&g_ping);

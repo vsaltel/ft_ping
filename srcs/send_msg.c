@@ -13,7 +13,7 @@ void	send_msg(void)
 	icmp->icmp_seq = g_ping.msg_sent++;
 	ft_memset(icmp->icmp_data, 0xa5, g_ping.datalen);
 	gettimeofday(&g_ping.bef, NULL);
-	(struct timeval *)icmp->icmp_data = g_ping.bef;
+	(struct timeval *)(icmp->icmp_data) = g_ping.bef;
 	len = 8 + g_ping.datalen;
 	icmp->icmp_cksum = 0;
 	icmp->icmp_cksum = checksum((u_short *) icmp, len);

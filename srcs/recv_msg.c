@@ -2,7 +2,7 @@
 
 static void	print_received(t_ping *ping, ssize_t recv_bytes, char *recv_ip)
 {
-	double				time;
+	double	time;
 
 	time = (ping->aft.tv_sec * 1000.0 + ping->aft.tv_usec) / 1000.0;
 	time = time - ((ping->bef.tv_sec * 1000.0 + ping->bef.tv_usec) / 1000.0);
@@ -19,8 +19,8 @@ static void	print_received(t_ping *ping, ssize_t recv_bytes, char *recv_ip)
 
 void	recv_msg(t_ping *ping, t_ping_pkt *pckt)
 {
-	ssize_t				recv_bytes;
-	char				*recv_ip;
+	ssize_t	recv_bytes;
+	char   	*recv_ip;
 
 	recv_bytes = recvfrom(ping->sockfd, pckt, sizeof(*pckt),
 		0, ping->pr.sacrecv, &ping->pr.salen);

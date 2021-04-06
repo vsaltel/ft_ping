@@ -30,7 +30,7 @@ void	recv_msg(t_ping *ping, t_ping_pkt *pckt)
 	{
 		if (ping->v)
 			ft_printf(" %d bytes from %s (%s): type = %d, code = %d\n",
-				(int)recv_bytes, ping->dest_name, pckt->hdr.type, pckt->hdr.code);
+				(int)recv_bytes, ping->dest_name, recv_ip, pckt->hdr.type, pckt->hdr.code);
 		else
 			ft_printf("From %s icmp_seq=%d Destination Host Unreachable\n",
 				recv_ip, ping->msg_count);

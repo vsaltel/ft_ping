@@ -63,9 +63,11 @@ int				check_args(int ac, char **av)
 				}
 				else if (ft_atoi(av[n + 1]) <= 0)
 				{
-					ft_printf("ping: can't set unicast time-to-live: Invalid argument\n");
+					ft_printf("ft_ping: can't set unicast time-to-live: Invalid argument\n");
 					return (1);
 				}
+				n++;
+				continue;
 			}
 			while (av[n][x])
 			{

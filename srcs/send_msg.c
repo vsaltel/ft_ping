@@ -16,6 +16,7 @@ void	send_msg(void)
 	ip->ip_off = 0;
 	ip->ip_ttl = g_ping.ttl;
 	ip->ip_p = IPPROTO_ICMP;
+	len = 8 + g_ping.datalen;
 	ip->ip_sum = checksum((u_short *) ip, len);
 	struct sockaddr_in *tmp;
 	tmp = (struct sockaddr_in *)g_ping.pr.sasend;

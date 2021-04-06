@@ -15,8 +15,8 @@ void	recv_msg(t_ping *ping, t_ping_pkt *pckt)
 	else
 	{
    		//tv_subtract(&ping->aft, &ping->bef);	 
-		rtt = ping->aft.tv_sec * 1000.0 + ping->aft.tv_usec / 1000.0;
-		rtt = rtt - (ping->bef.tv_sec * 1000.0 + ping->bef.tv_usec / 1000.0);
+		rtt = (ping->aft.tv_sec * 1000.0 + ping->aft.tv_usec) / 1000.0;
+		rtt = rtt - ((ping->bef.tv_sec * 1000.0 + ping->bef.tv_usec) / 1000.0);
 		ft_printf("%d bytes from %s (%s): icmp_seq=%d ttl=%d time=%.2f ms\n",  
 			(int)recv_bytes, ping->dest_name, recv_ip, ping->msg_count, PING_TTL, rtt); 
 		ping->msg_recv_count++;

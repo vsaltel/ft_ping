@@ -32,12 +32,12 @@ typedef struct		s_ping
 	int					state;
 	int					h;	
 	int					v;	
+	struct timeval		launch_time;
 	struct timeval		bef;
 	struct timeval		aft;
 	int					msg_sent;
 	int					msg_count;
 	int					msg_recv_count;
-	int					total_stime;
 	char				*dest_name;
 	char				*dest_ip;
 	char				sendbuf[BUFSIZE];

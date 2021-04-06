@@ -23,7 +23,8 @@ int		main(int argc, char **argv)
 	{
 		signal(SIGINT, &catch_sigint);
 		signal(SIGALRM, &catch_sigalrm);
-		gettimeofday(&g_ping.bef, NULL);
+		gettimeofday(&g_ping.launch_time, NULL);
+		g_ping.bef = g_ping.launch_time;
 		ping(&g_ping);
 	}
 	free_args(&g_ping);

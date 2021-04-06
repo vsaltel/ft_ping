@@ -25,8 +25,10 @@ int	read_loop(t_ping *ping)
 	t_ping_pkt	pckt;
 
 	if (!(ping->sockfd = set_socket(ping)))
-		return (1);
+		return (-5);
+	ping->state = 1;
 	catch_sigalrm(SIGALRM);	
+	signal(SIGINT, &catch_sigint);
 	while (ping->state)
 	{
 		pckt = set_pckt(ping);
@@ -42,18 +44,22 @@ int	ping(t_ping *ping)
 	int				sock;
 	int				ret;
 
+
+	signal(SIGALRM, &catch_sigalrm);
+	gettimeofday(&ping->launch_time, NULL);
+	ping->bef = ping->launch_time;
 	if (!(res = reverse_dns_info(ping->dest_name, NULL, AF_INET, 0)))
-		return (1);
+		return (-2);
 	ping->dest_ip = set_inetaddr(res->ai_addr);
 	ft_printf("PING %s (%s) %d data bytes\n", res->ai_canonname ? res->ai_canonname : ping->dest_name, ping->dest_ip, ping->datalen);
 	if (res->ai_family != AF_INET)
-		return (2);
+		return (-3);
 	ping->pr.sasend = res->ai_addr;
 	ping->pr.sacrecv = malloc(res->ai_addrlen);
 	ft_bzero(ping->pr.sacrecv, res->ai_addrlen);
 	ping->pr.salen = res->ai_addrlen;
 	if ((sock = set_socket(ping)) < 0)
-		return (3);
+		return (-4);
 	ret = read_loop(ping);
 	freeaddrinfo(res);
 	return (ret);

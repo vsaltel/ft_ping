@@ -2,19 +2,22 @@
 
 double	square_root(double a)
 {
-	double	s = 1;
-	double	l = a;
-	double	mid = 0;
+	double	s;
+	double	l;
+	double	mid;
 
+	s = 1;
+	l = a;
+	mid = 0;
 	while (s <= l)
 	{
 		mid = (s + l) / 2;
-	if ((mid * mid) == a)
-		break;
-	if ((mid * mid) < a)
-		s = mid + 1;
-	else
-		l = mid - 1;
+		if ((mid * mid) == a)
+			break;
+		if ((mid * mid) < a)
+			s = mid + 1;
+		else
+			l = mid - 1;
 	}
 	mid = (s + l) / 2;
 	return (mid);
@@ -22,11 +25,11 @@ double	square_root(double a)
 
 void	print_final_stats(t_ping *ping)
 {
-	struct timeval end_time;
-	long	total_time;
-	double	rtt_mdev;
-	double	mean;	
-	double	smean;	
+	struct timeval	end_time;
+	long			total_time;
+	double			rtt_mdev;
+	double			mean;
+	double			smean;
 
 	gettimeofday(&end_time, NULL);
 	total_time = end_time.tv_sec * 1000 + end_time.tv_usec / 1000;
@@ -38,6 +41,6 @@ void	print_final_stats(t_ping *ping)
 	ft_printf("%d packets transmitted, %d received, %d%% packet loss, time: %ld ms\n",
 		ping->msg_count, ping->msg_recv_count,
 		((ping->msg_count - ping->msg_recv_count)/ping->msg_count) * 100, total_time);
-	ft_printf("rtt min/avg/max/mdev = %.5f/%.5f/%.5f/%.5f ms\n",
+	ft_printf("rtt min/avg/max/mdev = %.3f/%.3f/%.3f/%.3f ms\n",
 		ping->rtt_min, mean, ping->rtt_max, rtt_mdev);
 }

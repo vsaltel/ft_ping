@@ -2,9 +2,9 @@
 
 void	send_msg(void)
 {
-	int				len;
-	int				ret;
-	struct	icmp	*icmp;
+	int			len;
+	int			ret;
+	struct icmp	*icmp;
 
 	icmp = (struct icmp *)g_ping.sendbuf;
 	icmp->icmp_type = ICMP_ECHO;

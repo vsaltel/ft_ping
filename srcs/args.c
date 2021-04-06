@@ -24,7 +24,7 @@ void			get_args(t_ping *ping, int ac, char **av)
 		if (av[n][0] && av[n][0] == '-')
 		{
 			x = 1;
-			if (o == 'T')
+			if (av[n][x] == 'T')
 			{
 				ping->tll = ft_atoi(av[++n]);
 				continue;

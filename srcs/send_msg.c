@@ -8,7 +8,7 @@ void	send_msg(void)
 	struct ip	*ip;
 
 	ip = (struct ip *)g_ping.sendbuf;
-	ip->ttl = g_ping.tll;
+	ip->ip_ttl = g_ping.ttl;
 	icmp = (struct icmp *)(g_ping.sendbuf + sizeof(struct ip));
 	icmp->icmp_type = ICMP_ECHO;
 	icmp->icmp_code = 0;

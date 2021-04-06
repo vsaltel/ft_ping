@@ -5,8 +5,8 @@ void	send_msg(void)
 	int			len;
 	int			ret;
 	struct icmp	*icmp;
-	struct ip	*ip;
 
+/*
 	ip = (struct ip *)g_ping.sendbuf;
 	ip->ip_hl = 5;
 	ip->ip_v = 4;
@@ -21,8 +21,8 @@ void	send_msg(void)
 	struct sockaddr_in *tmp;
 	tmp = (struct sockaddr_in *)g_ping.pr.sasend;
 	ip->ip_dst = tmp->sin_addr; 
-
-	icmp = (struct icmp *)(g_ping.sendbuf + sizeof(ip));
+*/
+	icmp = (struct icmp *)g_ping.sendbuf;
 	icmp->icmp_type = ICMP_ECHO;
 	icmp->icmp_code = 0;
 	icmp->icmp_id = g_ping.pid;

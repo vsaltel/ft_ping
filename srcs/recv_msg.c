@@ -14,10 +14,9 @@ void	recv_msg(t_ping *ping, t_ping_pkt *pckt)
 		ft_printf("From %s icmp_seq=%d Destination Host Unreachable\n", recv_ip, ping->msg_count);
 	else
 	{
-   		//tv_subtract(&ping->aft, &ping->bef);	 
+   		//tv_subtract(&ping->aft, &ping->bef);
 		rtt = (ping->aft.tv_sec * 1000.0 + ping->aft.tv_usec) / 1000.0;
 		rtt = rtt - ((ping->bef.tv_sec * 1000.0 + ping->bef.tv_usec) / 1000.0);
-		ft_printf("b s %d u %d\na s %d u %d\n", ping->bef.tv_sec, ping->bef.tv_usec, ping->aft.tv_sec, ping->aft.tv_usec);
 		ft_printf("%d bytes from %s (%s): icmp_seq=%d ttl=%d time=%.2f ms\n",  
 			(int)recv_bytes, ping->dest_name, recv_ip, ping->msg_count, PING_TTL, rtt); 
 		ping->msg_recv_count++;

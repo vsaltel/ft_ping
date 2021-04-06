@@ -2,8 +2,8 @@
 
 int	set_socket(t_ping *ping)
 {
-	int				sock;
-	int				size;
+	int	sock;
+	int	size;
 
 	if ((sock = socket(ping->pr.sasend->sa_family, SOCK_RAW, IPPROTO_ICMP)) < 0)
 	{

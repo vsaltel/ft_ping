@@ -97,6 +97,7 @@ void			init_ping(t_ping *ping)
 	ping->msg_recv_count = 0;
 	ping->dest_name = NULL;
 	ping->pid = getpid() & 0xffff;
+	ping->datalen = PING_PKT_S;
 	ping->sendbuf[0] = '\0';
 	ping->pr.sasend = NULL;
 	ping->pr.sacrecv = NULL;

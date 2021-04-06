@@ -12,5 +12,6 @@ int	set_socket(t_ping *ping)
 	}
 	size = 60 * 1024;
 	setsockopt (sock, SOL_SOCKET, SO_RCVBUF, &size, sizeof(size));
+	setsockopt(sock, IPPROTO_IP, IP_TTL, &ping->ttl, sizeof(ping->ttl));
 	return (sock);
 }

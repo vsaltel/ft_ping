@@ -2,7 +2,6 @@
 
 void	send_msg(void)
 {
-	int					ret;
 	int					len;
 	struct	icmp		*icmp;
 

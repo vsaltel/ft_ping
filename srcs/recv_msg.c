@@ -4,6 +4,7 @@ void	recv_msg(t_ping *ping, t_ping_pkt *pckt)
 {
 	ssize_t				recv_bytes;
 	char				*recv_ip;
+	double				rtt;
 
 	recv_bytes = recvfrom(ping->sockfd, pckt, sizeof(*pckt),
 		0, ping->pr.sacrecv, &ping->pr.salen);
@@ -17,9 +18,11 @@ void	recv_msg(t_ping *ping, t_ping_pkt *pckt)
 		ft_printf("From %s icmp_seq=%d Destination Host Unreachable\n", recv_ip, ping->msg_count);
 	else
 	{
+		rtt = ping->aft.tv_sec * 1000.0 + ping->aft.tv_usec / 1000.0;
+		rtt = rtt - (ping->bef.tv_sec * 1000.0 + ping->bef.tv_usec / 1000.0);
 		ft_printf("%d bytes from %s (%s): icmp_seq=%d ttl=%d time=%.2f ms\n",  
 			(int)recv_bytes, ping->dest_name, recv_ip, ping->msg_count,
-			PING_TTL, (float)(ping->aft.tv_usec - ping->bef.tv_usec) / 1000); 
+			PING_TTL, rtt/*(float)(ping->aft.tv_usec - ping->bef.tv_usec) / 1000*/); 
 		ping->msg_recv_count++;
 	}
 	free(recv_ip);

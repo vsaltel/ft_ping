@@ -38,6 +38,6 @@ void	print_final_stats(t_ping *ping)
 	ft_printf("%d packets transmitted, %d received, %d%% packet loss, time: %ld ms\n",
 		ping->msg_count, ping->msg_recv_count,
 		((ping->msg_count - ping->msg_recv_count)/ping->msg_count) * 100, total_time);
-	ft_printf("rtt min/avg/max/mdev = %f/%f/%f/%f ms\n",
+	ft_printf("rtt min/avg/max/mdev = %f/%f/%f/%5f ms\n",
 		ping->rtt_min, mean, ping->rtt_max, rtt_mdev);
 }

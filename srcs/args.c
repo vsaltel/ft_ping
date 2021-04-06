@@ -72,7 +72,6 @@ void			init_ping(t_ping *ping)
 	ping->msg_sent = 0;
 	ping->msg_count = 0;
 	ping->msg_recv_count = 0;
-	ping->total_stime = -1;
 	ping->dest_name = NULL;
 	ping->pid = getpid() & 0xffff;
 	ping->sendbuf[0] = '\0';

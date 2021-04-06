@@ -17,7 +17,7 @@ void	send_msg(void)
 	ip->ip_ttl = g_ping.ttl;
 	ip->ip_p = IPPROTO_ICMP;
 	ip->ip_sum = checksum((u_short *) ip, len);
-	ip->ip_dst = g_ping.dest_ip; 
+	ip->ip_dst = g_ping.pr.sasend; 
 
 	icmp = (struct icmp *)(g_ping.sendbuf + sizeof(ip));
 	icmp->icmp_type = ICMP_ECHO;

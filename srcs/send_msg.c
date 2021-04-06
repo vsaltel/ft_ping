@@ -3,7 +3,7 @@
 void	send_msg(void)
 {
 	int				len;
-	int				ret
+	int				ret;
 	struct	icmp	*icmp;
 
 	icmp = (struct icmp *)g_ping.sendbuf;

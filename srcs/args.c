@@ -69,6 +69,10 @@ void			init_ping(t_ping *ping)
 {
 	ping->v = 0;
 	ping->h = 0;
+	ping->rtt_min = -1;
+	ping->rtt_max = -1;
+	ping->rtt_sum = 0;
+	ping->rtt_sum_sq = 0;
 	ping->msg_sent = 0;
 	ping->msg_count = 0;
 	ping->msg_recv_count = 0;

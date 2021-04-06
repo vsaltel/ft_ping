@@ -35,6 +35,10 @@ typedef struct		s_ping
 	struct timeval		launch_time;
 	struct timeval		bef;
 	struct timeval		aft;
+	double				rtt_min;
+	double				rtt_max;
+	double				rtt_sum;
+	double				rtt_sum_sq;
 	int					msg_sent;
 	int					msg_count;
 	int					msg_recv_count;

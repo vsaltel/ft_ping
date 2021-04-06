@@ -16,6 +16,6 @@ void	print_final_stats(t_ping *ping)
 	rtt = rtt - (ping->launch_time.tv_sec * 1000.0 + ping->launch_time.tv_usec / 1000.0);
 	ft_printf("--- %s ping statistics ---\n", ping->dest_name);
 	ft_printf("%d packets transmitted, %d received, %d%% packet loss, time: %d ms\n",
-		ping->msg_count, ping->msg_recv_count,
-		((ping->msg_count - ping->msg_recv_count)/ping->msg_count) * 100, ping->total_stime / 1000);
+		ping->msg_count, ping->msg_recv_count, rtt
+		/*((ping->msg_count - ping->msg_recv_count)/ping->msg_count) * 100, ping->total_stime / 1000*/);
 }

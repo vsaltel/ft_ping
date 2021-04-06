@@ -1,7 +1,7 @@
 #ifndef PING_H
 # define PING_H
 
-# define OPTIONS "hv"
+# define OPTIONS "hvT"
 # define BUFSIZE 1500 
 # define PING_PKT_S 56
 # define IP_STR_SIZE 129
@@ -32,6 +32,7 @@ typedef struct		s_ping
 	int					state;
 	int					h;	
 	int					v;	
+	int					ttl;
 	struct timeval		launch_time;
 	struct timeval		bef;
 	struct timeval		aft;

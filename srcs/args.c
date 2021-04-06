@@ -1,6 +1,6 @@
 #include "ping.h"
 
-static void		set_opt(t_ping *ping, char o)
+static void		set_opt(t_ping *ping, char o, int *x)
 {
 	if (o == 'h')
 		ping->h = 1;
@@ -24,9 +24,14 @@ void			get_args(t_ping *ping, int ac, char **av)
 		if (av[n][0] && av[n][0] == '-')
 		{
 			x = 1;
+			if (o == 'T')
+			{
+				ping->tll = ft_atoi(av[++n]);
+				continue;
+			}
 			while (av[n][x])
 			{
-				set_opt(ping, av[n][x]);
+				set_opt(ping, av[n][x++], &x);
 				x++;
 			}
 		}
@@ -49,6 +54,19 @@ int				check_args(int ac, char **av)
 		if (av[n][0] && av[n][0] == '-')
 		{
 			x = 1;
+			if (av[n][1] == 'T')
+			{
+				if (n + 1 == ac)
+				{
+					ft_printf("ft_ping: option requires an argument -- 'T'\n");
+					return (1);
+				}
+				else if (ft_atoi(av[n + 1]) <= 0)
+				{
+					ft_printf("ping: can't set unicast time-to-live: Invalid argument\n");
+					return (1);
+				}
+			}
 			while (av[n][x])
 			{
 				if (!strchr(OPTIONS, av[n][x]))
@@ -69,6 +87,7 @@ void			init_ping(t_ping *ping)
 {
 	ping->v = 0;
 	ping->h = 0;
+	ping->ttl = PING_TTL;
 	ping->rtt_min = -1;
 	ping->rtt_max = -1;
 	ping->rtt_sum = 0;

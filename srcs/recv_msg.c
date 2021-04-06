@@ -13,7 +13,7 @@ static void	print_received(t_ping *ping, ssize_t recv_bytes, char *recv_ip)
 	ping->rtt_sum += time;	
 	ping->rtt_sum_sq += time * time;
 	ft_printf("%d bytes from %s (%s): icmp_seq=%d ttl=%d time=%.2f ms\n",
-		(int)recv_bytes, ping->dest_name, recv_ip, ping->msg_count, PING_TTL, time);
+		(int)recv_bytes, ping->dest_name, recv_ip, ping->msg_count, ping->ttl, time);
 	ping->msg_recv_count++;
 }
 

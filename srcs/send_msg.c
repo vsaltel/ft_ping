@@ -8,8 +8,18 @@ void	send_msg(void)
 	struct ip	*ip;
 
 	ip = (struct ip *)g_ping.sendbuf;
+	ip->ip_hl = 5;
+	ip->ip_v = 4;
+	ip->ip_tos = 0;
+	ip->ip_len = sizeof(struct ip) + sizeof(struct icmp)
+	ip->ip_id = g_ping.pid;
+	ip->ip_off = 0;
 	ip->ip_ttl = g_ping.ttl;
-	icmp = (struct icmp *)(g_ping.sendbuf + sizeof(struct ip));
+	ip->ip_p = IPPROTO_ICMP;
+	ip->ip_sum = checksum((u_short *) ip, len);
+	ip->ip_dst = ping->dest_ip; 
+
+	icmp = (struct icmp *)(g_ping.sendbuf + sizeof(ip));
 	icmp->icmp_type = ICMP_ECHO;
 	icmp->icmp_code = 0;
 	icmp->icmp_id = g_ping.pid;

@@ -32,7 +32,7 @@ void	send_msg(void)
 	gettimeofday((struct timeval *)icmp->icmp_data, NULL);
 		struct timeval *tmp;
 		tmp = (struct timeval *)icmp->icmp_data;
-		ft_printf("send len %ld usec %d\n", sizeof(icmp), tmp->tv_usec);
+		ft_printf("send len %ld usec %d\n", sizeof(*icmp), tmp->tv_usec);
 
 	len = 8 + g_ping.datalen;
 	icmp->icmp_cksum = 0;

@@ -30,8 +30,8 @@ void	send_msg(void)
 	ft_memset(icmp->icmp_data, 0xa5, g_ping.datalen);
 	gettimeofday(&g_ping.bef, NULL);
 	gettimeofday((struct timeval *)icmp->icmp_data, NULL);
-		struct timeval tmp;
-		tmp = (struct timeval)icmp->icmp_data;
+		struct timeval *tmp;
+		tmp = (struct timeval *)icmp->icmp_data;
 		ft_printf("send usec %d\n", tmp.tv_sec);
 
 	len = 8 + g_ping.datalen;

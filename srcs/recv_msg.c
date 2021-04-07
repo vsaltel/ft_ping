@@ -19,10 +19,8 @@ static void	print_received(t_ping *ping, t_ping_pkt *pckt, long recv_bytes, char
 	ping->rtt_sum += time;	
 	ping->rtt_sum_sq += time * time;
 	if (!ping->q)
-		else
 			ft_printf("%ld bytes from %s (%s): icmp_seq=%d ttl=%d time=%.2f ms\n",
 				recv_bytes, ping->dest_name, recv_ip, ping->msg_count, pckt->ip.ttl, time);
-	}
 }
 
 static void print_non_received(t_ping *ping, t_ping_pkt *pckt, long recv_bytes, char *recv_ip)

@@ -27,6 +27,7 @@ int	read_loop(t_ping *ping)
 	while (ping->state)
 	{
 		//pckt = set_pckt(ping);
+		ft_printf("msg bef recv addr %p\n", pckt.msg);
 		recv_msg(ping, &pckt);
 		ft_printf("msg recv addr %p\n", pckt.msg);
 		struct timeval *tmp;

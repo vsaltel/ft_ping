@@ -18,7 +18,7 @@ void	send_msg(void)
 	len = 8 + g_ping.datalen;
 	icmp->icmp_cksum = 0;
 	icmp->icmp_cksum = checksum((u_short *) icmp, len);
-		ft_printf("send len %ld %d\n", sizeof(struct timeval), len);
+		ft_printf("send len %ld %d\n", sizeof(icmp), len);
 	ret = sendto(g_ping.sockfd, g_ping.sendbuf, len, 0, g_ping.pr.sasend, g_ping.pr.salen);
 	if (ret)
 		g_ping.msg_sent++;

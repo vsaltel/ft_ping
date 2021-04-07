@@ -6,7 +6,7 @@ static t_ping_pkt	set_pckt(t_ping *ping)
 
     pckt.hdr.type = ICMP_ECHO;
     pckt.hdr.un.echo.id = ping->pid;
-    pckt.hdr.un.echo.sequence = ping->msg_count++;
+    pckt.hdr.un.echo.sequence = 
     pckt.hdr.checksum = checksum(&pckt, sizeof(pckt));
 	return (pckt);
 }
@@ -23,6 +23,7 @@ int	read_loop(t_ping *ping)
 	while (ping->state)
 	{
 		ft_bzero(&pckt, sizeof(pckt));
+		ping->msg_count++;
 		//pckt = set_pckt(ping);
 		recv_msg(ping, &pckt);
 		struct timeval *tmp;

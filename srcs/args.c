@@ -56,7 +56,7 @@ int				check_args(int ac, char **av)
 					ft_printf("ft_ping: option requires an argument -- 'T'\n");
 					return (1);
 				}
-				else if (ft_atoi(av[n]) <= 0 || ft_atoi(av[n]) > BUFSIZE)
+				else if (ft_atoi(av[n]) < 0 || ft_atoi(av[n]) > BUFSIZE)
 				{
 					ft_printf("ft_ping: illegal packet size\n");
 					return (1);

@@ -8,13 +8,7 @@ static t_ping_pkt	set_pckt(t_ping *ping)
 	ft_bzero(&pckt, sizeof(pckt));
     pckt.hdr.type = ICMP_ECHO;
     pckt.hdr.un.echo.id = ping->pid;
-	i = 0;
-    while (i < sizeof(pckt.msg) - 1)
-	{
-        pckt.msg[i] = i + '0';
-		i++;
-	}
-    pckt.msg[i] = 0;
+	pckt.msg = malloc(PING_PKT_S);	
     pckt.hdr.un.echo.sequence = ping->msg_count++;
     pckt.hdr.checksum = checksum(&pckt, sizeof(pckt));
 	return (pckt);
@@ -33,6 +27,7 @@ int	read_loop(t_ping *ping)
 	{
 		pckt = set_pckt(ping);
 		recv_msg(ping, &pckt);
+		free(pckt.msg);
 	}
 	print_final_stats(ping);
 	return (0);

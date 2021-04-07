@@ -7,7 +7,6 @@ static t_ping_pkt	set_pckt(t_ping *ping)
 	ft_bzero(&pckt, sizeof(pckt));
     pckt.hdr.type = ICMP_ECHO;
     pckt.hdr.un.echo.id = ping->pid;
-	pckt.msg = malloc(PING_PKT_S);	
     pckt.hdr.un.echo.sequence = ping->msg_count++;
     pckt.hdr.checksum = checksum(&pckt, sizeof(pckt));
 	return (pckt);

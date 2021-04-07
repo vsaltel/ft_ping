@@ -12,18 +12,22 @@ static void	print_received(t_ping *ping, t_ping_pkt *pckt, long recv_bytes, char
 		ping->rtt_max = time;
 	ping->rtt_sum += time;	
 	ping->rtt_sum_sq += time * time;
-	ft_printf("%ld bytes from %s (%s): icmp_seq=%d ttl=%d time=%.2f ms\n",
-		recv_bytes, ping->dest_name, recv_ip, ping->msg_count, pckt->ip.ttl, time);
+	if (!ping->q)
+		ft_printf("%ld bytes from %s (%s): icmp_seq=%d ttl=%d time=%.2f ms\n",
+			recv_bytes, ping->dest_name, recv_ip, ping->msg_count, pckt->ip.ttl, time);
 }
 
 static void print_non_received(t_ping *ping, t_ping_pkt *pckt, long recv_bytes, char *recv_ip)
 {
-	if (ping->v)
-		ft_printf(" %ld bytes from %s (%s): type = %d, code = %d\n",
-			recv_bytes, ping->dest_name, recv_ip, pckt->hdr.type, pckt->hdr.code);
-	else
-		ft_printf("From %s icmp_seq=%d Destination Host Unreachable\n",
-			recv_ip, ping->msg_count);
+	if (!ping->q)
+	{
+		if (ping->v)
+			ft_printf(" %ld bytes from %s (%s): type = %d, code = %d\n",
+				recv_bytes, ping->dest_name, recv_ip, pckt->hdr.type, pckt->hdr.code);
+		else
+			ft_printf("From %s icmp_seq=%d Destination Host Unreachable\n",
+				recv_ip, ping->msg_count);
+	}
 }
 
 void	recv_msg(t_ping *ping, t_ping_pkt *pckt)
@@ -37,13 +41,10 @@ void	recv_msg(t_ping *ping, t_ping_pkt *pckt)
 	gettimeofday(&ping->aft, NULL);
 	recv_ip = set_inetaddr(ping->pr.sacrecv);
 	recv_bytes = ret - sizeof(pckt->ip);
-	if (!ping->q)
-	{
-		if (ret <= 0 || pckt->hdr.code != 0)
-			print_non_received(ping, pckt, recv_bytes, recv_ip);
-		else
-			print_received(ping, pckt, recv_bytes, recv_ip);
-	}
+	if (ret <= 0 || pckt->hdr.code != 0)
+		print_non_received(ping, pckt, recv_bytes, recv_ip);
+	else
+		print_received(ping, pckt, recv_bytes, recv_ip);
 	if (ret > 0)
 		ping->msg_recv_count++;
 	free(recv_ip);

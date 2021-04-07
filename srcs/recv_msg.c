@@ -4,6 +4,12 @@ static void	print_received(t_ping *ping, t_ping_pkt *pckt, long recv_bytes, char
 {
 	double	time;
 
+	if (pckt->hdr.type != ICMP_ECHOREPLY)
+	{
+		ft_printf("From %s (%s): icmp_seq=%d Time exceeded: Hop limit \n",
+			ping->dest_name, recv_ip, ping->msg_count);
+		return ;
+	}
 	time = (ping->aft.tv_sec * 1000.0 + ping->aft.tv_usec) / 1000.0;
 	time = time - ((ping->bef.tv_sec * 1000.0 + ping->bef.tv_usec) / 1000.0);
 	if (ping->rtt_min > time || ping->rtt_min == -1)
@@ -13,10 +19,6 @@ static void	print_received(t_ping *ping, t_ping_pkt *pckt, long recv_bytes, char
 	ping->rtt_sum += time;	
 	ping->rtt_sum_sq += time * time;
 	if (!ping->q)
-	{
-		if (pckt->hdr.type != ICMP_ECHOREPLY)
-			ft_printf("From %s (%s): icmp_seq=%d Time exceeded: Hop limit \n",
-				ping->dest_name, recv_ip, ping->msg_count);
 		else
 			ft_printf("%ld bytes from %s (%s): icmp_seq=%d ttl=%d time=%.2f ms\n",
 				recv_bytes, ping->dest_name, recv_ip, ping->msg_count, pckt->ip.ttl, time);

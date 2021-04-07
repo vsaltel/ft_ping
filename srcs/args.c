@@ -21,6 +21,11 @@ void			get_args(t_ping *ping, int ac, char **av)
 				ping->ttl = ft_atoi(av[++n]);
 				continue;
 			}
+			if (av[n][x] == 's')
+			{
+				ping->datalen = ft_atoi(av[++n]);
+				continue;
+			}
 			if (av[n][x] == 'h')
 				ping->h = 1;
 			else if (av[n][x] == 'v')
@@ -44,6 +49,20 @@ int				check_args(int ac, char **av)
 		if (av[n][0] && av[n][0] == '-')
 		{
 			x = 1;
+			if (av[n][1] == 's' && av[n][2] == '\0')
+			{
+				if (++n == ac)
+				{
+					ft_printf("ft_ping: option requires an argument -- 'T'\n");
+					return (1);
+				}
+				else if (ft_atoi(av[n]) <= 0 || ft_atoi(av[n]) > BUFSIZE)
+				{
+					ft_printf("ft_ping: illegal packet size\n");
+					return (1);
+				}
+				continue;
+			}
 			if (av[n][1] == 't' && av[n][2] == '\0')
 			{
 				if (++n == ac)

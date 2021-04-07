@@ -56,6 +56,7 @@ extern t_ping		g_ping;
 
 typedef struct		s_ping_pkt
 {
+	struct			iphdr	ip;
 	struct			icmphdr hdr;
 	char			msg[PING_PKT_S-sizeof(struct icmphdr)];
 }					t_ping_pkt;

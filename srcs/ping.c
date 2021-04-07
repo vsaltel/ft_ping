@@ -3,7 +3,6 @@
 static t_ping_pkt	set_pckt(t_ping *ping)
 {
 	t_ping_pkt			pckt;
-	long unsigned int	i;
 
 	ft_bzero(&pckt, sizeof(pckt));
     pckt.hdr.type = ICMP_ECHO;
@@ -25,9 +24,9 @@ int	read_loop(t_ping *ping)
 	signal(SIGINT, &catch_sigint);
 	while (ping->state)
 	{
-		pckt = set_pckt(ping);
+		//pckt = set_pckt(ping);
 		recv_msg(ping, &pckt);
-		free(pckt.msg);
+		//free(pckt.msg);
 	}
 	print_final_stats(ping);
 	return (0);

@@ -28,8 +28,8 @@ int	read_loop(t_ping *ping)
 		//pckt = set_pckt(ping);
 		recv_msg(ping, &pckt);
 		struct timeval tmp;
-		tmp = (struct timeval)pckt.msg;
-		ft_printf("recv sec %d\n", tmp.tv_sec);
+		tmp = (struct timeval)*(pckt.msg);
+		ft_printf("recv usec %d\n", tmp.tv_usec);
 	}
 	free(pckt.msg);
 	print_final_stats(ping);

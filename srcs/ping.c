@@ -30,8 +30,8 @@ int	read_loop(t_ping *ping)
 		ft_printf("msg bef recv addr %p\n", pckt.msg);
 		recv_msg(ping, &pckt);
 		ft_printf("msg recv addr %p\n", pckt.msg);
-		struct timeval *tmp;
-		tmp = (struct timeval *)pckt.msg;
+		struct timeval tmp;
+		tmp = (struct timeval)pckt.msg;
 		ft_printf("recv usec %d\n", tmp->tv_usec);
 	}
 	free(pckt.msg);

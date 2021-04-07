@@ -35,6 +35,8 @@ void			get_args(t_ping *ping, int ac, char **av)
 				ping->h = 1;
 			else if (av[n][x] == 'v')
 				ping->v = 1;
+			else if (av[n][x] == 'q')
+				ping->q = 1;
 		}
 		else
 			ping->dest_name = strdup(av[n]);
@@ -115,6 +117,7 @@ void			init_ping(t_ping *ping)
 {
 	ping->v = 0;
 	ping->h = 0;
+	ping->q = 0;
 	ping->ttl = PING_TTL;
 	ping->count_max = -1;
 	ping->rtt_min = -1;

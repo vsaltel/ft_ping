@@ -14,7 +14,7 @@ static void	print_received(t_ping *ping, t_ping_pkt *pckt, long recv_bytes, char
 	ping->rtt_sum_sq += time * time;
 	if (!ping->q)
 	{
-		if (icmp->icmp_type != ICMP_ECHOREPLY)
+		if (pckt->hdr.type != ICMP_ECHOREPLY)
 			ft_printf("From %s (%s): icmp_seq=%d Time exceeded: Hop limit \n",
 				ping->dest_name, recv_ip, ping->msg_count);
 		else

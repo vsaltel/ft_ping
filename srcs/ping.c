@@ -22,12 +22,16 @@ int	read_loop(t_ping *ping)
 	ping->state = 1;
 	catch_sigalrm(SIGALRM);	
 	signal(SIGINT, &catch_sigint);
+	pckt.msg = malloc(PING_PKT_S);	
 	while (ping->state)
 	{
 		//pckt = set_pckt(ping);
 		recv_msg(ping, &pckt);
-		//free(pckt.msg);
+		struct timeval tmp;
+		tmp = (struct timeval)pckt.msg;
+		ft_printf("recv sec %d\n", tmp.tv_sec);
 	}
+	free(pckt.msg);
 	print_final_stats(ping);
 	return (0);
 }

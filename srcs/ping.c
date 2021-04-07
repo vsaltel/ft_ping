@@ -9,11 +9,12 @@ int	read_loop(t_ping *ping)
 	ping->state = 1;
 	catch_sigalrm(SIGALRM);	
 	signal(SIGINT, &catch_sigint);
-	while (ping->state)
+	while (ping->state || !ping->count_max)
 	{
 		ft_bzero(&pckt, sizeof(pckt));
-		ping->msg_count++;
 		recv_msg(ping, &pckt);
+		ping->msg_count++;
+		ping->count_max--;
 	}
 	print_final_stats(ping);
 	return (0);

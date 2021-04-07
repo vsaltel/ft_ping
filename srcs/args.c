@@ -26,6 +26,11 @@ void			get_args(t_ping *ping, int ac, char **av)
 				ping->datalen = ft_atoi(av[++n]);
 				continue;
 			}
+			if (av[n][x] == 'c')
+			{
+				ping->count_max = ft_atoi(av[++n]);
+				continue;
+			}
 			if (av[n][x] == 'h')
 				ping->h = 1;
 			else if (av[n][x] == 'v')
@@ -53,7 +58,7 @@ int				check_args(int ac, char **av)
 			{
 				if (++n == ac)
 				{
-					ft_printf("ft_ping: option requires an argument -- 'T'\n");
+					ft_printf("ft_ping: option requires an argument -- 's'\n");
 					return (1);
 				}
 				else if (ft_atoi(av[n]) < 0 || ft_atoi(av[n]) > BUFSIZE)
@@ -67,12 +72,26 @@ int				check_args(int ac, char **av)
 			{
 				if (++n == ac)
 				{
-					ft_printf("ft_ping: option requires an argument -- 'T'\n");
+					ft_printf("ft_ping: option requires an argument -- 't'\n");
 					return (1);
 				}
 				else if (ft_atoi(av[n]) <= 0 || ft_atoi(av[n]) > 100000)
 				{
 					ft_printf("ft_ping: can't set unicast time-to-live: Invalid argument\n");
+					return (1);
+				}
+				continue;
+			}
+			if (av[n][1] == 'c' && av[n][2] == '\0')
+			{
+				if (++n == ac)
+				{
+					ft_printf("ft_ping: option requires an argument -- 'c'\n");
+					return (1);
+				}
+				else if (ft_atoi(av[n]) <= 0)
+				{
+					ft_printf("ft_ping: bad number of packets to transmit.\n");
 					return (1);
 				}
 				continue;
@@ -97,6 +116,7 @@ void			init_ping(t_ping *ping)
 	ping->v = 0;
 	ping->h = 0;
 	ping->ttl = PING_TTL;
+	ping->count_max = -1;
 	ping->rtt_min = -1;
 	ping->rtt_max = -1;
 	ping->rtt_sum = 0;
@@ -115,7 +135,7 @@ void			init_ping(t_ping *ping)
 
 void			print_usage(void)
 {
-	ft_printf("usage: ft_ping [-%s] host\n", OPTIONS);
+	ft_printf("usage: ft_ping [-%s] [-s packetsize] [-t ttl] host\n", OPTIONS);
 }
 
 void			print_args(t_ping ping)

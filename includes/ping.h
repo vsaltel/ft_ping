@@ -33,6 +33,7 @@ typedef struct		s_ping
 	int					h;	
 	int					v;	
 	int					ttl;
+	int					count_max;
 	struct timeval		launch_time;
 	struct timeval		bef;
 	struct timeval		aft;

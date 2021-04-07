@@ -53,7 +53,7 @@ void	recv_msg(t_ping *ping, t_ping_pkt *pckt)
 		print_non_received(ping, pckt, recv_bytes, recv_ip);
 	else
 		print_received(ping, pckt, recv_bytes, recv_ip);
-	if (ret > 0)
+	if (ret > 0 && pckt->hdr.type == ICMP_ECHOREPLY)
 		ping->msg_recv_count++;
 	free(recv_ip);
 }

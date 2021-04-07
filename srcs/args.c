@@ -21,9 +21,9 @@ void			get_args(t_ping *ping, int ac, char **av)
 				ping->ttl = ft_atoi(av[++n]);
 				continue;
 			}
-			if (o == 'h')
+			if (av[n][x] == 'h')
 				ping->h = 1;
-			else if (o == 'v')
+			else if (av[n][x] == 'v')
 				ping->v = 1;
 		}
 		else

@@ -79,7 +79,7 @@ int				check_args(int ac, char **av)
 					ft_printf("ft_ping: option requires an argument -- 't'\n");
 					return (1);
 				}
-				else if (ft_atoi(av[n]) <= 0 || ft_atoi(av[n]) > 100000)
+				else if (ft_atoi(av[n]) <= 0 || ft_atoi(av[n]) > 255)
 				{
 					ft_printf("ft_ping: can't set unicast time-to-live: Invalid argument\n");
 					return (1);

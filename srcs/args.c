@@ -1,13 +1,5 @@
 #include "ping.h"
 
-static void		set_opt(t_ping *ping, char o)
-{
-	if (o == 'h')
-		ping->h = 1;
-	else if (o == 'v')
-		ping->v = 1;
-}
-
 void			free_args(t_ping *ping)
 {
 	free(ping->dest_name);
@@ -18,8 +10,8 @@ void			get_args(t_ping *ping, int ac, char **av)
 	int		n;
 	int		x;
 
-	n = 1;
-	while (n < ac)
+	n = 0;
+	while (++n < ac)
 	{
 		if (av[n][0] && av[n][0] == '-')
 		{
@@ -29,15 +21,13 @@ void			get_args(t_ping *ping, int ac, char **av)
 				ping->ttl = ft_atoi(av[++n]);
 				continue;
 			}
-			while (av[n][x])
-			{
-				set_opt(ping, av[n][x++]);
-				x++;
-			}
+			if (o == 'h')
+				ping->h = 1;
+			else if (o == 'v')
+				ping->v = 1;
 		}
 		else
 			ping->dest_name = strdup(av[n]);
-		n++;
 	}
 }
 
@@ -48,25 +38,24 @@ int				check_args(int ac, char **av)
 	int		dest;
 
 	dest = 0;
-	n = 1;
-	while (n < ac)
+	n = 0;
+	while (++n < ac)
 	{
 		if (av[n][0] && av[n][0] == '-')
 		{
 			x = 1;
-			if (av[n][1] == 'T')
+			if (av[n][1] == 'T' && av[n][2] == '\0')
 			{
-				if (n + 1 == ac)
+				if (++n == ac)
 				{
 					ft_printf("ft_ping: option requires an argument -- 'T'\n");
 					return (1);
 				}
-				else if (ft_atoi(av[n + 1]) <= 0)
+				else if (ft_atoi(av[n]) <= 0)
 				{
 					ft_printf("ft_ping: can't set unicast time-to-live: Invalid argument\n");
 					return (1);
 				}
-				n++;
 				continue;
 			}
 			while (av[n][x])
@@ -78,7 +67,6 @@ int				check_args(int ac, char **av)
 		}
 		else if (++dest > 1)
 			return (1);
-		n++;
 	}
 	if (!dest)
 		return (1);

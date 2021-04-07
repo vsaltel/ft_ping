@@ -29,7 +29,8 @@ void	send_msg(void)
 	icmp->icmp_seq = g_ping.msg_sent;
 	ft_memset(icmp->icmp_data, 0xa5, g_ping.datalen);
 	gettimeofday(&g_ping.bef, NULL);
-	gettimeofday((struct timeval *)icmp->icmp_data, NULL);
+	icmp->icmp_data = malloc(50);
+	//gettimeofday((struct timeval *)icmp->icmp_data, NULL);
 		struct timeval *tmp;
 		tmp = (struct timeval *)icmp->icmp_data;
 		ft_printf("send len %ld usec %d\n", sizeof(struct timeval), tmp->tv_usec);

@@ -25,7 +25,6 @@ int	read_loop(t_ping *ping)
 	{
 		//pckt = set_pckt(ping);
 		recv_msg(ping, &pckt);
-		ft_printf("msg size %ld\n", sizeof(*(pckt.msg)));
 		struct timeval *tmp;
 		tmp = (struct timeval *)&pckt.msg;
 		ft_printf("recv usec %d\n", tmp->tv_usec);

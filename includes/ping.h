@@ -58,7 +58,7 @@ typedef struct		s_ping_pkt
 {
 	struct			iphdr	ip;
 	struct			icmphdr hdr;
-	char			msg[BUFSIZE];
+	char			*msg;
 }					t_ping_pkt;
 
 int				ping(t_ping *ping);

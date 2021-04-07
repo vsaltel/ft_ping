@@ -41,6 +41,8 @@ void	recv_msg(t_ping *ping, t_ping_pkt *pckt)
 	gettimeofday(&ping->aft, NULL);
 	recv_ip = set_inetaddr(ping->pr.sacrecv);
 	recv_bytes = ret - sizeof(pckt->ip);
+	if (!ping->q && ping->d)
+		ft_printf("[%d.%d] \n", ping->aft.u_sec, ping->aft.u_usec);
 	if (ret <= 0 || pckt->hdr.code != 0)
 		print_non_received(ping, pckt, recv_bytes, recv_ip);
 	else

@@ -27,7 +27,7 @@ void	recv_msg(t_ping *ping, t_ping_pkt *pckt)
 		0, ping->pr.sacrecv, &ping->pr.salen);
 	gettimeofday(&ping->aft, NULL);
 	recv_ip = set_inetaddr(ping->pr.sacrecv);
-	recv_bytes = sizeof(pckt->hdr) + sizeof(pckt->msg);
+	recv_bytes = ret - sizeof(pckt->ip);
 	if (ret <= 0 || pckt->hdr.code != 0)
 	{
 		if (ping->v)

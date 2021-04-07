@@ -1,7 +1,7 @@
 #ifndef PING_H
 # define PING_H
 
-# define OPTIONS "hv"
+# define OPTIONS "hvq"
 # define BUFSIZE 1500 
 # define PING_PKT_S 56
 # define IP_STR_SIZE 129

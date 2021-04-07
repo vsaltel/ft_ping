@@ -26,7 +26,6 @@ int	ping(t_ping *ping)
 	int				sock;
 	int				ret;
 
-
 	signal(SIGALRM, &catch_sigalrm);
 	gettimeofday(&ping->launch_time, NULL);
 	ping->bef = ping->launch_time;

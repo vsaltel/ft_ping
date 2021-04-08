@@ -19,7 +19,7 @@ int	check_options(t_ping *ping)
 		ft_printf("ft_ping: illegal packet size\n");
 		return (1);
 	}
-	else if (ping->count_max <= 0)
+	else if (ping->count_max <= 0 && ping->count_max != -1)
 	{
 		ft_printf("ft_ping: bad number of packets to transmit.\n");
 		return (1);

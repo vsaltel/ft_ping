@@ -7,7 +7,7 @@ void	free_args(t_ping *ping)
 	free(ping->pr.sacrecv);
 }
 
-int	check_option(t_ping *ping)
+int	check_options(t_ping *ping)
 {
 	if (ping->ttl <= 0 || ping->ttl > 255)
 	{
@@ -37,15 +37,15 @@ int	set_option(t_ping *ping, int ac, char **av, int *n)
 		ping->ttl = ft_atoi(av[++(*n)]);
 	else if (av[*n][1] == 's')
 		ping->datalen = ft_atoi(av[++(*n)]);
-	else if (av[n][1] == 'c')
+	else if (av[*n][1] == 'c')
 		ping->count_max = ft_atoi(av[++(*n)]);
-	else if (av[n][1] == 'h')
+	else if (av[*n][1] == 'h')
 		ping->h = 1;
-	else if (av[n][1] == 'v')
+	else if (av[*n][1] == 'v')
 		ping->v = 1;
-	else if (av[n][1] == 'q')
+	else if (av[*n][1] == 'q')
 		ping->q = 1;
-	else if (av[n][1] == 'D')
+	else if (av[*n][1] == 'D')
 		ping->d = 1;
 	else
 	{
@@ -74,6 +74,11 @@ int	get_args(t_ping *ping, int ac, char **av)
 		}
 		else
 			ping->dest_name = strdup(av[n]);
+	}
+	if (check_options(ping))
+	{
+		print_usage();
+		return (1);
 	}
 	return (0);
 }

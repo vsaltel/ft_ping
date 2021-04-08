@@ -47,7 +47,7 @@ int	set_option(t_ping *ping, char **av, int *n, int x)
 		ping->d = 1;
 	else
 	{
-		ft_dprintf(2, "ft_ping: invalid option -- '%c'\n", av[*n][1]);
+		ft_dprintf(2, "ft_ping: invalid option -- '%c'\n", av[*n][x]);
 		return (1);
 	}
 	return (0);
@@ -66,16 +66,14 @@ int	set_option_loop(t_ping *ping, int ac, char **av, int *n)
 				return (1);
  			if (*n + 1 == ac)
 			{
-				ft_dprintf(2, "ft_ping: option requires an argument -- '%c'\n", av[*n][1]);
+				ft_dprintf(2, "ft_ping: option requires an argument -- '%c'\n", av[*n][x]);
 				return (1);
 			}
-			set_option(ping, av, n, x);
-			return (0);
+			return (set_option(ping, av, n, x))
 		}
 		if (set_option(ping, av, n, x))
 			return (1);
 	}
-	ft_printf("there\n");
 	return (0);
 }
 

@@ -32,7 +32,6 @@ int	ping(t_ping *ping)
 	if (!(res = reverse_dns_info(ping->dest_name, NULL, AF_INET, 0)))
 		return (-2);
 	ping->dest_ip = set_inetaddr(res->ai_addr);
-	ping->fqdn = fqdn_info(res->ai_addr);
 	ft_printf("FT_PING %s (%s) %d(%d) data bytes\n",
 		res->ai_canonname ? res->ai_canonname : ping->dest_name,
 		ping->dest_ip, ping->datalen, ping->datalen + sizeof(struct iphdr) + sizeof(struct icmphdr));

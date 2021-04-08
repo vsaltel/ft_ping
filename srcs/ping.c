@@ -11,13 +11,13 @@ int	read_loop(t_ping *ping)
 	signal(SIGINT, &catch_sigint);
 	while (ping->state && ping->count_max)
 	{
-	ft_printf("alloc %p\n", ping->dest_ip);	
 		ft_bzero(&pckt, sizeof(pckt));
 		recv_msg(ping, &pckt);
 		ping->msg_count++;
 		ping->count_max--;
 	}
 	print_final_stats(ping);
+	ft_printf("alloc %p\n", ping->dest_ip);	
 	return (0);
 }
 
@@ -33,6 +33,7 @@ int	ping(t_ping *ping)
 	if (!(res = reverse_dns_info(ping->dest_name, NULL, AF_INET, 0)))
 		return (-2);
 	ping->dest_ip = set_inetaddr(res->ai_addr);
+	ft_printf("first %p\n", ping->dest_ip);	
 	ft_printf("FT_PING %s (%s) %d(%d) data bytes\n",
 		res->ai_canonname ? res->ai_canonname : ping->dest_name,
 		ping->dest_ip, ping->datalen, ping->datalen + sizeof(struct iphdr) + sizeof(struct icmphdr));

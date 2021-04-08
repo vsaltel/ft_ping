@@ -1,6 +1,6 @@
 #include "ping.h"
 
-int	read_loop(t_ping *ping)
+static int	read_loop(t_ping *ping)
 {
 	t_ping_pkt	pckt;
 
@@ -21,31 +21,42 @@ int	read_loop(t_ping *ping)
 	return (0);
 }
 
+static addrinfo	*get_addr_info(t_ping *ping)
+{
+	struct addrinfo	*info;
+
+	info = reverse_dns_info(ping->dest_name, NULL, AF_INET, 0);
+	if (!info)
+		return (NULL);
+	ping->dest_ip = set_inetaddr(info->ai_addr);
+	ft_printf("FT_PING %s (%s) %d(%d) data bytes\n",
+		info->ai_canonname ? info->ai_canonname : ping->dest_name,
+		ping->dest_ip, ping->datalen,
+		ping->datalen + sizeof(struct iphdr) + sizeof(struct icmphdr));
+	if (info->ai_family != AF_INET)
+		return (NULL);
+}
+
 int	ping(t_ping *ping)
 {
-	struct addrinfo	*res;
+	struct addrinfo	*info;
 	int				sock;
 	int				ret;
 
 	signal(SIGALRM, &catch_sigalrm);
 	gettimeofday(&ping->launch_time, NULL);
 	ping->bef = ping->launch_time;
-	if (!(res = reverse_dns_info(ping->dest_name, NULL, AF_INET, 0)))
+	info = get_addr_info(ping);
+	if (!info)
 		return (-2);
-	ping->dest_ip = set_inetaddr(res->ai_addr);
-	ft_printf("FT_PING %s (%s) %d(%d) data bytes\n",
-		res->ai_canonname ? res->ai_canonname : ping->dest_name,
-		ping->dest_ip, ping->datalen,
-		ping->datalen + sizeof(struct iphdr) + sizeof(struct icmphdr));
-	if (res->ai_family != AF_INET)
-		return (-3);
-	ping->pr.sasend = res->ai_addr;
-	ping->pr.sacrecv = malloc(res->ai_addrlen);
-	ft_bzero(ping->pr.sacrecv, res->ai_addrlen);
-	ping->pr.salen = res->ai_addrlen;
-	if ((sock = set_socket(ping)) < 0)
+	ping->pr.sasend = info->ai_addr;
+	ping->pr.sacrecv = malloc(info->ai_addrlen);
+	ft_bzero(ping->pr.sacrecv, info->ai_addrlen);
+	ping->pr.salen = info->ai_addrlen;
+	sock = set_socket(ping);
+	if (socket < 0)
 		return (-4);
 	ret = read_loop(ping);
-	freeaddrinfo(res);
+	freeaddrinfo(info);
 	return (ret);
 }

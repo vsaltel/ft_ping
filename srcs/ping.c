@@ -17,7 +17,6 @@ int	read_loop(t_ping *ping)
 		ping->count_max--;
 	}
 	print_final_stats(ping);
-	ft_printf("alloc %p\n", ping->dest_ip);	
 	return (0);
 }
 
@@ -47,5 +46,6 @@ int	ping(t_ping *ping)
 		return (-4);
 	ret = read_loop(ping);
 	freeaddrinfo(res);
+	ft_printf("alloc %p\n", ping->dest_ip);	
 	return (ret);
 }

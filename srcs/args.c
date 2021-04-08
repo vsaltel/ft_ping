@@ -4,6 +4,7 @@ void			free_args(t_ping *ping)
 {
 	ft_printf("free %p\n", ping->dest_name);
 	free(ping->dest_name);
+	free(ping->pr.sacrecv);
 }
 
 void			get_args(t_ping *ping, int ac, char **av)

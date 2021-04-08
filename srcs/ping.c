@@ -34,7 +34,7 @@ int	ping(t_ping *ping)
 	ping->dest_ip = set_inetaddr(res->ai_addr);
 
 	char buf[BUFSIZE];
-	len = sizeof(struct sockaddr_in);
+	socklen_t len = sizeof(struct sockaddr_in);
     if (getnameinfo(res->ai_addr, len, buf, sizeof(buf), NULL, 0, NI_NAMEREQD))
         printf("could not resolve hostname\n");
     else

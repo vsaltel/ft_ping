@@ -35,6 +35,7 @@ static struct addrinfo	*get_addr_info(t_ping *ping)
 		ping->datalen + sizeof(struct iphdr) + sizeof(struct icmphdr));
 	if (info->ai_family != AF_INET)
 		return (NULL);
+	return (info);
 }
 
 int	ping(t_ping *ping)
@@ -54,7 +55,7 @@ int	ping(t_ping *ping)
 	ft_bzero(ping->pr.sacrecv, info->ai_addrlen);
 	ping->pr.salen = info->ai_addrlen;
 	sock = set_socket(ping);
-	if (socket < 0)
+	if (sock < 0)
 		return (-4);
 	ret = read_loop(ping);
 	freeaddrinfo(info);

@@ -60,7 +60,7 @@ int	set_option_loop(t_ping *ping, int ac, char **av, int *n)
 	x = 0;
 	while (av[*n][++x])
 	{
-		if (av[*n][1] == 't' || av[*n][1] == 's' || av[*n][1] == 'c')
+		if (av[*n][x] == 't' || av[*n][x] == 's' || av[*n][x] == 'c')
 		{
 			if (av[*n][x + 1])
 				return (1);

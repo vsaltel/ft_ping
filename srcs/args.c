@@ -34,7 +34,7 @@ int	set_option(t_ping *ping, int ac, char **av, int *n)
 		return (1);
 	}
 	if (av[*n][1] == 't')
-		ping->ttl = ft_atoi(av[++*(n)]);
+		ping->ttl = ft_atoi(av[++(*n)]);
 	else if (av[*n][1] == 's')
 		ping->datalen = ft_atoi(av[++(*n)]);
 	else if (av[*n][1] == 'c')
@@ -62,11 +62,10 @@ int	get_args(t_ping *ping, int ac, char **av)
 	n = 0;
 	while (++n < ac)
 	{
-		if (av[n][0] && av[n][0] == '-' &&
-			set_option(ping, ac, av, &n))
+		if (av[n][0] && av[n][0] == '-')
 		{
-			ft_printf("there");
-			return (1);
+			if (set_option(ping, ac, av, &n))
+				return (1);
 		}
 		else if (ping->dest_name)
 			return (1);

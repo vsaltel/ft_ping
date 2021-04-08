@@ -62,7 +62,7 @@ int	ft_ret(char **line, char **tmp, int new)
 
 int	get_next_line(const int fd, char **line)
 {
-	static char	*tmp[OPEN_MAX + 1];
+	static char	*tmp[1000];
 	char		*old;
 	char		buff[BUFF_SIZE + 1];
 	int			new;

@@ -10,8 +10,8 @@ static void	print_received(t_ping *ping, t_ping_pkt *pckt, long recv_bytes, char
 			ping->dest_name, recv_ip, ping->msg_count);
 		return ;
 	}
-	time = (ping->aft.tv_sec * 1000.0 + ping->aft.tv_usec) / 1000.0;
-	time = time - ((ping->bef.tv_sec * 1000.0 + ping->bef.tv_usec) / 1000.0);
+	time = ping->aft.tv_sec * 1000.0 + ping->aft.tv_usec / 1000.0;
+	time = time - (ping->bef.tv_sec * 1000.0 + ping->bef.tv_usec / 1000.0);
 	if (ping->rtt_min > time || ping->rtt_min == -1)
 		ping->rtt_min = time;
 	if (ping->rtt_max < time || ping->rtt_max == -1)

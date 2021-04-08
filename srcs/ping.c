@@ -29,7 +29,7 @@ static struct addrinfo	*get_addr_info(t_ping *ping)
 	if (!info)
 		return (NULL);
 	ping->dest_ip = set_inetaddr(info->ai_addr);
-	ft_printf("FT_PING %s (%s) %d(%d) bytes of data.\n",
+	ft_printf("FT_PING %s (%s) %d(%d) data bytes\n",
 		info->ai_canonname ? info->ai_canonname : ping->dest_name,
 		ping->dest_ip, ping->datalen,
 		ping->datalen + sizeof(struct iphdr) + sizeof(struct icmphdr));

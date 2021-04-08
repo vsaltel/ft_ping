@@ -60,7 +60,6 @@ int	set_option_loop(t_ping *ping, int ac, char **av, int *n)
 	x = 0;
 	while (av[*n][++x])
 	{
-		ft_printf("ooo %c\n", av[*n][x]);
 		if (av[*n][1] == 't' || av[*n][1] == 's' || av[*n][1] == 'c')
 		{
 			if (av[*n][x + 1])
@@ -70,10 +69,13 @@ int	set_option_loop(t_ping *ping, int ac, char **av, int *n)
 				ft_dprintf(2, "ft_ping: option requires an argument -- '%c'\n", av[*n][1]);
 				return (1);
 			}
+			set_option(ping, av, n, x);
+			return (0);
 		}
 		if (set_option(ping, av, n, x))
 			return (1);
 	}
+	ft_printf("there\n");
 	return (0);
 }
 

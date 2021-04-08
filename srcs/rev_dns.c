@@ -6,10 +6,9 @@ char	*fqdn_info(struct sockaddr *addr)
 	socklen_t	len;
 
 	len = sizeof(struct sockaddr_in);
-    if (getnameinfo(res->ai_addr, len, buf, sizeof(buf), NULL, 0, NI_NAMEREQD))
+    if (getnameinfo(addr, len, buf, sizeof(buf), NULL, 0, NI_NAMEREQD))
 		return (ft_strdup(buf));
-    else
-		return (NULL);
+	return (NULL);
 }
 
 struct addrinfo	*reverse_dns_info(char *host, char *serv, int family, int socktype)

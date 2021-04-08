@@ -76,6 +76,7 @@ int				check_args(int ac, char **av);
 char			*set_inetaddr(struct sockaddr *sa);
 void			free_args(t_ping *ping);
 struct addrinfo	*reverse_dns_info(char *host, char *serv, int family, int socktype);
+char			*fqdn_info(struct sockaddr *addr)
 
 void			print_final_stats(t_ping *ping);
 void			print_usage(void);

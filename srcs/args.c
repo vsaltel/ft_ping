@@ -3,7 +3,6 @@
 void			free_args(t_ping *ping)
 {
 	free(ping->dest_name);
-	free(ping->fqdn);
 }
 
 void			get_args(t_ping *ping, int ac, char **av)

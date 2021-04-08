@@ -25,7 +25,8 @@ FILES	=	main.c				\
 			utils.c				\
 			print.c				\
 			signal.c			\
-			args.c
+			args.c				\
+			args_utils.c
 
 SRCS	=	$(addprefix $(SRCDIR)/, $(FILES))
 OBJS	=	$(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)

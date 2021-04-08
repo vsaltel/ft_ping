@@ -21,7 +21,7 @@ static int	read_loop(t_ping *ping)
 	return (0);
 }
 
-static addrinfo	*get_addr_info(t_ping *ping)
+static struct addrinfo	*get_addr_info(t_ping *ping)
 {
 	struct addrinfo	*info;
 

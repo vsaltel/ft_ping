@@ -9,6 +9,8 @@ void	free_args(t_ping *ping)
 
 int	check_options(t_ping *ping)
 {
+	if (!ping->dest_name)
+		return (1);
 	if (ping->ttl <= 0 || ping->ttl > 255)
 	{
 		ft_printf("ft_ping: can't set unicast time-to-live: Invalid argument\n");

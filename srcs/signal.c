@@ -10,6 +10,6 @@ void	catch_sigalrm(int signal)
 {
 	if (signal != SIGALRM)
 		return ;
-	send_msg();	
+	send_msg();
 	alarm(1);
 }

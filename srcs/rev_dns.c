@@ -6,12 +6,13 @@ char	*get_fqdn_info(struct sockaddr *addr)
 	socklen_t	len;
 
 	len = sizeof(struct sockaddr_in);
-    if (getnameinfo(addr, len, buf, sizeof(buf), NULL, 0, NI_NAMEREQD))
+	if (getnameinfo(addr, len, buf, sizeof(buf), NULL, 0, NI_NAMEREQD))
 		return (NULL);
 	return (ft_strdup(buf));
 }
 
-struct addrinfo	*reverse_dns_info(char *host, char *serv, int family, int socktype)
+struct addrinfo	*reverse_dns_info(char *host, char *serv, int family,
+	int socktype)
 {
 	struct addrinfo	*res;
 	struct addrinfo	hints;
@@ -21,6 +22,7 @@ struct addrinfo	*reverse_dns_info(char *host, char *serv, int family, int sockty
 	hints.ai_socktype = socktype;
 	hints.ai_flags = AI_CANONNAME;
 	if (getaddrinfo(host, serv, &hints, &res) != 0)
-		ft_dprintf(2, "ft_ping: %s: No address associated with hostname\n", host);
+		ft_dprintf(2, "ft_ping: %s: No address associated with hostname\n",
+			host);
 	return (res);
 }

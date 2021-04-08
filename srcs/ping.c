@@ -4,10 +4,11 @@ int	read_loop(t_ping *ping)
 {
 	t_ping_pkt	pckt;
 
-	if (!(ping->sockfd = set_socket(ping)))
+	ping->sockfd = set_socket(ping);
+	if (!ping->sockfd)
 		return (-5);
 	ping->state = 1;
-	catch_sigalrm(SIGALRM);	
+	catch_sigalrm(SIGALRM);
 	signal(SIGINT, &catch_sigint);
 	while (ping->state && ping->count_max)
 	{
@@ -34,7 +35,8 @@ int	ping(t_ping *ping)
 	ping->dest_ip = set_inetaddr(res->ai_addr);
 	ft_printf("FT_PING %s (%s) %d(%d) data bytes\n",
 		res->ai_canonname ? res->ai_canonname : ping->dest_name,
-		ping->dest_ip, ping->datalen, ping->datalen + sizeof(struct iphdr) + sizeof(struct icmphdr));
+		ping->dest_ip, ping->datalen,
+		ping->datalen + sizeof(struct iphdr) + sizeof(struct icmphdr));
 	if (res->ai_family != AF_INET)
 		return (-3);
 	ping->pr.sasend = res->ai_addr;

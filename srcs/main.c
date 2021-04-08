@@ -2,7 +2,18 @@
 
 t_ping	g_ping;
 
-int		main(int argc, char **argv)
+int	ret_val(int ret)
+{
+	if (ret < 0)
+		return (ret);
+	if (g_ping.msg_recv_count)
+		return (0);
+	else if (g_ping.msg_sent)
+		return (2);
+	return (1);
+}
+
+int	main(int argc, char **argv)
 {
 	int	ret;
 
@@ -24,11 +35,5 @@ int		main(int argc, char **argv)
 	else
 		ret = ping(&g_ping);
 	free_args(&g_ping);
-	if (ret < 0)
-		return (ret);
-	if (g_ping.msg_recv_count)
-		return (0);
-	else if (g_ping.msg_sent)
-		return (2);
-	return (1);
+	return (ret_val(ret));
 }

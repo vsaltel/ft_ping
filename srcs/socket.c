@@ -5,7 +5,8 @@ int	set_socket(t_ping *ping)
 	int	sock;
 	int	size;
 
-	if ((sock = socket(ping->pr.sasend->sa_family, SOCK_RAW, IPPROTO_ICMP)) < 0)
+	sock = socket(ping->pr.sasend->sa_family, SOCK_RAW, IPPROTO_ICMP);
+	if (sock < 0)
 	{
 		ft_dprintf(2, "ft_ping: fail to create socket\n");
 		return (-1);

@@ -1,13 +1,84 @@
 #include "ping.h"
 
-void			free_args(t_ping *ping)
+void	free_args(t_ping *ping)
 {
 	free(ping->dest_name);
 	free(ping->dest_ip);
 	free(ping->pr.sacrecv);
 }
 
-void			get_args(t_ping *ping, int ac, char **av)
+int	check_option(t_ping *ping)
+{
+	if (ping->ttl <= 0 || ping->ttl > 255)
+	{
+		ft_printf("ft_ping: can't set unicast time-to-live: Invalid argument\n");
+		return (1);
+	}
+	if (ping->datalen < 0 || ping->datalen > BUFSIZE)
+	{
+		ft_printf("ft_ping: illegal packet size\n");
+		return (1);
+	}
+	else if (ping->count_max <= 0)
+	{
+		ft_printf("ft_ping: bad number of packets to transmit.\n");
+		return (1);
+	}
+	return (0);
+}
+int	set_option(t_ping *ping, int ac, char **av, int *n)
+{
+	if ((av[*n][1] == 't' || av[*n][1] == 's' || av[*n][1] == 'c') && *n + 1 == ac)
+	{
+		ft_printf("ft_ping: option requires an argument -- '%c'\n", av[*n][1]);
+		return (1);
+	}
+	if (av[*n][1] == 't')
+		ping->ttl = ft_atoi(av[++(*n)]);
+	else if (av[*n][1] == 's')
+		ping->datalen = ft_atoi(av[++(*n)]);
+	else if (av[n][1] == 'c')
+		ping->count_max = ft_atoi(av[++(*n)]);
+	else if (av[n][1] == 'h')
+		ping->h = 1;
+	else if (av[n][1] == 'v')
+		ping->v = 1;
+	else if (av[n][1] == 'q')
+		ping->q = 1;
+	else if (av[n][1] == 'D')
+		ping->d = 1;
+	else
+	{
+		ft_printf("ft_ping: invalid option -- '%c'\n", av[*n][1]);
+		return (1);
+	}
+	return (0)
+}
+
+int	get_args(t_ping *ping, int ac, char **av)
+{
+	int	n;
+
+	n = 0;
+	while (++n < ac)
+	{
+		if (av[n][0] && av[n][0] == '-' && set_option(ping, ac, av, &n))
+		{
+			print_usage();
+			return (1);
+		}
+		else if (ping->dest_name)
+		{
+			print_usage();
+			return (1);
+		}
+		else
+			ping->dest_name = strdup(av[n]);
+	}
+	return (0);
+}
+/*
+void	get_args(t_ping *ping, int ac, char **av)
 {
 	int		n;
 	int		x;
@@ -21,17 +92,17 @@ void			get_args(t_ping *ping, int ac, char **av)
 			if (av[n][x] == 't')
 			{
 				ping->ttl = ft_atoi(av[++n]);
-				continue;
+				continue ;
 			}
 			if (av[n][x] == 's')
 			{
 				ping->datalen = ft_atoi(av[++n]);
-				continue;
+				continue ;
 			}
 			if (av[n][x] == 'c')
 			{
 				ping->count_max = ft_atoi(av[++n]);
-				continue;
+				continue ;
 			}
 			if (av[n][x] == 'h')
 				ping->h = 1;
@@ -47,7 +118,7 @@ void			get_args(t_ping *ping, int ac, char **av)
 	}
 }
 
-int				check_args(int ac, char **av)
+int	check_args(int ac, char **av)
 {
 	int		n;
 	int		x;
@@ -72,7 +143,7 @@ int				check_args(int ac, char **av)
 					ft_printf("ft_ping: illegal packet size\n");
 					return (1);
 				}
-				continue;
+				continue ;
 			}
 			if (av[n][1] == 't' && av[n][2] == '\0')
 			{
@@ -86,7 +157,7 @@ int				check_args(int ac, char **av)
 					ft_printf("ft_ping: can't set unicast time-to-live: Invalid argument\n");
 					return (1);
 				}
-				continue;
+				continue ;
 			}
 			if (av[n][1] == 'c' && av[n][2] == '\0')
 			{
@@ -100,7 +171,7 @@ int				check_args(int ac, char **av)
 					ft_printf("ft_ping: bad number of packets to transmit.\n");
 					return (1);
 				}
-				continue;
+				continue ;
 			}
 			while (av[n][x])
 			{
@@ -116,8 +187,8 @@ int				check_args(int ac, char **av)
 		return (1);
 	return (0);
 }
-
-void			init_ping(t_ping *ping)
+*/
+void	init_ping(t_ping *ping)
 {
 	ping->v = 0;
 	ping->h = 0;
@@ -140,15 +211,4 @@ void			init_ping(t_ping *ping)
 	ping->pr.sasend = NULL;
 	ping->pr.sacrecv = NULL;
 	ping->pr.salen = 0;
-}
-
-void			print_usage(void)
-{
-	ft_printf("usage: ft_ping [-%s] [-s packetsize] [-t ttl] host\n", OPTIONS);
-}
-
-void			print_args(t_ping ping)
-{
-	printf("DEST = %s\n", ping.dest_name);
-	printf("OPTS = %s%s\n", ping.h ? "h" : "", ping.v ? "v" : "");
 }

@@ -23,13 +23,12 @@ int	main(int argc, char **argv)
 		ft_printf("ft_ping: need root privilege\n");
 		return (-1);
 	}
-	if (check_args(argc, argv))
+	init_ping(&g_ping);
+	if (get_args(&g_ping, argc, argv))
 	{
 		print_usage();
 		return (-1);
 	}
-	init_ping(&g_ping);
-	get_args(&g_ping, argc, argv);
 	if (g_ping.h)
 		print_usage();
 	else

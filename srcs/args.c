@@ -52,7 +52,7 @@ int	set_option(t_ping *ping, int ac, char **av, int *n)
 		ft_printf("ft_ping: invalid option -- '%c'\n", av[*n][1]);
 		return (1);
 	}
-	return (0)
+	return (0);
 }
 
 int	get_args(t_ping *ping, int ac, char **av)
@@ -62,24 +62,16 @@ int	get_args(t_ping *ping, int ac, char **av)
 	n = 0;
 	while (++n < ac)
 	{
-		if (av[n][0] && av[n][0] == '-' && set_option(ping, ac, av, &n))
-		{
-			print_usage();
+		if (av[n][0] && av[n][0] == '-' &&
+			set_option(ping, ac, av, &n))
 			return (1);
-		}
 		else if (ping->dest_name)
-		{
-			print_usage();
 			return (1);
-		}
 		else
 			ping->dest_name = strdup(av[n]);
 	}
 	if (check_options(ping))
-	{
-		print_usage();
 		return (1);
-	}
 	return (0);
 }
 /*

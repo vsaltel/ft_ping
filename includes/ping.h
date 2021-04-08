@@ -73,7 +73,7 @@ void			recv_msg(t_ping *ping, t_ping_pkt *pckt);
 void			send_msg(void);
 
 void			init_ping(t_ping *ping);
-void			get_args(t_ping *ping, int ac, char **av);
+int				get_args(t_ping *ping, int ac, char **av);
 int				check_args(int ac, char **av);
 char			*set_inetaddr(struct sockaddr *sa);
 void			free_args(t_ping *ping);

@@ -1,15 +1,32 @@
 #include "ping.h"
 
+static int	check_addr(char *addr)
+{
+	int	i;
+	int	n;
+
+	i = 0;
+	n = 0;
+	while (addr[i])
+	{
+		if (addr[i] == '.')
+			n++;
+		i++;
+	}
+	if (n > 1)
+		return (0);
+	return (1);
+}
+
 static void	print_received(t_ping *ping, t_ping_pkt *pckt,
 	long recv_bytes, char *recv_ip)
 {
 	double	time;
 	char	*name;
 
-	if (ping->fqdn)
+	name = ping->dest_name;
+	if (check_addr(name) && ping->fqdn)
 		name = ping->fqdn;
-	else
-		name = ping->dest_name;
 	if (pckt->hdr.type != ICMP_ECHOREPLY)
 	{
 		ft_printf("From %s (%s): icmp_seq=%d Time exceeded: Hop limit \n",
@@ -34,10 +51,9 @@ static void	print_non_received(t_ping *ping, t_ping_pkt *pckt,
 {
 	char	*name;
 
-	if (ping->fqdn)
+	name = ping->dest_name;
+	if (check_addr(name) && ping->fqdn)
 		name = ping->fqdn;
-	else
-		name = ping->dest_name;
 	if (!ping->q)
 	{
 		if (ping->v)

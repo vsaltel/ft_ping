@@ -7,7 +7,10 @@ char	*get_fqdn_info(struct sockaddr *addr)
 
 	len = sizeof(struct sockaddr_in);
     if (getnameinfo(addr, len, buf, sizeof(buf), NULL, 0, NI_NAMEREQD))
+	{
+		ft_printf("fq %s\n", buf);
 		return (ft_strdup(buf));
+	}
 	return (NULL);
 }
 

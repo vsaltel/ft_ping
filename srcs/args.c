@@ -64,12 +64,12 @@ int	get_args(t_ping *ping, int ac, char **av)
 	{
 		if (av[n][0] && av[n][0] == '-' &&
 			set_option(ping, ac, av, &n))
-			return (1);
-		else if (ping->dest_name)
 		{
 			ft_printf("there");
 			return (1);
 		}
+		else if (ping->dest_name)
+			return (1);
 		else
 			ping->dest_name = strdup(av[n]);
 	}

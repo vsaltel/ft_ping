@@ -38,8 +38,8 @@ void	print_final_stats(t_ping *ping)
 	if (ping->q)
 		ft_printf("\n");
 	ft_printf("--- %s ping statistics ---\n", ping->dest_name);
-	ft_printf("%d packets transmitted, %d received, \
-		%d%% packet loss, time: %ld ms\n", ping->msg_count, ping->msg_recv_count,
+	ft_printf("%d packets transmitted, %d received, \%d%% packet loss, time: %ld ms\n",
+		ping->msg_count, ping->msg_recv_count,
 		((ping->msg_count - ping->msg_recv_count) / ping->msg_count) * 100,
 		total_time);
 	if (ping->msg_recv_count)

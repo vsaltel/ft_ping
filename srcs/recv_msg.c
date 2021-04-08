@@ -56,9 +56,6 @@ void	recv_msg(t_ping *ping, t_ping_pkt *pckt)
 	ret = recvfrom(ping->sockfd, pckt, sizeof(*pckt),
 		0, ping->pr.sacrecv, &ping->pr.salen);
 	gettimeofday(&ping->aft, NULL);
-	ping->fqdn = get_fqdn_info(ping->pr.sacrecv);
-	if (ping->fqdn)
-		ft_printf("fqdn %s\n", ping->fqdn);
 	recv_ip = set_inetaddr(ping->pr.sacrecv);
 	recv_bytes = ret - sizeof(pckt->ip);
 	if (!ping->q && ping->d)
@@ -70,5 +67,4 @@ void	recv_msg(t_ping *ping, t_ping_pkt *pckt)
 	if (ret > 0 && pckt->hdr.type == ICMP_ECHOREPLY)
 		ping->msg_recv_count++;
 	free(recv_ip);
-	free(ping->fqdn);
 }

@@ -46,9 +46,9 @@ typedef struct		s_ping
 	int					msg_sent;
 	int					msg_count;
 	int					msg_recv_count;
+	char				*fqdn;
 	char				*dest_name;
 	char				*dest_ip;
-	char				sendbuf[BUFSIZE];
 	int					datalen;
 	int					sockfd;
 	t_proto				pr;

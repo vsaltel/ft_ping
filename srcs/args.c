@@ -3,6 +3,7 @@
 void			free_args(t_ping *ping)
 {
 	free(ping->dest_name);
+	free(ping->fqdn);
 }
 
 void			get_args(t_ping *ping, int ac, char **av)
@@ -130,10 +131,11 @@ void			init_ping(t_ping *ping)
 	ping->msg_sent = 0;
 	ping->msg_count = 0;
 	ping->msg_recv_count = 0;
+	ping->fqdn = NULL;
 	ping->dest_name = NULL;
+	ping->dest_ip = NULL;
 	ping->pid = getpid() & 0xffff;
 	ping->datalen = PING_PKT_S;
-	ping->sendbuf[0] = '\0';
 	ping->pr.sasend = NULL;
 	ping->pr.sacrecv = NULL;
 	ping->pr.salen = 0;

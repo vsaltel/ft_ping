@@ -82,7 +82,6 @@ char			*get_fqdn_info(struct sockaddr *addr);
 
 void			print_final_stats(t_ping *ping);
 void			print_usage(void);
-void			print_args(t_ping ping);
 
 unsigned short	checksum(void *b, int len);
 

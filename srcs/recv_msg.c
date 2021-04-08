@@ -1,5 +1,15 @@
 #include "ping.h"
 
+static void	set_rtt(t_ping *ping, double time)
+{
+	if (ping->rtt_min > time || ping->rtt_min == -1)
+		ping->rtt_min = time;
+	if (ping->rtt_max < time || ping->rtt_max == -1)
+		ping->rtt_max = time;
+	ping->rtt_sum += time;
+	ping->rtt_sum_sq += time * time;
+}
+
 static int	check_addr(char *addr)
 {
 	int	i;
@@ -35,13 +45,11 @@ static void	print_received(t_ping *ping, t_ping_pkt *pckt,
 	}
 	time = ping->aft.tv_sec * 1000.0 + ping->aft.tv_usec / 1000.0;
 	time = time - (ping->bef.tv_sec * 1000.0 + ping->bef.tv_usec / 1000.0);
-	if (ping->rtt_min > time || ping->rtt_min == -1)
-		ping->rtt_min = time;
-	if (ping->rtt_max < time || ping->rtt_max == -1)
-		ping->rtt_max = time;
-	ping->rtt_sum += time;
-	ping->rtt_sum_sq += time * time;
-	if (!ping->q)
+	set_rtt(ping, time);	
+	if (!ping->q && ping->d)
+		ft_printf("%ld bytes from %s (%s): icmp_seq=%d ttl=%d\n",
+			recv_bytes, name, recv_ip, ping->msg_count, pckt->ip.ttl);
+	else if (!ping->q)
 		ft_printf("%ld bytes from %s (%s): icmp_seq=%d ttl=%d time=%.2f ms\n",
 			recv_bytes, name, recv_ip, ping->msg_count, pckt->ip.ttl, time);
 }

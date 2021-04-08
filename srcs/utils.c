@@ -23,11 +23,6 @@ unsigned short	checksum(void *b, int len)
 
 void	print_usage(void)
 {
-	ft_printf("usage: ft_ping [-%s] [-s packetsize] [-t ttl] host\n", OPTIONS);
-}
-
-void	print_args(t_ping ping)
-{
-	printf("DEST = %s\n", ping.dest_name);
-	printf("OPTS = %s%s\n", ping.h ? "h" : "", ping.v ? "v" : "");
+	ft_dprintf(2, "usage: ft_ping [-%s] [-s packetsize] [-t ttl] host\n",
+		OPTIONS);
 }

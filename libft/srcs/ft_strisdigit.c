@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-int		ft_strisdigit(char *str)
+int	ft_strisdigit(char *str)
 {
 	if (!str)
 		return (0);

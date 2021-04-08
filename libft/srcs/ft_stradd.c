@@ -16,7 +16,10 @@ char	*ft_stradd(char *s1, char s2)
 {
 	char	*dst;
 
-	if (!s1 || !s2 || !(dst = ft_strnew(ft_strlen(s1) + 1)))
+	if (!s1 || !s2)
+		return (NULL);
+	dst = ft_strnew(ft_strlen(s1) + 1);
+	if (!dst)
 		return (NULL);
 	ft_strcpy(dst, s1);
 	dst[ft_strlen(s1)] = s2;

@@ -36,5 +36,7 @@ int	ft_atoi(const char *str)
 			return (-1);
 		str++;
 	}
-	return (neg ? (int)-val : (int)val);
+	if (neg)
+		return ((int) - val);
+	return ((int) val);
 }

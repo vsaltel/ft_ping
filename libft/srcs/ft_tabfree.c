@@ -1,20 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strclr.c                                        :+:      :+:    :+:   */
+/*   ft_strsub.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/07 14:56:47 by frossiny          #+#    #+#             */
-/*   Updated: 2018/11/07 17:16:44 by frossiny         ###   ########.fr       */
+/*   Created: 2018/11/07 17:28:04 by frossiny          #+#    #+#             */
+/*   Updated: 2018/11/15 13:22:48 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_strclr(char *s)
+void	ft_tabfree(char **tab)
 {
-	if (!s)
-		return ;
-	ft_memset(s, '\0', ft_strlen(s));
+	int	i;
+
+	i = 0;
+	while (tab && tab[i])
+	{
+		free(tab[i]);
+		i++;
+	}
+	free(tab);
 }

@@ -16,7 +16,8 @@ char	*ft_strndup(const char *s1, size_t len)
 {
 	char	*dest;
 
-	if (!(dest = ft_strnew(len)))
+	dest = ft_strnew(len);
+	if (!dest)
 		return (NULL);
 	return (ft_strncpy(dest, s1, len));
 }

@@ -14,8 +14,8 @@
 
 static size_t	strl_pathfile(const char *s1, const char *s2)
 {
-	size_t i;
-	size_t y;
+	size_t	i;
+	size_t	y;
 
 	i = 0;
 	y = 0;
@@ -31,14 +31,15 @@ static size_t	strl_pathfile(const char *s1, const char *s2)
 	return (i + y);
 }
 
-char			*ft_strpathfile(const char *s1, const char *s2)
+char	*ft_strpathfile(const char *s1, const char *s2)
 {
 	size_t	i;
 	char	*dst;
 
 	if (!s1 || !s2)
 		return (0);
-	if (!(dst = malloc(sizeof(char) * strl_pathfile(s1, s2))))
+	dst = malloc(sizeof(char) * strl_pathfile(s1, s2));
+	if (!dst)
 		return (0);
 	i = 0;
 	while (*s1)

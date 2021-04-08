@@ -48,7 +48,7 @@ static int	ft_count_w(const char *s, char c)
 	return (count);
 }
 
-char		**ft_strsplit(char const *s, char c)
+char	**ft_strsplit(char const *s, char c)
 {
 	char	**tab;
 	int		i;

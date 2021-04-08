@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-int		ft_strisascii(char *str)
+int	ft_strisascii(char *str)
 {
 	while (*str)
 	{

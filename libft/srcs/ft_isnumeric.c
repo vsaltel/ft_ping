@@ -12,9 +12,9 @@
 
 #include "libft.h"
 
-int		ft_isnumeric(char *str)
+int	ft_isnumeric(char *str)
 {
-	int i;
+	int	i;
 
 	if (!str)
 		return (0);
@@ -23,7 +23,7 @@ int		ft_isnumeric(char *str)
 	{
 		if (!(str[i] >= '0' && str[i] <= '9'))
 			if (!(i == 0 && (str[i] == '+' || str[i] == '-')
-				&& ft_strlen(str) > 1))
+					&& ft_strlen(str) > 1))
 				return (0);
 		i++;
 	}

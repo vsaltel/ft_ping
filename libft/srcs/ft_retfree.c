@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-int		ft_retfree(char **s, int ret)
+int	ft_retfree(char **s, int ret)
 {
 	ft_strdel(s);
 	return (ret);

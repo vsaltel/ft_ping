@@ -19,13 +19,10 @@ NAME 	=	libft.a
 SRCDIR	=	srcs
 INCDIR	=	includes
 OBJDIR	=	objs
-FILES 	=	ft_2dstrnew.c						\
-			ft_2dstrlen.c						\
-			ft_2dstrdel.c						\
-			ft_2dstrndel.c						\
-			ft_expend_2dstr.c					\
-			ft_retfree.c						\
+FILES 	=	ft_retfree.c						\
 			ft_memset.c							\
+			ft_tablen.c							\
+			ft_tabfree.c						\
 			ft_memalloc.c						\
 			ft_memdel.c							\
 			ft_memcpy.c							\
@@ -53,11 +50,6 @@ FILES 	=	ft_2dstrnew.c						\
 			ft_strnew.c							\
 			ft_strdel.c							\
 			ft_strddel.c						\
-			ft_strclr.c							\
-			ft_striter.c						\
-			ft_striteri.c						\
-			ft_strmap.c							\
-			ft_strmapi.c						\
 			ft_strequ.c							\
 			ft_strnequ.c						\
 			ft_strsub.c							\
@@ -68,14 +60,11 @@ FILES 	=	ft_2dstrnew.c						\
 			ft_strjointf.c						\
 			ft_strnfjoin.c						\
 			ft_multifree.c						\
-			ft_strtrim.c						\
-			ft_strctrim.c						\
 			ft_strsplit.c						\
 			ft_strisalnum.c						\
 			ft_strisdigit.c						\
 			ft_strisascii.c						\
 			ft_stradd.c							\
-			ft_strnncmp.c						\
 			ft_atoi.c							\
 			ft_itoa.c							\
 			ft_islower.c						\
@@ -89,39 +78,15 @@ FILES 	=	ft_2dstrnew.c						\
 			ft_isnumeric.c						\
 			ft_tolower.c						\
 			ft_toupper.c						\
-			ft_putchar.c						\
-			ft_putstr.c							\
-			ft_putnstr.c						\
-			ft_putendl.c						\
-			ft_putnbr.c							\
-			ft_putchar_fd.c						\
-			ft_putstr_fd.c						\
-			ft_putnstr_fd.c						\
-			ft_putendl_fd.c						\
-			ft_putnbr_fd.c						\
-			ft_lstnew.c							\
-			ft_lstsort.c						\
-			ft_lstdelone.c						\
-			ft_lstadd.c							\
-			ft_lstdel.c							\
-			ft_lstdelstr.c						\
-			ft_lstiter.c						\
-			ft_lstmap.c							\
-			ft_lstfold.c						\
-			ft_freelst.c						\
 			ft_strfjoin.c						\
 			ft_strfdup.c						\
-			ft_putstrtable.c					\
 			ft_strpathfile.c					\
 			ft_strcut.c							\
 			ft_strfcut.c						\
-			ft_lstend.c							\
-			ft_lstsize.c						\
-			ft_print_strlist.c					\
 			get_next_line.c						\
-			edit_string.c						\
 			printf/ft_printf.c					\
 			printf/display.c					\
+			printf/format.c						\
 			printf/arg_parser.c					\
 			printf/size_parser.c				\
 			printf/arg_filler.c					\
@@ -131,6 +96,7 @@ FILES 	=	ft_2dstrnew.c						\
 			printf/float_utils.c				\
 			printf/converters/char.c			\
 			printf/converters/ftoa.c			\
+			printf/converters/ftoa_utils.c		\
 			printf/converters/integer.c			\
 			printf/converters/pointer.c			\
 			printf/converters/itoa_signed.c		\

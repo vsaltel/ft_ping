@@ -14,7 +14,7 @@
 
 char	*ft_strncat(char *s1, const char *s2, size_t n)
 {
-	char *dst;
+	char	*dst;
 
 	dst = s1 + ft_strlen(s1);
 	while (*s2 && n--)

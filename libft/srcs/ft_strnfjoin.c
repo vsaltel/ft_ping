@@ -12,12 +12,15 @@
 
 #include "libft.h"
 
-char			*ft_strfnjoin(char const *s1, char const *s2,
+char	*ft_strfnjoin(char const *s1, char const *s2,
 		size_t n, char const *f)
 {
 	char	*dst;
 
-	if (!s1 || !s2 || !(dst = ft_strnew(ft_strlen(s1) + ft_strlen(s2))))
+	if (!s1 || !s2)
+		return (NULL);
+	dst = ft_strnew(ft_strlen(s1) + ft_strlen(s2));
+	if (!dst)
 		return (NULL);
 	ft_strcpy(dst, s1);
 	ft_strncat(dst, s2, n);

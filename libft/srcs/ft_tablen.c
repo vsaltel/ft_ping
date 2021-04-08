@@ -1,21 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putendl.c                                       :+:      :+:    :+:   */
+/*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/08 16:36:48 by frossiny          #+#    #+#             */
-/*   Updated: 2018/11/08 16:47:08 by frossiny         ###   ########.fr       */
+/*   Created: 2018/11/07 12:23:43 by frossiny          #+#    #+#             */
+/*   Updated: 2018/11/07 12:27:57 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putendl(char const *s)
+int	ft_tablen(char **tab)
 {
-	if (!s)
-		return ;
-	ft_putstr(s);
-	ft_putchar('\n');
+	int	i;
+
+	i = 0;
+	while (tab && tab[i])
+		i++;
+	return (i);
 }

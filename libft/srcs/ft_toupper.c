@@ -12,9 +12,22 @@
 
 #include "libft.h"
 
-int		ft_toupper(int c)
+int	ft_toupper(int c)
 {
 	if (ft_islower(c))
 		return (c - 32);
 	return (c);
+}
+
+char	*ft_strupper(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		str[i] = ft_toupper(str[i]);
+		i++;
+	}
+	return (str);
 }

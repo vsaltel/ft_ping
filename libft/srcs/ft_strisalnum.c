@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-int		ft_strisalnum(char *str)
+int	ft_strisalnum(char *str)
 {
 	while (*str)
 	{

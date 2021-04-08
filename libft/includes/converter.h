@@ -15,14 +15,13 @@
 
 # include "ft_printf.h"
 
-typedef struct	s_converter
+typedef struct s_converter
 {
 	char		*dtype;
 	void		(*func)(t_arg *arg);
 }				t_conv;
 
-t_conv			g_convlst[] =
-{
+t_conv			g_convlst[] = {
 	{"di", &itoa_signed},
 	{"bouxX", &itoa_unsigned},
 	{"fF", &handle_float},

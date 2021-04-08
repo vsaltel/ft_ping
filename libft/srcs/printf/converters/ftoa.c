@@ -12,32 +12,7 @@
 
 #include "ft_printf.h"
 
-int				handle_exceptions(t_arg *arg)
-{
-	size_t	i;
-	size_t	len;
-
-	if (is_infinite(arg))
-		handle_inf(arg);
-	else if (is_nan(arg))
-	{
-		len = (arg->width > 3) ? arg->width : 3;
-		if (!(arg->str = (char *)malloc(sizeof(char) * (len + 1))))
-			return ((arg->str = ft_strdup("")) != NULL);
-		ft_memcpy(arg->str, arg->type == 'f' ? "nan" : "NAN", 4);
-		i = 3;
-		while (i < (unsigned)arg->width)
-			arg->str[i++] = ' ';
-		arg->str[i] = '\0';
-		if (!arg->left)
-			ft_strrev(arg->str);
-	}
-	else
-		return (0);
-	return (1);
-}
-
-__int128_t		numtoarg(char buf[], __int128_t n, size_t d)
+__int128_t	numtoarg(char buf[], __int128_t n, size_t d)
 {
 	size_t	i;
 
@@ -54,15 +29,18 @@ __int128_t		numtoarg(char buf[], __int128_t n, size_t d)
 	return (i);
 }
 
-size_t			malloc_str(t_arg *arg, size_t *i, char *buf, int neg)
+size_t	malloc_str(t_arg *arg, size_t *i, char *buf, int neg)
 {
 	size_t	len;
 
-	len = (size_t)arg->width > *i ? (size_t)arg->width : *i;
+	len = *i;
+	if ((size_t)arg->width > *i)
+		len = (size_t)arg->width;
 	if (len == *i)
-		len += (arg->positive || arg->space || neg) +
-								(arg->prefix && arg->precision == 0);
-	if (!(arg->str = (char *)malloc(sizeof(char) * (len + 1))))
+		len += (arg->positive || arg->space || neg)
+			+ (arg->prefix && arg->precision == 0);
+	arg->str = (char *)malloc(sizeof(char) * (len + 1));
+	if (!arg->str)
 	{
 		arg->str = ft_strdup("");
 		return (0);
@@ -74,19 +52,22 @@ size_t			malloc_str(t_arg *arg, size_t *i, char *buf, int neg)
 	return (len);
 }
 
-void			pad(char *buf, size_t i, t_arg *arg, int neg)
+void	pad(char *buf, size_t i, t_arg *arg, int neg)
 {
 	size_t	len;
 
-	if (!(len = malloc_str(arg, &i, buf, neg)))
+	len = malloc_str(arg, &i, buf, neg);
+	if (!len)
 		return ;
 	ft_strrev(arg->str);
 	while (i < len - (arg->positive || arg->space || neg) && arg->zero)
 		arg->str[i++] = '0';
 	if (neg)
 		arg->str[i++] = '-';
-	else if ((arg->positive || arg->space))
-		arg->str[i++] = arg->positive ? '+' : ' ';
+	else if (arg->positive)
+		arg->str[i++] = '+';
+	else if (arg->space)
+		arg->str[i++] = ' ';
 	arg->str[i] = '\0';
 	if (arg->left)
 		ft_strrev(arg->str);
@@ -97,7 +78,7 @@ void			pad(char *buf, size_t i, t_arg *arg, int neg)
 		ft_strrev(arg->str);
 }
 
-void			handle_float(t_arg *arg)
+void	handle_float(t_arg *arg)
 {
 	char		buf[128];
 	size_t		i;
@@ -106,19 +87,21 @@ void			handle_float(t_arg *arg)
 	if (handle_exceptions(arg))
 		return ;
 	i = 0;
-	d = arg->size == L ? arg->data.ld : (long double)arg->data.d;
+	if (arg->size == L)
+		d = arg->u_data.ld;
+	else
+		d = (long double)arg->u_data.d;
 	if (is_float_neg(arg))
 		d *= -1;
-	if (d >= 1)
-		i += numtoarg(buf + i,
-			fround(!arg->precision ? d : (__int128_t)d, 0), 0);
+	if (d >= 1 && !arg->precision)
+		i += numtoarg(buf + i, fround(d, 0), 0);
 	else
 		buf[i++] = '0';
 	if (arg->precision > 0)
 	{
 		buf[i++] = '.';
 		i += numtoarg(buf + i,
-		fround((d - (__int128_t)d), arg->precision), arg->precision);
+				fround((d - (__int128_t)d), arg->precision), arg->precision);
 	}
 	buf[i] = '\0';
 	pad(buf, i, arg, is_float_neg(arg));

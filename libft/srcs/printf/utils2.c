@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-int		size_base(char c)
+int	size_base(char c)
 {
 	if (c == 'b')
 		return (2);
@@ -33,7 +33,8 @@ char	*create_base(unsigned int base, char maj)
 
 	if (base < 2)
 		return (NULL);
-	if (!(str = (char *)malloc(sizeof(char) * base + 1)))
+	str = (char *)malloc(sizeof(char) * base + 1);
+	if (!str)
 		return (NULL);
 	x = 0;
 	c = '0';
@@ -50,4 +51,12 @@ char	*create_base(unsigned int base, char maj)
 	}
 	str[x] = '\0';
 	return (str);
+}
+
+void	handle_zero_space(t_arg *arg, char *str, int i)
+{
+	if (arg->zero)
+		str[i] = '0';
+	else
+		str[i] = ' ';
 }

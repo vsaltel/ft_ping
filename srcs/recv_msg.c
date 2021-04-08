@@ -57,7 +57,7 @@ void	recv_msg(t_ping *ping, t_ping_pkt *pckt)
 		0, ping->pr.sacrecv, &ping->pr.salen);
 	gettimeofday(&ping->aft, NULL);
 	recv_ip = set_inetaddr(ping->pr.sacrecv);
-	ping->fqdn = fqdn_info(ping->pr.sacrecv);
+	ping->fqdn = get_fqdn_info(ping->pr.sacrecv);
 	recv_bytes = ret - sizeof(pckt->ip);
 	if (!ping->q && ping->d)
 		ft_printf("[%d.%d] ", ping->aft.tv_sec, ping->aft.tv_usec);

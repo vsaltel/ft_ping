@@ -1,6 +1,6 @@
 #include "ping.h"
 
-char	*fqdn_info(struct sockaddr *addr)
+char	*get_fqdn_info(struct sockaddr *addr)
 {
 	char		buf[BUFSIZE];
 	socklen_t	len;

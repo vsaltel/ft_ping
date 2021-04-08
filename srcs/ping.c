@@ -32,7 +32,9 @@ int	ping(t_ping *ping)
 	if (!(res = reverse_dns_info(ping->dest_name, NULL, AF_INET, 0)))
 		return (-2);
 	ping->dest_ip = set_inetaddr(res->ai_addr);
-	ft_printf("PING %s (%s) %d data bytes\n", res->ai_canonname ? res->ai_canonname : ping->dest_name, ping->dest_ip, ping->datalen);
+	ft_printf("FT_PING %s (%s) %d(%d) data bytes\n",
+		res->ai_canonname ? res->ai_canonname : ping->dest_name,
+		ping->dest_ip, ping->datalen, ping->datalen + sizeof(struct iphdr) + sizeof(struct icmphdr);
 	if (res->ai_family != AF_INET)
 		return (-3);
 	ping->pr.sasend = res->ai_addr;

@@ -22,14 +22,14 @@
 
 # include "libft.h"
 
-typedef struct		s_proto
+typedef struct s_proto
 {
 	struct sockaddr		*sasend;
 	struct sockaddr		*sacrecv;
 	socklen_t			salen;
 }					t_proto;
 
-typedef struct		s_ping
+typedef struct s_ping
 {
 	int					state;
 	int					h;	
@@ -59,33 +59,82 @@ typedef struct		s_ping
 
 extern t_ping		g_ping;
 
-typedef struct		s_ping_pkt
+typedef struct s_ping_pkt
 {
-	struct			iphdr	ip;
-	struct			icmphdr hdr;
+	struct iphdr	ip;
+	struct icmphdr	hdr;
 	char			msg[BUFSIZE];
 }					t_ping_pkt;
 
-int				ping(t_ping *ping);
-int				set_socket(t_ping *ping);
-int				send_loop(t_ping *ping, int sock);
-void			recv_msg(t_ping *ping, t_ping_pkt *pckt);
-void			send_msg(void);
+/*
+** srcs/args.c
+*/
+
+int				get_args(t_ping *ping, int ac, char **av);
+
+/*
+** srcs/args_utils.c
+*/
 
 void			init_ping(t_ping *ping);
-int				get_args(t_ping *ping, int ac, char **av);
-int				check_args(int ac, char **av);
-char			*set_inetaddr(struct sockaddr *sa);
 void			free_args(t_ping *ping);
-struct addrinfo	*reverse_dns_info(char *host, char *serv, int family, int socktype);
+
+/*
+** srcs/conv_addr.c
+*/
+
+char			*set_inetaddr(struct sockaddr *sa);
+
+/*
+** srcs/ping.c
+*/
+
+int				ping(t_ping *ping);
+
+/*
+** srcs/recv_msg.c
+*/
+
+void			recv_msg(t_ping *ping, t_ping_pkt *pckt);
+
+/*
+** srcs/rev_dns.c
+*/
+
+struct addrinfo	*reverse_dns_info(char *host, char *serv,
+					int family, int socktype);
 char			*get_fqdn_info(struct sockaddr *addr);
 
-void			print_final_stats(t_ping *ping);
-void			print_usage(void);
+/*
+** srcs/send_msg.c
+*/
 
-unsigned short	checksum(void *b, int len);
+void			send_msg(void);
+
+/*
+** srcs/socket.c
+*/
+
+int				set_socket(t_ping *ping);
+
+/*
+** srcs/print.c
+*/
+
+void			print_final_stats(t_ping *ping);
+
+/*
+** srcs/signal.c
+*/
 
 void			catch_sigint(int signal);
 void			catch_sigalrm(int signal);
+
+/*
+** srcs/utils.c
+*/
+
+unsigned short	checksum(void *b, int len);
+void			print_usage(void);
 
 #endif

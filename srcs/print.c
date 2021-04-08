@@ -1,6 +1,6 @@
 #include "ping.h"
 
-double	square_root(double a)
+static double	square_root(double a)
 {
 	double	s;
 	double	l;

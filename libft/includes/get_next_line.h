@@ -18,7 +18,6 @@
 # endif
 
 # include "libft.h"
-# include <limits.h>
 
 int	get_next_line(const int fd, char **line);
 

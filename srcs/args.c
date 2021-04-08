@@ -34,7 +34,7 @@ int	set_option(t_ping *ping, int ac, char **av, int *n)
 		return (1);
 	}
 	if (av[*n][1] == 't')
-		ping->ttl = ft_atoi(av[++(*n)]);
+		ping->ttl = ft_atoi(av[++*(n)]);
 	else if (av[*n][1] == 's')
 		ping->datalen = ft_atoi(av[++(*n)]);
 	else if (av[*n][1] == 'c')

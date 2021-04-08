@@ -23,6 +23,5 @@ unsigned short	checksum(void *b, int len)
 
 void	print_usage(void)
 {
-	ft_dprintf(2, "usage: ft_ping [-%s] [-s packetsize] [-t ttl] host\n",
-		OPTIONS);
+	ft_dprintf(2, "usage: ft_ping [-hvqD] [-s packetsize] [-t ttl] host\n");
 }

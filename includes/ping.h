@@ -1,7 +1,6 @@
 #ifndef PING_H
 # define PING_H
 
-# define OPTIONS "hvqD"
 # define BUFSIZE 1500 
 # define PING_PKT_S 56
 # define IP_STR_SIZE 129
@@ -22,49 +21,49 @@
 
 # include "libft.h"
 
-typedef struct s_proto
-{
-	struct sockaddr		*sasend;
-	struct sockaddr		*sacrecv;
-	socklen_t			salen;
-}					t_proto;
-
-typedef struct s_ping
-{
-	int					state;
-	int					h;	
-	int					v;	
-	int					q;	
-	int					d;	
-	int					ttl;
-	int					count_max;
-	struct timeval		launch_time;
-	struct timeval		bef;
-	struct timeval		aft;
-	double				rtt_min;
-	double				rtt_max;
-	double				rtt_sum;
-	double				rtt_sum_sq;
-	int					msg_sent;
-	int					msg_count;
-	int					msg_recv_count;
-	char				*fqdn;
-	char				*dest_name;
-	char				*dest_ip;
-	int					datalen;
-	int					sockfd;
-	t_proto				pr;
-	pid_t				pid;
-}					t_ping;
-
-extern t_ping		g_ping;
-
 typedef struct s_ping_pkt
 {
 	struct iphdr	ip;
 	struct icmphdr	hdr;
 	char			msg[BUFSIZE];
-}					t_ping_pkt;
+}				t_ping_pkt;
+
+typedef struct s_proto
+{
+	struct sockaddr	*sasend;
+	struct sockaddr	*sacrecv;
+	socklen_t		salen;
+}				t_proto;
+
+typedef struct s_ping
+{
+	int				state;
+	int				h;	
+	int				v;	
+	int				q;	
+	int				d;	
+	int				ttl;
+	int				count_max;
+	struct timeval	launch_time;
+	struct timeval	bef;
+	struct timeval	aft;
+	double			rtt_min;
+	double			rtt_max;
+	double			rtt_sum;
+	double			rtt_sum_sq;
+	int				msg_sent;
+	int				msg_count;
+	int				msg_recv_count;
+	char			*fqdn;
+	char			*dest_name;
+	char			*dest_ip;
+	int				datalen;
+	int				sockfd;
+	t_proto			pr;
+	pid_t			pid;
+}				t_ping;
+
+extern t_ping	g_ping;
 
 /*
 ** srcs/args.c

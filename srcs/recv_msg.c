@@ -43,9 +43,9 @@ static void	print_received(t_ping *ping, t_ping_pkt *pckt,
 			name, recv_ip, ping->msg_count);
 		return ;
 	}
-	time = ping->aft.tv_sec * 1000.0 + ping->aft.tv_usec / 1000.0;
-	time = time - (ping->bef.tv_sec * 1000.0 + ping->bef.tv_usec / 1000.0);
-	set_rtt(ping, time);	
+	time = ping->aft.tv_sec * 1000 + ping->aft.tv_usec / 1000;
+	time = time - (ping->bef.tv_sec * 1000 + ping->bef.tv_usec / 1000);
+	set_rtt(ping, time);
 	if (!ping->q && ping->d)
 		ft_printf("%ld bytes from %s (%s): icmp_seq=%d ttl=%d\n",
 			recv_bytes, name, recv_ip, ping->msg_count, pckt->ip.ttl);

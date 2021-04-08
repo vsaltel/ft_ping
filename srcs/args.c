@@ -69,7 +69,7 @@ int	set_option_loop(t_ping *ping, int ac, char **av, int *n)
 				ft_dprintf(2, "ft_ping: option requires an argument -- '%c'\n", av[*n][x]);
 				return (1);
 			}
-			return (set_option(ping, av, n, x))
+			return (set_option(ping, av, n, x));
 		}
 		if (set_option(ping, av, n, x))
 			return (1);

@@ -22,7 +22,10 @@ struct addrinfo	*reverse_dns_info(char *host, char *serv, int family,
 	hints.ai_socktype = socktype;
 	hints.ai_flags = AI_CANONNAME;
 	if (getaddrinfo(host, serv, &hints, &res) != 0)
+	{
 		ft_dprintf(2, "ft_ping: %s: No address associated with hostname\n",
 			host);
+		return (NULL);
+	}
 	return (res);
 }

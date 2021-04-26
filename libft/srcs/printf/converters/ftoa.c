@@ -88,13 +88,18 @@ void	handle_float(t_arg *arg)
 		return ;
 	i = 0;
 	if (arg->size == L)
-		d = arg->data.ld;
+		d = arg->u_data.ld;
 	else
-		d = (long double)arg->data.d;
+		d = (long double)arg->u_data.d;
 	if (is_float_neg(arg))
 		d *= -1;
-	if (d >= 1 && !arg->precision)
-		i += numtoarg(buf + i, fround(d, 0), 0);
+	if (d >= 1)
+	{
+		if (!arg->precision)
+			i += numtoarg(buf + i, fround(d, 0), 0);
+		else
+			i += numtoarg(buf + i, fround((__int128_t)d, 0), 0);
+	}
 	else
 		buf[i++] = '0';
 	if (arg->precision > 0)

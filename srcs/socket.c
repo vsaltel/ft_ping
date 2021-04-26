@@ -1,6 +1,6 @@
 #include "ping.h"
 
-int	set_socket(t_ping *ping)
+int	set_socket(t_ping *ping, struct timeval *timeout)
 {
 	int				sock;
 	int				size;
@@ -14,5 +14,6 @@ int	set_socket(t_ping *ping)
 	size = 60 * 1024;
 	setsockopt (sock, SOL_SOCKET, SO_RCVBUF, &size, sizeof(size));
 	setsockopt(sock, IPPROTO_IP, IP_TTL, &ping->ttl, sizeof(ping->ttl));
+	setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, (char *)timeout, sizeof(*timeout));
 	return (sock);
 }

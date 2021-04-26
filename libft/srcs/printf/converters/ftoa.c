@@ -88,9 +88,9 @@ void	handle_float(t_arg *arg)
 		return ;
 	i = 0;
 	if (arg->size == L)
-		d = arg->u_data.ld;
+		d = arg->data.ld;
 	else
-		d = (long double)arg->u_data.d;
+		d = (long double)arg->data.d;
 	if (is_float_neg(arg))
 		d *= -1;
 	if (d >= 1 && !arg->precision)

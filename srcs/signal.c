@@ -4,8 +4,8 @@ void	catch_sigint(int signal)
 {
 	(void)signal;
 	print_final_stats(&g_ping);
-	if (g_ping->info)
-		freeaddrinfo(g_ping->info);
+	if (g_ping.info)
+		freeaddrinfo(g_ping.info);
 	free_args(&g_ping);
 	if (g_ping.msg_recv_count)
 		exit(0);

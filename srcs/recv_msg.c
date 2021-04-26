@@ -66,7 +66,8 @@ static void	print_non_received(t_ping *ping, t_ping_pkt *pckt,
 	{
 		if (ping->v)
 			ft_printf(" %ld bytes from %s (%s): type = %d, code = %d\n",
-				recv_bytes, name, recv_ip, pckt->icmp->icmp_type, pckt->icmp->icmp_code);
+				recv_bytes, name, recv_ip, pckt->icmp->icmp_type,
+				pckt->icmp->icmp_code);
 		else
 			ft_printf("From %s icmp_seq=%d Destination Host Unreachable\n",
 				recv_ip, ping->msg_count);
@@ -81,7 +82,7 @@ void	recv_msg(t_ping *ping, t_ping_pkt *pckt)
 
 	ret = recvmsg(ping->sockfd, &pckt->mhdr, 0);
 	pckt->ip = (struct ip *)pckt->databuf;
-	pckt->icmp = (struct icmp *) (pckt->databuf + (pckt->ip->ip_hl << 2));
+	pckt->icmp = (struct icmp *)(pckt->databuf + (pckt->ip->ip_hl << 2));
 	gettimeofday(&ping->aft, NULL);
 	recv_ip = set_inetaddr(ping->pr.sacrecv);
 	ping->fqdn = get_fqdn_info(ping->pr.sacrecv);

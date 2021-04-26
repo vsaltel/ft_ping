@@ -116,7 +116,8 @@ void			send_msg(void);
 ** srcs/socket.c
 */
 
-int				set_socket(t_ping *ping);
+int				set_socket(t_ping *ping, struct timeval *timeout);
+//int				set_socket(t_ping *ping);
 
 /*
 ** srcs/print.c

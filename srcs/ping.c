@@ -19,7 +19,7 @@ static int	read_loop(t_ping *ping)
 
 	timeout.tv_sec = 3;
     timeout.tv_usec = 0;
-	ping->sockfd = set_socket(ping);
+	ping->sockfd = set_socket(ping, &timeout);
 	if (!ping->sockfd)
 		return (-5);
 	catch_sigalrm(SIGALRM);

@@ -23,6 +23,7 @@ void	send_msg(void)
 	icmp->icmp_cksum = checksum((u_short *) icmp, len);
 	ret = sendto(g_ping.sockfd, sendbuf, len, 0,
 			g_ping.pr.sasend, g_ping.pr.salen);
+	printf("there\n");
 	if (ret)
 		g_ping.msg_sent++;
 }

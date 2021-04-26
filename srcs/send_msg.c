@@ -15,7 +15,10 @@ void	send_msg(void)
 	ft_memset(icmp->icmp_data, 0xa5, g_ping.datalen);
 	gettimeofday(&g_ping.bef, NULL);
 	gettimeofday((struct timeval *)icmp->icmp_data, NULL);
-	len = 8 + g_ping.datalen;
+	if (g_ping.datalen > BUFSIZE)
+		len = BUFSIZE;
+	else
+		len = 8 + g_ping.datalen;
 	icmp->icmp_cksum = 0;
 	icmp->icmp_cksum = checksum((u_short *) icmp, len);
 	ret = sendto(g_ping.sockfd, sendbuf, len, 0,

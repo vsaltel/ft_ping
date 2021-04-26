@@ -10,7 +10,7 @@ static int	check_options(t_ping *ping)
 			"ft_ping: can't set unicast time-to-live: Invalid argument\n");
 		return (1);
 	}
-	if (ping->datalen < 0 || ping->datalen > BUFSIZE)
+	if (ping->datalen < 0)
 	{
 		ft_dprintf(2, "ft_ping: illegal packet size\n");
 		return (1);

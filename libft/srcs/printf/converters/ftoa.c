@@ -78,7 +78,6 @@ void	pad(char *buf, size_t i, t_arg *arg, int neg)
 		ft_strrev(arg->str);
 }
 
-
 void	prec_numtoarg(t_arg *arg, char buf[], size_t *i, long double d)
 {
 	if (d >= 1 && !arg->precision)
@@ -107,7 +106,7 @@ void	handle_float(t_arg *arg)
 		d = (long double)arg->u_data.d;
 	if (is_float_neg(arg))
 		d *= -1;
-	prec_numtoarg(arg, buf, &i, d);	
+	prec_numtoarg(arg, buf, &i, d);
 	if (arg->precision > 0)
 	{
 		buf[i++] = '.';

@@ -23,13 +23,23 @@ static double	square_root(double a)
 	return (mid);
 }
 
+void	print_rtt(t_ping *ping)
+{
+	double			rtt_mdev;
+	double			mean;
+	double			smean;
+
+	mean = ping->rtt_sum / ping->msg_recv_count;
+	smean = ping->rtt_sum_sq / ping->msg_recv_count;
+	rtt_mdev = square_root(smean - (mean * mean));
+	ft_printf("rtt min/avg/max/mdev = %.3f/%.3f/%.3f/%.3f ms\n",
+		ping->rtt_min, mean, ping->rtt_max, rtt_mdev);
+}
 void	print_final_stats(t_ping *ping)
 {
 	struct timeval	end_time;
 	long			total_time;
-	double			rtt_mdev;
-	double			mean;
-	double			smean;
+	int				percent;
 
 	gettimeofday(&end_time, NULL);
 	total_time = end_time.tv_sec * 1000 + end_time.tv_usec / 1000;
@@ -38,17 +48,13 @@ void	print_final_stats(t_ping *ping)
 	if (ping->q)
 		ft_printf("\n");
 	ft_printf("--- %s ping statistics ---\n", ping->dest_name);
+	if (!ping->msg_count)
+		percent = 0;
+	else
+		percent = ((ping->msg_count - ping->msg_recv_count) / ping->msg_count) * 100;
 	ft_printf("%d packets transmitted, %d received, "
 		"\%d%% packet loss, time: %ld ms\n",
-		ping->msg_count, ping->msg_recv_count,
-		((ping->msg_count - ping->msg_recv_count) / ping->msg_count) * 100,
-		total_time);
+		ping->msg_count, ping->msg_recv_count, percent, total_time);
 	if (ping->msg_recv_count)
-	{
-		mean = ping->rtt_sum / ping->msg_recv_count;
-		smean = ping->rtt_sum_sq / ping->msg_recv_count;
-		rtt_mdev = square_root(smean - (mean * mean));
-		ft_printf("rtt min/avg/max/mdev = %.3f/%.3f/%.3f/%.3f ms\n",
-			ping->rtt_min, mean, ping->rtt_max, rtt_mdev);
-	}
+		print_rtt(ping);
 }

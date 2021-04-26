@@ -3,7 +3,7 @@
 static int	check_options(t_ping *ping)
 {
 	if (ping->datalen > BUFSIZE)
-		g_ping.datalen = BUFSIZE - 8;
+		g_ping.datalen = BUFSIZE - sizeof(struct icmp);
 	if (!ping->dest_name)
 		return (1);
 	if (ping->ttl <= 0 || ping->ttl > 255)

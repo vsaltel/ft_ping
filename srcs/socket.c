@@ -15,7 +15,7 @@ int	set_socket(t_ping *ping)
 	size = 60 * 1024;
 	setsockopt (sock, SOL_SOCKET, SO_RCVBUF, &size, sizeof(size));
 	setsockopt(sock, IPPROTO_IP, IP_TTL, &ping->ttl, sizeof(ping->ttl));
-	timeout.tv_sec = 3;
+	timeout.tv_sec = 10;
     timeout.tv_usec = 0;
 	setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout));
 	return (sock);

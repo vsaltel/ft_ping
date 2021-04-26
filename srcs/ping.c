@@ -65,6 +65,6 @@ int	ping(t_ping *ping)
 	ft_bzero(ping->pr.sacrecv, ping->info->ai_addrlen);
 	ping->pr.salen = ping->info->ai_addrlen;
 	ret = read_loop(ping);
-	freeaddrinfo(g_ping->info);
+	freeaddrinfo(ping->info);
 	return (ret);
 }

@@ -3,7 +3,7 @@
 void	catch_sigint(int signal)
 {
 	(void)signal;
-	print_final_stats(g_ping);
+	print_final_stats(&g_ping);
 	free_args(&g_ping);
 	if (g_ping.msg_recv_count)
 		exit(0);

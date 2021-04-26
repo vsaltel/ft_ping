@@ -58,7 +58,6 @@ static struct addrinfo	*get_addr_info(t_ping *ping)
 int	ping(t_ping *ping)
 {
 	struct addrinfo	*info;
-	int				sock;
 	int				ret;
 
 	signal(SIGALRM, &catch_sigalrm);

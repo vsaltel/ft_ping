@@ -21,7 +21,7 @@ static int	read_loop(t_ping *ping)
     timeout.tv_usec = 0;
 	ping->sockfd = set_socket(ping, &timeout);
 	if (!ping->sockfd)
-		return (-5);
+		return (-4);
 	catch_sigalrm(SIGALRM);
 	signal(SIGINT, &catch_sigint);
 	ft_bzero(&pckt, sizeof(pckt));
@@ -71,9 +71,6 @@ int	ping(t_ping *ping)
 	ping->pr.sacrecv = malloc(info->ai_addrlen);
 	ft_bzero(ping->pr.sacrecv, info->ai_addrlen);
 	ping->pr.salen = info->ai_addrlen;
-	sock = set_socket(ping);
-	if (sock < 0)
-		return (-4);
 	ret = read_loop(ping);
 	freeaddrinfo(info);
 	return (ret);

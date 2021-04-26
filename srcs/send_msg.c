@@ -7,8 +7,6 @@ void	send_msg(void)
 	struct icmp	*icmp;
 	char		sendbuf[BUFSIZE];
 
-	if (g_ping.datalen > BUFSIZE)
-		g_ping.datalen = BUFSIZE - 8;
 	icmp = (struct icmp *)sendbuf;
 	icmp->icmp_type = ICMP_ECHO;
 	icmp->icmp_code = 0;

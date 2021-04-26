@@ -19,12 +19,11 @@ static int	read_loop(t_ping *ping)
 	ping->sockfd = set_socket(ping);
 	if (!ping->sockfd)
 		return (-5);
-	ping->state = 1;
 	catch_sigalrm(SIGALRM);
 	signal(SIGINT, &catch_sigint);
 	ft_bzero(&pckt, sizeof(pckt));
 	set_pckt(ping, &pckt);
-	while (ping->state && ping->count_max)
+	while (ping->count_max)
 	{
 		recv_msg(ping, &pckt);
 		ping->msg_count++;

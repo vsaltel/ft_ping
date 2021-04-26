@@ -40,7 +40,6 @@ typedef struct s_proto
 
 typedef struct s_ping
 {
-	int				state;
 	int				h;
 	int				v;
 	int				q;

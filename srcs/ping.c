@@ -16,7 +16,7 @@ static int	read_loop(t_ping *ping)
 {
 	t_ping_pkt	pckt;
 
-	ping->sockfd = set_socket(ping, &timeout);
+	ping->sockfd = set_socket(ping);
 	if (!ping->sockfd)
 		return (-4);
 	catch_sigalrm(SIGALRM);

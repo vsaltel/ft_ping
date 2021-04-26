@@ -7,6 +7,8 @@ void	send_msg(void)
 	struct icmp	*icmp;
 	char		sendbuf[BUFSIZE];
 
+	if (g_ping.datalen > BUFSIZE)
+		g_ping.datalen = BUFSIZE;
 	icmp = (struct icmp *)sendbuf;
 	icmp->icmp_type = ICMP_ECHO;
 	icmp->icmp_code = 0;
@@ -15,16 +17,12 @@ void	send_msg(void)
 	ft_memset(icmp->icmp_data, 0xa5, g_ping.datalen);
 	gettimeofday(&g_ping.bef, NULL);
 	gettimeofday((struct timeval *)icmp->icmp_data, NULL);
-	if (g_ping.datalen > BUFSIZE)
-		len = BUFSIZE;
 	else
 		len = 8 + g_ping.datalen;
 	icmp->icmp_cksum = 0;
 	icmp->icmp_cksum = checksum((u_short *) icmp, len);
-	printf("%d\n", len);
 	ret = sendto(g_ping.sockfd, sendbuf, len, 0,
 			g_ping.pr.sasend, g_ping.pr.salen);
-	printf("there\n");
 	if (ret)
 		g_ping.msg_sent++;
 }

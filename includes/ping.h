@@ -23,9 +23,12 @@
 
 typedef struct s_ping_pkt
 {
-	struct iphdr	ip;
-	struct icmphdr	hdr;
-	char			msg[BUFSIZE];
+	struct msghdr	mhdr;
+	struct iovec	iov[1];
+	char			databuf[BUFSIZE];
+	char			ctrl[BUFSIZE];
+	struct ip		*ip;
+	struct icmp		*icmp;
 }				t_ping_pkt;
 
 typedef struct s_proto

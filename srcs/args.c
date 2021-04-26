@@ -89,7 +89,7 @@ int	get_args(t_ping *ping, int ac, char **av)
 		else if (ping->dest_name)
 			return (1);
 		else
-			ping->dest_name = strdup(av[n]);
+			ping->dest_name = ft_strdup(av[n]);
 	}
 	if (check_options(ping))
 		return (1);

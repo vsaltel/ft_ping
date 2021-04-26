@@ -1,5 +1,17 @@
 #include "ping.h"
 
+static void	set_pckt(t_ping *ping, t_ping_pkt *pckt)
+{
+	pckt->mhdr.msg_name = ping->pr.sacrecv;
+	pckt->mhdr.msg_namelen = ping->pr.salen;
+	pckt->mhdr.msg_iov = pckt->iov;
+	pckt->mhdr.msg_iovlen = 1;
+	pckt->mhdr.msg_control = &pckt->ctrl;
+	pckt->mhdr.msg_controllen = sizeof(pckt->ctrl);
+	pckt->iov[0].iov_base = pckt->databuf;
+	pckt->iov[0].iov_len = sizeof(pckt->databuf);
+}
+
 static int	read_loop(t_ping *ping)
 {
 	t_ping_pkt	pckt;
@@ -10,9 +22,10 @@ static int	read_loop(t_ping *ping)
 	ping->state = 1;
 	catch_sigalrm(SIGALRM);
 	signal(SIGINT, &catch_sigint);
+	ft_bzero(&pckt, sizeof(pckt));
+	set_pckt(ping, &pckt);
 	while (ping->state && ping->count_max)
 	{
-		ft_bzero(&pckt, sizeof(pckt));
 		recv_msg(ping, &pckt);
 		ping->msg_count++;
 		ping->count_max--;

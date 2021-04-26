@@ -86,7 +86,6 @@ FILES 	=	ft_retfree.c						\
 			get_next_line.c						\
 			printf/ft_printf.c					\
 			printf/display.c					\
-			printf/format.c						\
 			printf/arg_parser.c					\
 			printf/size_parser.c				\
 			printf/arg_filler.c					\

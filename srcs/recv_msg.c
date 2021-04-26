@@ -40,7 +40,7 @@ static void	print_received(t_ping *ping, t_ping_pkt *pckt,
 	if (pckt->icmp->icmp_type != ICMP_ECHOREPLY)
 	{
 		ft_printf("From %s (%s): icmp_seq=%d Time exceeded: Hop limit \n",
-			name, recv_ip, ping->msg_count - 1);
+			name, recv_ip, ping->msg_count);
 		return ;
 	}
 	time = ping->aft.tv_sec * 1000.0 + ping->aft.tv_usec / 1000.0;
@@ -48,10 +48,10 @@ static void	print_received(t_ping *ping, t_ping_pkt *pckt,
 	set_rtt(ping, time);
 	if (!ping->q && ping->d)
 		ft_printf("%ld bytes from %s (%s): icmp_seq=%d ttl=%d\n",
-			recv_bytes, name, recv_ip, ping->msg_count - 1, pckt->ip->ip_ttl);
+			recv_bytes, name, recv_ip, ping->msg_count, pckt->ip->ip_ttl);
 	else if (!ping->q)
 		ft_printf("%ld bytes from %s (%s): icmp_seq=%d ttl=%d time=%.2f ms\n",
-			recv_bytes, name, recv_ip, ping->msg_count - 1, pckt->ip->ip_ttl, time);
+			recv_bytes, name, recv_ip, ping->msg_count, pckt->ip->ip_ttl, time);
 }
 
 static void	print_non_received(t_ping *ping, t_ping_pkt *pckt,
@@ -69,7 +69,7 @@ static void	print_non_received(t_ping *ping, t_ping_pkt *pckt,
 				recv_bytes, name, recv_ip, pckt->icmp->icmp_type, pckt->icmp->icmp_code);
 		else
 			ft_printf("From %s icmp_seq=%d Destination Host Unreachable\n",
-				recv_ip, ping->msg_count - 1);
+				recv_ip, ping->msg_count);
 	}
 }
 

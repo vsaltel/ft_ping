@@ -52,20 +52,19 @@ static struct addrinfo	*get_addr_info(t_ping *ping)
 
 int	ping(t_ping *ping)
 {
-	struct addrinfo	*info;
 	int				ret;
 
 	signal(SIGALRM, &catch_sigalrm);
 	gettimeofday(&ping->launch_time, NULL);
 	ping->bef = ping->launch_time;
-	info = get_addr_info(ping);
-	if (!info)
+	ping->info = get_addr_info(ping);
+	if (!ping->info)
 		return (-2);
-	ping->pr.sasend = info->ai_addr;
-	ping->pr.sacrecv = malloc(info->ai_addrlen);
-	ft_bzero(ping->pr.sacrecv, info->ai_addrlen);
-	ping->pr.salen = info->ai_addrlen;
+	ping->pr.sasend = ping->info->ai_addr;
+	ping->pr.sacrecv = malloc(ping->info->ai_addrlen);
+	ft_bzero(ping->pr.sacrecv, ping->info->ai_addrlen);
+	ping->pr.salen = ping->info->ai_addrlen;
 	ret = read_loop(ping);
-	freeaddrinfo(info);
+	freeaddrinfo(g_ping->info);
 	return (ret);
 }

@@ -25,6 +25,7 @@ void	init_ping(t_ping *ping)
 	ping->fqdn = NULL;
 	ping->dest_name = NULL;
 	ping->dest_ip = NULL;
+	ping->info = NULL;
 	ping->pid = getpid() & 0xffff;
 	ping->datalen = PING_PKT_S;
 	ping->pr.sasend = NULL;

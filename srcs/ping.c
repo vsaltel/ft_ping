@@ -25,8 +25,8 @@ static int	read_loop(t_ping *ping)
 	set_pckt(ping, &pckt);
 	while (ping->count_max)
 	{
-		recv_msg(ping, &pckt);
 		ping->msg_count++;
+		recv_msg(ping, &pckt);
 		ping->count_max--;
 	}
 	print_final_stats(ping);

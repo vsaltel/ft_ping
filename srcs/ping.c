@@ -15,10 +15,7 @@ static void	set_pckt(t_ping *ping, t_ping_pkt *pckt)
 static int	read_loop(t_ping *ping)
 {
 	t_ping_pkt	pckt;
-	struct timeval	timeout;
 
-	timeout.tv_sec = 3;
-    timeout.tv_usec = 0;
 	ping->sockfd = set_socket(ping, &timeout);
 	if (!ping->sockfd)
 		return (-4);
@@ -28,8 +25,6 @@ static int	read_loop(t_ping *ping)
 	set_pckt(ping, &pckt);
 	while (ping->count_max)
 	{
-		timeout.tv_sec = 3;
-    	timeout.tv_usec = 0;
 		recv_msg(ping, &pckt);
 		ping->msg_count++;
 		ping->count_max--;

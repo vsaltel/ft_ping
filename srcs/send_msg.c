@@ -7,6 +7,7 @@ void	send_msg(void)
 	struct icmp	*icmp;
 	char		sendbuf[BUFSIZE];
 
+	printf("1\n");
 	icmp = (struct icmp *)sendbuf;
 	icmp->icmp_type = ICMP_ECHO;
 	icmp->icmp_code = 0;

@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-int		ft_atoi_i(const char *str, size_t *i)
+int	ft_atoi_i(const char *str, size_t *i)
 {
 	long	val;
 

@@ -30,39 +30,41 @@ static void	fill_size(t_arg *alst, va_list *args)
 	if (alst->width > 2147483647 || alst->width < -2147483647)
 		alst->width = 0;
 	alst->left = alst->left || alst->width < 0;
-	alst->width = alst->width < 0 ? -(alst->width) : alst->width;
+	if (alst->width < 0)
+		alst->width = -(alst->width);
 	if (alst->precision == -2)
 		alst->precision = va_arg(*args, int);
-	alst->precision = alst->precision < 0 ? -1 : alst->precision;
+	if (alst->precision < 0)
+		alst->precision = -1;
 }
 
 static void	fill_decimal(t_arg *alst, va_list *args)
 {
 	if (alst->type == 'd' || alst->type == 'i')
 	{
-		alst->data.ll = va_arg(*args, long long);
+		alst->u_data.ll = va_arg(*args, long long);
 		if (alst->size == none)
-			alst->data.ll = (int)alst->data.ll;
+			alst->u_data.ll = (int)alst->u_data.ll;
 		else if (alst->size == l)
-			alst->data.ll = (long)alst->data.ll;
+			alst->u_data.ll = (long)alst->u_data.ll;
 		else if (alst->size == h)
-			alst->data.ll = (short)alst->data.ll;
+			alst->u_data.ll = (short)alst->u_data.ll;
 		else if (alst->size == hh)
-			alst->data.ll = (char)alst->data.ll;
+			alst->u_data.ll = (char)alst->u_data.ll;
 		return ;
 	}
-	alst->data.ull = va_arg(*args, unsigned long long);
+	alst->u_data.ull = va_arg(*args, unsigned long long);
 	if (alst->size == none)
-		alst->data.ll = (unsigned int)alst->data.ll;
+		alst->u_data.ll = (unsigned int)alst->u_data.ll;
 	else if (alst->size == l)
-		alst->data.ll = (unsigned long)alst->data.ll;
+		alst->u_data.ll = (unsigned long)alst->u_data.ll;
 	else if (alst->size == h)
-		alst->data.ll = (unsigned short)alst->data.ll;
+		alst->u_data.ll = (unsigned short)alst->u_data.ll;
 	else if (alst->size == hh)
-		alst->data.ll = (unsigned char)alst->data.ll;
+		alst->u_data.ll = (unsigned char)alst->u_data.ll;
 }
 
-void		fill_arg(t_arg *alst, va_list *args)
+void	fill_arg(t_arg *alst, va_list *args)
 {
 	if (!alst || !args)
 		return ;
@@ -72,16 +74,16 @@ void		fill_arg(t_arg *alst, va_list *args)
 	else if (alst->type == 'f' || alst->type == 'F')
 	{
 		if (alst->size == L)
-			alst->data.ld = va_arg(*args, long double);
+			alst->u_data.ld = va_arg(*args, long double);
 		else
-			alst->data.d = va_arg(*args, double);
+			alst->u_data.d = va_arg(*args, double);
 	}
 	else if (alst->type == 'c' || alst->type == 'C')
-		alst->data.c = va_arg(*args, int);
+		alst->u_data.c = va_arg(*args, int);
 	else if (alst->type == 's')
-		alst->data.ptr = va_arg(*args, char *);
+		alst->u_data.ptr = va_arg(*args, char *);
 	else if (alst->type == 'p')
-		alst->data.ptr = va_arg(*args, void *);
+		alst->u_data.ptr = va_arg(*args, void *);
 	if ((alst->type == 'f' || alst->type == 'F') && alst->precision < 0)
 		alst->precision = 6;
 	convert(alst);

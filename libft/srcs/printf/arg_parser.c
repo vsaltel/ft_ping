@@ -19,18 +19,25 @@ void	parse_type(char *format, size_t i, t_arg *arg)
 	while (ft_isdigit(format[i]) || format[i] == '.' || format[i] == '*')
 		i++;
 	arg->size = none;
-	arg->type = '\0';
-	if (format[i] == 'h')
-		arg->size = (format[i + 1] == 'h') ? hh : h;
+	if (format[i] == 'h' && format[i + 1] == 'h')
+		arg->size = hh;
+	else if (format[i] == 'h')
+		arg->size = h;
+	else if (format[i] == 'l' && format[i + 1] == 'l')
+		arg->size = ll;
 	else if (format[i] == 'l')
-		arg->size = (format[i + 1] == 'l') ? ll : l;
+		arg->size = l;
 	else if (format[i] == 'L')
 		arg->size = L;
 	if (arg->size != none)
-		i += (arg->size == hh || arg->size == ll) ? 2 : 1;
+		i++;
+	if (arg->size == hh || arg->size == ll)
+		i++;
 	while (format[i] && is_size(format[i]))
 		i++;
-	arg->end = (format[i] == '\0') ? i - 1 : i;
+	arg->end = i;
+	if (format[i] == '\0')
+		arg->end -= 1;
 	arg->type = format[i];
 }
 
@@ -70,7 +77,10 @@ t_arg	*parse_arg(char *format, size_t i)
 	{
 		while (format[i] && format[i] != '%')
 			i++;
-		if (!format[i] || !(new = (t_arg *)malloc(sizeof(*new))))
+		if (!format[i])
+			return (NULL);
+		new = (t_arg *)malloc(sizeof(*new));
+		if (!new)
 			return (NULL);
 		new->str = NULL;
 		new->next = NULL;

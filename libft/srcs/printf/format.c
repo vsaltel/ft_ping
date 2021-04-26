@@ -12,18 +12,29 @@
 
 #include "ft_printf.h"
 
-static size_t	write_buf(char buf[], t_printf_state *s)
+static char	*strnfjoin(char *p1, char *p2, int n, char *f)
 {
-	int	c;
+	char	*res;
+	int		lp1;
 
-	c = s->index;
-	write(s->fd, buf, c);
-	buf[0] = '\0';
-	s->index = 0;
-	return (c);
+	lp1 = ft_strlen(p1);
+	res = malloc(lp1 + n + 1);
+	ft_strcpy(res, p1);
+	ft_strncpy(res + lp1, p2, n);
+	res[lp1 + n] = '\0';
+	free(f);
+	return (res);
 }
 
-static size_t	write_arg(char buf[], t_printf_state *s)
+static char	*get_buf(char **res, char buf[], t_printf_state *s)
+{
+	*res = strnfjoin(*res, buf, s->index, *res);
+	buf[0] = '\0';
+	s->index = 0;
+	return (*res);
+}
+
+static size_t	get_arg(char **res, char buf[], t_printf_state *s)
 {
 	size_t	str_len;
 
@@ -32,34 +43,35 @@ static size_t	write_arg(char buf[], t_printf_state *s)
 	str_len = ft_strlen(s->arg->str);
 	if (s->arg->type == 'c' && s->arg->u_data.c == 0)
 	{
-		s->c += write_buf(buf, s);
+		get_buf(res, buf, s);
 		if (s->arg->width == 0)
-			s->c += write(s->fd, s->arg->str, 1);
+			*res = strnfjoin(*res, s->arg->str, 1, *res);
 		else
-			s->c += write(s->fd, s->arg->str, s->arg->width);
+			*res = strnfjoin(*res, s->arg->str, s->arg->width, *res);
 		return (s->index);
 	}
 	if (str_len >= BUFF_SIZE)
 	{
-		s->c += write_buf(buf, s);
-		s->c += write(s->fd, s->arg->str, str_len);
+		get_buf(res, buf, s);
+		*res = strnfjoin(*res, s->arg->str, str_len, *res);
 		return (s->index);
 	}
 	if (s->index + ft_strlen(s->arg->str) >= BUFF_SIZE)
-		s->c += write_buf(buf, s);
+		get_buf(res, buf, s);
 	ft_strcat(buf + s->index, s->arg->str);
 	return ((s->index = ft_strlen(buf)));
 }
 
-static size_t	write_end(char buf[], char *format, t_printf_state *s)
+static char	*get_end(char **res, char buf[], char *format,
+	t_printf_state *s)
 {
 	if (ft_strlen(buf) > 0)
-		s->c += write_buf(buf, s);
-	write(s->fd, format, ft_strlen(format));
-	return (s->c + ft_strlen(format));
+		get_buf(res, buf, s);
+	*res = strnfjoin(*res, format, ft_strlen(format), *res);
+	return (*res);
 }
 
-size_t	write_all(int i, char *format, t_arg *alst)
+char	*get_all(int i, char **res, char *format, t_arg *alst)
 {
 	t_printf_state	s;
 	char			buf[BUFF_SIZE + 1];
@@ -77,13 +89,13 @@ size_t	write_all(int i, char *format, t_arg *alst)
 			ft_strncat(buf, format + i, s.arg->index - i);
 			s.index += s.arg->index - i;
 			buf[s.index] = '\0';
-			s.index = write_arg(buf, &s);
+			s.index = get_arg(res, buf, &s);
 			i = s.arg->end + 1;
 			s.arg = s.arg->next;
 		}
 		else
-			return (write_end(buf, format + i, &s));
+			return (get_end(res, buf, format + i, &s));
 	}
-	s.c += write_buf(buf, &s);
-	return (s.c);
+	get_buf(res, buf, &s);
+	return (*res);
 }

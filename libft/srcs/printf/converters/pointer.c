@@ -12,18 +12,8 @@
 
 #include "ft_printf.h"
 
-void	handle_ptr(t_arg *arg)
+static void	handle_ptr_opts(t_arg *arg, char *buf, unsigned int i)
 {
-	const char			hex[] = "0123456789abcdef";
-	char				buf[(arg->width > 18) ? arg->width + 1 : 19];
-	size_t				i;
-
-	i = 0;
-	while (arg->data.ull > 0)
-	{
-		buf[i++] = hex[arg->data.ull % 16];
-		arg->data.ull /= 16;
-	}
 	if (i == 0 && arg->precision == -1)
 		buf[i++] = '0';
 	while (arg->precision > -1 && i < (unsigned)arg->precision)
@@ -37,5 +27,29 @@ void	handle_ptr(t_arg *arg)
 	while (arg->left && i < (unsigned)arg->width)
 		buf[i++] = ' ';
 	buf[i] = '\0';
-	arg->str = ft_strdup(buf);
+	arg->str = buf;
+}
+
+void	handle_ptr(t_arg *arg)
+{
+	const char			hex[] = "0123456789abcdef";
+	char				*buf;
+	size_t				i;
+
+	if (arg->width > 18)
+		buf = malloc(sizeof(char) * arg->width + 1);
+	else
+		buf = malloc(sizeof(char) * 19);
+	if (!buf)
+	{
+		arg->str = ft_strdup("");
+		return ;
+	}
+	i = 0;
+	while (arg->u_data.ull > 0)
+	{
+		buf[i++] = hex[arg->u_data.ull % 16];
+		arg->u_data.ull /= 16;
+	}
+	handle_ptr_opts(arg, buf, i);
 }

@@ -22,7 +22,7 @@
 #  define BUFF_SIZE		1024
 # endif
 
-typedef enum e_asize
+typedef enum				e_asize
 {
 	none,
 	hh,
@@ -32,7 +32,7 @@ typedef enum e_asize
 	L
 }							t_asize;
 
-typedef struct s_arg
+typedef struct				s_arg
 {
 	size_t					index;
 	size_t					end;
@@ -58,11 +58,11 @@ typedef struct s_arg
 		unsigned char		c;
 		void				*ptr;
 		__int128_t			bin;
-	}						u_data;
+	}						data;
 	struct s_arg			*next;
 }							t_arg;
 
-typedef struct s_print_state
+typedef struct				s_print_state
 {
 	int						fd;
 	t_arg					*arg;
@@ -72,15 +72,10 @@ typedef struct s_print_state
 
 int							ft_printf(char *format, ...);
 int							ft_dprintf(int fd, char *format, ...);
-char						*ft_sprintf(char *format, ...);
 
-size_t						write_all(int i, char *format, t_arg *alst);
-
-char						*get_all(int i, char **res, char *format,
-								t_arg *alst);
-
+size_t						write_all(int fd, char *format, t_arg *alst);
 void						parse_args(char *format, t_arg **alst,
-								va_list *args);
+													va_list *args);
 void						parse_size(char *format, size_t i, t_arg *arg);
 void						fill_arg(t_arg *alst, va_list *args);
 void						convert(t_arg *arg);
@@ -93,7 +88,6 @@ int							ft_atoi_i(const char *str, size_t *i);
 size_t						ft_strcat_c(char *s1, const char *s2, int j);
 int							size_base(char c);
 char						*create_base(unsigned int base, char maj);
-void						handle_zero_space(t_arg *arg, char *str, int i);
 int							is_infinite(t_arg *arg);
 int							is_nan(t_arg *arg);
 int							is_float_neg(t_arg *arg);
@@ -102,7 +96,6 @@ __int128_t					fround(long double d, int precision);
 
 void						itoa_signed(t_arg *arg);
 void						itoa_unsigned(t_arg *arg);
-int							handle_exceptions(t_arg *arg);
 void						handle_float(t_arg *arg);
 void						handle_char(t_arg *arg);
 void						handle_str(t_arg *arg);

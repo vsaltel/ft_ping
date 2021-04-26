@@ -14,7 +14,7 @@
 
 static size_t	write_buf(char buf[], t_printf_state *s)
 {
-	int	c;
+	int c;
 
 	c = s->index;
 	write(s->fd, buf, c);
@@ -30,13 +30,11 @@ static size_t	write_arg(char buf[], t_printf_state *s)
 	if (!s->arg || s->arg->str == NULL)
 		return (s->index);
 	str_len = ft_strlen(s->arg->str);
-	if (s->arg->type == 'c' && s->arg->u_data.c == 0)
+	if (s->arg->type == 'c' && s->arg->data.c == 0)
 	{
 		s->c += write_buf(buf, s);
-		if (s->arg->width == 0)
-			s->c += write(s->fd, s->arg->str, 1);
-		else
-			s->c += write(s->fd, s->arg->str, s->arg->width);
+		s->c += write(s->fd, s->arg->str,
+			s->arg->width == 0 ? 1 : s->arg->width);
 		return (s->index);
 	}
 	if (str_len >= BUFF_SIZE)
@@ -59,19 +57,19 @@ static size_t	write_end(char buf[], char *format, t_printf_state *s)
 	return (s->c + ft_strlen(format));
 }
 
-size_t	write_all(int i, char *format, t_arg *alst)
+size_t			write_all(int fd, char *format, t_arg *alst)
 {
 	t_printf_state	s;
 	char			buf[BUFF_SIZE + 1];
+	int				i;
 
-	s.fd = i;
 	i = 0;
+	s.fd = fd;
 	s.arg = alst;
 	s.index = 0;
 	s.c = 0;
 	buf[0] = '\0';
 	while (format[i])
-	{
 		if (s.arg)
 		{
 			ft_strncat(buf, format + i, s.arg->index - i);
@@ -83,7 +81,6 @@ size_t	write_all(int i, char *format, t_arg *alst)
 		}
 		else
 			return (write_end(buf, format + i, &s));
-	}
 	s.c += write_buf(buf, &s);
 	return (s.c);
 }

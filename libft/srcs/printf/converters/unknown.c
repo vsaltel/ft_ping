@@ -12,14 +12,6 @@
 
 #include "ft_printf.h"
 
-void	handle_zero(char *str, size_t len, int zero)
-{
-	if (zero)
-		ft_memset(str, '0', len - 1);
-	else
-		ft_memset(str, ' ', len - 1);
-}
-
 void	handle_unknown(t_arg *arg)
 {
 	char	*str;
@@ -30,15 +22,13 @@ void	handle_unknown(t_arg *arg)
 		arg->str = ft_strdup("");
 		return ;
 	}
-	len = 2;
-	if (arg->width)
-		len = arg->width + 1;
+	len = arg->width ? arg->width + 1 : 2;
 	str = ft_strnew(len);
 	if (!str)
 		str = ft_strdup("");
 	else
 	{
-		handle_zero(str, len, arg->zero);
+		ft_memset(str, arg->zero ? '0' : ' ', len - 1);
 		*str = arg->type;
 		str[len] = '\0';
 		if (!arg->left)

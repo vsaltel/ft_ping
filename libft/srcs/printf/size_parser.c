@@ -50,7 +50,7 @@ static void	get_prec(char *format, t_arg *arg, size_t *i)
 	}
 }
 
-void	parse_size(char *format, size_t i, t_arg *arg)
+void		parse_size(char *format, size_t i, t_arg *arg)
 {
 	arg->width = 0;
 	arg->precision = -1;

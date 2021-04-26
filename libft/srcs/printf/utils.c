@@ -12,17 +12,17 @@
 
 #include "ft_printf.h"
 
-int	is_flag(char c)
+int		is_flag(char c)
 {
 	return (c == '-' || c == '+' || c == '#' || c == ' ' || c == '0');
 }
 
-int	is_size(char c)
+int		is_size(char c)
 {
 	return (c == 'h' || c == 'l' || c == 'z');
 }
 
-int	is_type(char c)
+int		is_type(char c)
 {
 	return (c == 'd' || c == 'i' || c == 'o' || c == 'u' || c == 'f'
 		|| c == 'x' || c == 'X' || c == 'c' || c == 's' || c == 'p'
